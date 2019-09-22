@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.adsoftware.entidades.Usuario;
 import org.adsoftware.modulousuario.interfaces.VInicioSesion;
 import org.adsoftware.principal.ManejadorPrincipal;
+import org.adsoftware.utilidades.Encriptacion;
 
 public class ManejadorValidarUsuario implements ActionListener {
 
@@ -37,31 +38,13 @@ public class ManejadorValidarUsuario implements ActionListener {
 
     private void manejaEventoIngresar() throws SQLException {
         String nomUsu = ventana.tfNombreUsuario.getText();
-        String contra = getMD5(ventana.tfContrasena.getPassword());
-        
+        String contra = Encriptacion.getMD5(ventana.tfContrasena.getPassword());
+
         Usuario user = Usuario.buscarPrimero("nombreUsuario", nomUsu);
-        
-        if(contra.equals(user.contrasena)){
+
+        if (contra.equals(user.contrasena)) {
             ventana.dispose();
             new ManejadorPrincipal(user.idUsuario);
-        }
-    }
-
-    private String getMD5(char[] inp) {
-        String input = String.valueOf(inp);
-        
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes());
-            BigInteger number = new BigInteger(1, messageDigest);
-            String hashtext = number.toString(16);
-
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
-            }
-            return hashtext;
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
         }
     }
 
