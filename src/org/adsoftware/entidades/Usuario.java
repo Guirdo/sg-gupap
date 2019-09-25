@@ -2,9 +2,6 @@ package org.adsoftware.entidades;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import static org.adsoftware.entidades.InterfazBD.con;
-import static org.adsoftware.entidades.InterfazBD.rs;
-import static org.adsoftware.entidades.InterfazBD.st;
 
 public class Usuario {
 

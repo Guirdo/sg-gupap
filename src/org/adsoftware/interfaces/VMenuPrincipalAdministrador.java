@@ -19,7 +19,7 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         pnlPrincipal = new JPanel(new MigLayout("", "0[]0", "0[]0"));
 
         this.add(panelBotones(), "west");
-        this.add(pnlPrincipal, "h 400, w 400");
+        this.add(pnlPrincipal, "h :550:, w :550:");
 
         this.pack();
         this.setLocationRelativeTo(null);
