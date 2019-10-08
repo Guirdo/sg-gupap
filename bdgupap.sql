@@ -70,3 +70,10 @@ insert into usuario (nombreUsuario,contrasena) values
 ('administrador','934b535800b1cba8f96a5d72f72f1611'),
 ('coordinador','2be9bd7a3434f7038ca27d1918de58bd'),
 ('recepcionista','dbc4d84bfcfe2284ba11beffb853a8c4');
+
+insert into personal (nombreP,apellidoPatP,apellidoMatP,fechaNacimiento,domicilioP,cargo) values
+('Guadalupe','Tolentino','Ríos','1990-08-23','Calle Proton, Col. Elementales, Chilpancingo','ADMINISTRADOR'),
+('Aldro','Hernández','Sánchez','1990-04-20','Calle 4, Col. Pericos, Chilpancingo','COORDINADOR');
+
+insert into usuarioPersonal values
+(2,1),(3,2);
