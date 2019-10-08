@@ -82,19 +82,26 @@ public class ManejadorModificarContrasena implements ActionListener {
     }
 
     private void manejaEventoConfirmar() throws SQLException {
-        String nueva = Encriptacion.getMD5(pnlModificar.tfNueva.getPassword());
-        String confirmacion = Encriptacion.getMD5(pnlModificar.tfConfirmar.getPassword());
+        if (!pnlModificar.tfNueva.isEmpty() && !pnlModificar.tfConfirmar.isEmpty()) {
+            String nueva = Encriptacion.getMD5(pnlModificar.tfNueva.getPassword());
+            String confirmacion = Encriptacion.getMD5(pnlModificar.tfConfirmar.getPassword());
 
-        if (!nueva.equals(confirmacion)) {
-            NotificationManager.showNotification(pnlModificar.btnModificar, "Las contresañas no coinciden", NotificationIcon.warning.getIcon());
+            if (!nueva.equals(confirmacion)) {
+                NotificationManager.showNotification(pnlModificar.btnModificar, "Las contresañas no coinciden", NotificationIcon.warning.getIcon());
+                pnlModificar.tfNueva.setText("");
+                pnlModificar.tfConfirmar.setText("");
+            } else {
+                userSelect.contrasena = confirmacion;
+                userSelect.guardar();
+                repintarPanelPrincipal(pnlGestion);
+                NotificationManager.showNotification(pnlModificar.btnModificar,
+                        "La contraseña del " + userSelect.nombreUsuario + " ha sido modificada!", NotificationIcon.information.getIcon());
+            }
+        } else {
+            NotificationManager.showNotification(pnlModificar.btnModificar, 
+                    "Campo vacio: por favor, ingrese lo que se le pide.", NotificationIcon.warning.getIcon());
             pnlModificar.tfNueva.setText("");
             pnlModificar.tfConfirmar.setText("");
-        } else {
-            userSelect.contrasena = confirmacion;
-            userSelect.guardar();
-            repintarPanelPrincipal(pnlGestion);
-            NotificationManager.showNotification(pnlModificar.btnModificar,
-                    "La contraseña del " + userSelect.nombreUsuario + " ha sido modificada!", NotificationIcon.information.getIcon());
         }
     }
 

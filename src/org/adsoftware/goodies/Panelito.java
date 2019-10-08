@@ -2,7 +2,9 @@ package org.adsoftware.goodies;
 
 import com.alee.laf.label.WebLabel;
 import com.alee.managers.style.StyleId;
+import java.awt.Color;
 import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -18,6 +20,7 @@ public class Panelito extends JPanel{
         this.btn = boton;
         
         this.setLayout(new MigLayout("","25[]40[]60[]25","10[]10"));
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
         
         WebLabel lblIcono = 
                 new WebLabel(new ImageIcon(getClass().getResource(rutaIcono)));

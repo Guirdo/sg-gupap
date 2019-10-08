@@ -1,5 +1,7 @@
 package org.adsoftware.modulousuario.manejadores;
 
+import com.alee.managers.notification.NotificationIcon;
+import com.alee.managers.notification.NotificationManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -34,14 +36,26 @@ public class ManejadorValidarUsuario implements ActionListener {
     }
 
     private void manejaEventoIngresar() throws SQLException {
-        String nomUsu = ventana.tfNombreUsuario.getText();
-        String contra = Encriptacion.getMD5(ventana.tfContrasena.getPassword());
+        if (!ventana.tfNombreUsuario.getText().isEmpty() && !ventana.tfContrasena.isEmpty()) {
+            String nomUsu = ventana.tfNombreUsuario.getText();
+            String contra = Encriptacion.getMD5(ventana.tfContrasena.getPassword());
 
-        Usuario user = Usuario.buscarPrimero("nombreUsuario", nomUsu);
+            Usuario user = Usuario.buscarPrimero("nombreUsuario", nomUsu);
 
-        if (contra.equals(user.contrasena)) {
-            ventana.dispose();
-            new ManejadorPrincipal(user.idUsuario);
+            if (contra.equals(user.contrasena)) {
+                ventana.dispose();
+                new ManejadorPrincipal(user.idUsuario);
+            } else {
+                NotificationManager.showNotification(ventana.btnIngresar,
+                        "Usuario o contraseña incorrecta", NotificationIcon.warning.getIcon());
+                ventana.tfNombreUsuario.setText("");
+                ventana.tfContrasena.setText("");
+            }
+        } else {
+            NotificationManager.showNotification(ventana.btnIngresar,
+                    "Campo vacio: por favor, ingrese lo que se le pide.", NotificationIcon.warning.getIcon());
+            ventana.tfNombreUsuario.setText("");
+            ventana.tfContrasena.setText("");
         }
     }
 

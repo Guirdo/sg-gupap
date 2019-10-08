@@ -2,7 +2,7 @@
 *	Base de datos GUPAP
 *	Autores:
 *	@guirdo
-*	@diana
+*	@dianini
 */
 
 /**
@@ -20,6 +20,41 @@ create table usuario(
 	nombreUsuario varchar(20),
 	contrasena varchar(32)
 );
+
+create table personal(
+	idPersonal int(6) auto_increment primary key,
+	nombreP varchar(25),
+	apellidoPatP varchar(20),
+	apellidoMatP varchar(20),
+	fechaNacimiento date,
+	domicilioP varchar(200),
+	cargo varchar(50)
+);
+
+create table asistenciaPersonal(
+	idAsistenciaP int auto_increment primary key,
+	fechHora timestamp,
+	tipo enum ('ENTRADA','SALIDA'),
+	idPersonalA int(6),
+	foreign key (idPersonalA) references personal(idPersonal)
+);
+
+create table informe(
+	idInforme int auto_increment primary key,
+	rutaTexto varchar(256),
+	fecha date,
+	enviado boolean not null default 0,
+	leido boolean not null default 0,
+	idPersonalI int(6),
+	foreign key (idPersonalI) references personal(idPersonal)
+);
+
+create table usuarioPersonal(
+	idUsuarioUP int,
+	idPersonalUP int,
+	primary key(idUsuarioUP,idPersonalUP)
+);
+
 
 /**
 *	Usuario			Contraseña
