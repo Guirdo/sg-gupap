@@ -13,14 +13,14 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 import org.adsoftware.entidades.Usuario;
 import org.adsoftware.goodies.Panelito;
-import org.adsoftware.modulousuario.interfaces.VGestionPersonal;
+import org.adsoftware.modulousuario.interfaces.VGestionUsuario;
 import org.adsoftware.modulousuario.interfaces.VModificarContrasena;
 import org.adsoftware.utilidades.Encriptacion;
 
 public class ManejadorModificarContrasena implements ActionListener {
 
     private JPanel panelPrincipal;
-    private VGestionPersonal pnlGestion;
+    private VGestionUsuario pnlGestion;
     private VModificarContrasena pnlModificar;
 
     private ArrayList<Usuario> listaUsuarios;
@@ -30,7 +30,7 @@ public class ManejadorModificarContrasena implements ActionListener {
     public ManejadorModificarContrasena(JPanel pnlPrin) throws SQLException {
         this.panelPrincipal = pnlPrin;
 
-        pnlGestion = new VGestionPersonal();
+        pnlGestion = new VGestionUsuario();
 
         consultarUsuarios();
 
