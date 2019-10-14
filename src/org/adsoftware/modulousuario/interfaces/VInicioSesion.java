@@ -8,7 +8,6 @@ import com.alee.managers.style.StyleId;
 import com.alee.managers.tooltip.TooltipWay;
 import java.awt.Font;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 import org.adsoftware.superclases.Pantalla;
 
