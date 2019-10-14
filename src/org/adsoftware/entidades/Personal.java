@@ -45,14 +45,15 @@ public class Personal {
 
         if (InterfazBD.rs.first()) {
             return new Personal(
-                    InterfazBD.rs.getString(1),
+                    InterfazBD.rs.getInt(1),
                     InterfazBD.rs.getString(2),
                     InterfazBD.rs.getString(3),
                     InterfazBD.rs.getString(4),
-                    InterfazBD.rs.getString(5)
+                    InterfazBD.rs.getString(5),
+                    InterfazBD.rs.getString(6)
             );
         } else {
-            return new Personal("1", "2", "3", "4", "5");
+            return new Personal(1, "2", "3", "4", "5", "6");
         }
     }
     
@@ -88,9 +89,10 @@ public class Personal {
         
         InterfazBD.pst.setString(1, this.nombreP);
         InterfazBD.pst.setString(2, this.apellidoPatP);
-        InterfazBD.pst.setString(3, this.domicilioP);
-        InterfazBD.pst.setString(4, this.cargo);
-        InterfazBD.pst.setInt(3, this.idPersonal);
+        InterfazBD.pst.setString(3, this.apellidoMatP);
+        InterfazBD.pst.setString(4, this.domicilioP);
+        InterfazBD.pst.setString(5, this.cargo);
+        InterfazBD.pst.setInt(6, this.idPersonal);
 
         InterfazBD.pst.executeQuery(); 
     }
