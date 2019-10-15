@@ -22,7 +22,7 @@ public class InterfazBD {
     public static PreparedStatement pst;
     public static ResultSet rs;
     public static ResultSetMetaData rsmd;
-    private static CallableStatement cst;
+    public static CallableStatement cst;
     
     public static void crearConexion() throws ClassNotFoundException, SQLException{
         InterfazBD.usuario = "adsoft";
@@ -34,7 +34,7 @@ public class InterfazBD {
         con = DriverManager.getConnection(url, InterfazBD.usuario, InterfazBD.contrasena);
     }
 
-    public Object[][] consultar(String consulta) throws SQLException {
+    public static Object[][] consultar(String consulta) throws SQLException {
         //Matriz para obtener los registros de la tabla
         Object[][] datos;
         //Array dinamico para obtener los n registros de la tabla

@@ -9,6 +9,7 @@ import org.adsoftware.entidades.Usuario;
 import org.adsoftware.interfaces.VMenuPrincipal;
 import org.adsoftware.interfaces.VMenuPrincipalAdministrador;
 import org.adsoftware.interfaces.VMenuPrincipalRecepcionista;
+import org.adsoftware.modulopersonal.manejadores.ManejadorGenerarInforme;
 import org.adsoftware.modulopersonal.manejadores.ManejadorRegistroES;
 import org.adsoftware.modulousuario.manejadores.ManejadorModificarContrasena;
 import org.adsoftware.modulousuario.manejadores.ManejadorValidarUsuario;
@@ -18,12 +19,15 @@ public class ManejadorPrincipal implements ActionListener {
     private VMenuPrincipal venMenu = null;
     private VMenuPrincipalAdministrador venAdmin = null;
     private VMenuPrincipalRecepcionista venRecep = null;
+    
+    private int idUsuario;
 
     public ManejadorPrincipal() throws ClassNotFoundException, SQLException {
         new ManejadorValidarUsuario();
     }
 
     public ManejadorPrincipal(int idUsuario) {
+        this.idUsuario=idUsuario;
         switch (idUsuario) {
             case Usuario.DIRECTOR:
             case Usuario.COORDINADOR:
@@ -34,6 +38,7 @@ public class ManejadorPrincipal implements ActionListener {
                 venAdmin = new VMenuPrincipalAdministrador();
 
                 venAdmin.btnGestion.addActionListener(this);
+                venAdmin.btnGenerarInforme.addActionListener(this);
 
                 venAdmin.setVisible(true);
                 break;
@@ -54,6 +59,8 @@ public class ManejadorPrincipal implements ActionListener {
             if (venAdmin != null) {
                 if (e.getSource() == venAdmin.btnGestion) {
                     manejaEventoGestionUsuario();
+                }else if(e.getSource() == venAdmin.btnGenerarInforme){
+                    manejaEventoGenerarInforme();
                 }
             }else if(venRecep != null){
                 if(e.getSource() == venRecep.btnRegistroES){
@@ -71,6 +78,10 @@ public class ManejadorPrincipal implements ActionListener {
 
     private void manejarEventoRegistroES() throws SQLException {
         new ManejadorRegistroES(venRecep.pnlPrincipal);
+    }
+
+    private void manejaEventoGenerarInforme() throws SQLException {
+        new ManejadorGenerarInforme(idUsuario,venAdmin.pnlPrincipal);
     }
 
 }

@@ -56,6 +56,17 @@ create table usuarioPersonal(
 	primary key(idUsuarioUP,idPersonalUP)
 );
 
+/**
+*  Procedimientos almacenados
+*/
+-- Procedimiento almacenado para insertar asistencia en la BD
+delimiter $$	
+CREATE PROCEDURE insertarAsistenciaP(IN tip VARCHAR(7), IN idP int)
+BEGIN
+    insert into asistenciaPersonal (fecha,hora,tipo,idPersonalA) values
+	(now(),now(),tip,idP);
+    END$$
+delimiter ;
 
 /**
 *	Usuario			Contraseña

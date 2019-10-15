@@ -10,7 +10,6 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
 import org.adsoftware.utilidades.Galeria;
@@ -23,7 +22,7 @@ public class VRegistroES extends JPanel{
     public WebButton btnEntrada,btnSalida;
     
     public VRegistroES(){
-        this.setLayout(new MigLayout("wrap 2","30[]20[]30","30[]25[]15[]15[]20[]15[]30::"));
+        this.setLayout(new MigLayout("wrap 2","30[]25[]30","30[]25[]15[]15[]20[]15[]30::"));
         
         WebLabel lblTitulo = new WebLabel(StyleId.label,"Registro Entrada/Salida del personal");
         
@@ -45,7 +44,7 @@ public class VRegistroES extends JPanel{
         btnSalida.setBackground(Color.decode("#cb3234"));
         
         this.add(lblTitulo,"north, gapleft 30");
-        this.add(new JScrollPane(tabla),"h 300, w :275:,growx,span 1 6");
+        this.add(new JScrollPane(tabla),"h 300, w 300:300:,growx,span 1 6");
         this.add(lblIcono,"w 64, h 64,center");
         this.add(lblNombre);
         this.add(lblCargo);

@@ -3,11 +3,13 @@ package org.adsoftware.entidades;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class AsistenciaPersonal {
 
+    public static final String ENTRADA = "ENTRADA";
+    public static final String SALIDA = "SALIDA";
+    
     public int idAsistenciaP;
     public Date fecha;
     public Time hora;
@@ -22,13 +24,11 @@ public class AsistenciaPersonal {
         this.idPersonlaA = idPersonlaA;
     }
 
-    public AsistenciaPersonal(Date fecha, Time hora, String tipo, int idPersonlaA) {
-        this.fecha = fecha;
-        this.hora = hora;
+    public AsistenciaPersonal(String tipo, int idPersonlaA) {
         this.tipo = tipo;
         this.idPersonlaA = idPersonlaA;
     }
-    
+
     public static ArrayList<AsistenciaPersonal> todos(String campo, String valor) throws SQLException {
         ArrayList<AsistenciaPersonal> lista = new ArrayList<>();
 
@@ -49,4 +49,12 @@ public class AsistenciaPersonal {
         return lista;
     }
     
+    public void insertar() throws SQLException{
+        InterfazBD.cst = InterfazBD.con.prepareCall("call insertarAsistenciaP(?,?)");
+        InterfazBD.cst.setString("tip", tipo);
+        InterfazBD.cst.setInt("idP", idPersonlaA);
+        
+        InterfazBD.cst.execute();
+    }
+
 }

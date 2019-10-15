@@ -1,5 +1,6 @@
 package org.adsoftware.entidades;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,22 +14,25 @@ public class Personal {
 
     public int idPersonal;
     public String nombreP, apellidoPatP, apellidoMatP, domicilioP, cargo;
+    public Date fechaNacimiento;
 //    Agregar esto a variables
 //	fechaNacimiento date,
 
-    public Personal(int idPersonal, String nombreP, String apellidoPatP, String apellidoMatP, String domicilioP, String cargo) {
+    public Personal(int idPersonal, String nombreP, String apellidoPatP, String apellidoMatP, Date fechaNacimiento, String domicilioP, String cargo) {
         this.idPersonal = idPersonal;
         this.nombreP = nombreP;
         this.apellidoPatP = apellidoPatP;
         this.apellidoMatP = apellidoMatP;
         this.domicilioP = domicilioP;
         this.cargo = cargo;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Personal(String nombreP, String apellidoPatP, String apellidoMatP, String domicilioP, String cargo) {
+    public Personal(String nombreP, String apellidoPatP, String apellidoMatP, Date fechaNacimiento, String domicilioP, String cargo) {
         this.nombreP = nombreP;
         this.apellidoPatP = apellidoPatP;
         this.apellidoMatP = apellidoMatP;
+        this.fechaNacimiento = fechaNacimiento;
         this.domicilioP = domicilioP;
         this.cargo = cargo;
     }
@@ -44,14 +48,16 @@ public class Personal {
 
         if (InterfazBD.rs.first()) {
             return new Personal(
-                    InterfazBD.rs.getString(1),
+                    InterfazBD.rs.getInt(1),
                     InterfazBD.rs.getString(2),
                     InterfazBD.rs.getString(3),
                     InterfazBD.rs.getString(4),
-                    InterfazBD.rs.getString(5)
+                    InterfazBD.rs.getDate(5),
+                    InterfazBD.rs.getString(6),
+                    InterfazBD.rs.getString(7)
             );
         } else {
-            return new Personal("1", "2", "3", "4", "5");
+            return null;
         }
     }
 
@@ -67,8 +73,9 @@ public class Personal {
                     InterfazBD.rs.getString(1),
                     InterfazBD.rs.getString(2),
                     InterfazBD.rs.getString(3),
-                    InterfazBD.rs.getString(4),
-                    InterfazBD.rs.getString(5)
+                    InterfazBD.rs.getDate(4),
+                    InterfazBD.rs.getString(5),
+                    InterfazBD.rs.getString(6)
             ));
         }
 
@@ -86,9 +93,10 @@ public class Personal {
 
         InterfazBD.pst.setString(1, this.nombreP);
         InterfazBD.pst.setString(2, this.apellidoPatP);
-        InterfazBD.pst.setString(3, this.domicilioP);
-        InterfazBD.pst.setString(4, this.cargo);
-        InterfazBD.pst.setInt(3, this.idPersonal);
+        InterfazBD.pst.setString(3, this.apellidoMatP);
+        InterfazBD.pst.setString(4, this.domicilioP);
+        InterfazBD.pst.setString(5, this.cargo);
+        InterfazBD.pst.setInt(6, this.idPersonal);
 
         InterfazBD.pst.executeQuery();
     }

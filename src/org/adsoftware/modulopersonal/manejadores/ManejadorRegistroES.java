@@ -1,5 +1,7 @@
 package org.adsoftware.modulopersonal.manejadores;
 
+import com.alee.managers.notification.NotificationIcon;
+import com.alee.managers.notification.NotificationManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -24,6 +26,7 @@ public class ManejadorRegistroES extends Manejador implements ActionListener, Ke
     private VRegistroES vistaRegistro;
 
     private DefaultTableModel modelo;
+    private Personal personalSelec = null;
 
     public ManejadorRegistroES(JPanel pnl) throws SQLException {
         super(pnl);
@@ -58,10 +61,14 @@ public class ManejadorRegistroES extends Manejador implements ActionListener, Ke
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == vistaRegistro.btnEntrada) {
-            manejaEventoEntrada();
-        } else if (e.getSource() == vistaRegistro.btnSalida) {
-            manejaEventoSalida();
+        try {
+            if (e.getSource() == vistaRegistro.btnEntrada) {
+                manejaEventoEntrada();
+            } else if (e.getSource() == vistaRegistro.btnSalida) {
+                manejaEventoSalida();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManejadorRegistroES.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -84,18 +91,42 @@ public class ManejadorRegistroES extends Manejador implements ActionListener, Ke
     public void keyReleased(KeyEvent e) {
     }
 
-    private void manejaEventoEntrada() {
+    private void manejaEventoEntrada() throws SQLException {
+        if (personalSelec != null) {
+            AsistenciaPersonal ap = new AsistenciaPersonal(AsistenciaPersonal.ENTRADA, personalSelec.idPersonal);
+            ap.insertar();
+            actualizarVista();
+        }
     }
 
-    private void manejaEventoSalida() {
+    private void manejaEventoSalida() throws SQLException {
+        if (personalSelec != null) {
+            AsistenciaPersonal ap = new AsistenciaPersonal(AsistenciaPersonal.SALIDA, personalSelec.idPersonal);
+            ap.insertar();
+            actualizarVista();
+        }
+    }
+
+    private void actualizarVista() throws SQLException {
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            modelo.removeRow(i);
+        }
+
+        consultarAsistencia();
     }
 
     private void manejaEventoBuscar() throws SQLException {
         if (!vistaRegistro.tfClave.isEmpty()) {
             String clave = vistaRegistro.tfClave.getText();
             Personal p = Personal.buscarPrimero("idPersonal", clave);
-            vistaRegistro.lblNombre.setText(p.nombreP+" "+p.apellidoPatP);
-            vistaRegistro.lblCargo.setText(p.cargo);
+            if (p != null) {
+                personalSelec = p;
+                vistaRegistro.lblNombre.setText(p.nombreP + " " + p.apellidoPatP);
+                vistaRegistro.lblCargo.setText(p.cargo);
+            } else {
+                NotificationManager.showNotification(vistaRegistro.tfClave, "Clave de personal no encontrada", NotificationIcon.warning.getIcon());
+                vistaRegistro.tfClave.setText("");
+            }
         } else {
             System.out.println("Hola, soy un error");
         }
