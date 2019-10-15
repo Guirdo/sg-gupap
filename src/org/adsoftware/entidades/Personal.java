@@ -1,19 +1,18 @@
-
 package org.adsoftware.entidades;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Personal {
-    
+
     public final static int cDOCENTE = 1;
     public final static int cCONTADOR = 2;
     public final static int cRECEPCIONISTA = 3;
     public final static int cADMINISTRADOR = 4;
     public final static int cCOORDINADOR = 5;
-    
-    int idPersonal;
-    String nombreP, apellidoPatP, apellidoMatP, domicilioP, cargo;
+
+    public int idPersonal;
+    public String nombreP, apellidoPatP, apellidoMatP, domicilioP, cargo;
 //    Agregar esto a variables
 //	fechaNacimiento date,
 
@@ -33,11 +32,11 @@ public class Personal {
         this.domicilioP = domicilioP;
         this.cargo = cargo;
     }
-    
+
     //BuscarPrimero
-     public static Personal buscarPrimero(String campo, String valor) throws SQLException {
+    public static Personal buscarPrimero(String campo, String valor) throws SQLException {
         //A partir del objeto Connection creamos un nuevo Statement
-        InterfazBD.pst = InterfazBD.con.prepareStatement("select * from usuario where " + campo + " = ?");
+        InterfazBD.pst = InterfazBD.con.prepareStatement("select * from personal where " + campo + " = ?");
 
         InterfazBD.pst.setString(1, valor);
         //Inicializamos el ResultSer ejecutando un query con el Statement
@@ -55,14 +54,13 @@ public class Personal {
             return new Personal("1", "2", "3", "4", "5");
         }
     }
-    
-     
-     //Buscar todos
-     public static ArrayList<Personal> todos() throws SQLException {
+
+    //Buscar todos
+    public static ArrayList<Personal> todos() throws SQLException {
         ArrayList<Personal> lista = new ArrayList<>();
 
         InterfazBD.st = InterfazBD.con.createStatement();
-        InterfazBD.rs = InterfazBD.st.executeQuery("select * from usuario");
+        InterfazBD.rs = InterfazBD.st.executeQuery("select * from personal");
 
         while (InterfazBD.rs.next()) {
             lista.add(new Personal(
@@ -76,23 +74,23 @@ public class Personal {
 
         return lista;
     }
-     
+
     public void guardar() throws SQLException {
         InterfazBD.pst = InterfazBD.con.prepareStatement("insert into personal "
                 + "set nombreP = ? ,"
                 + "apellidoPatP = ? ,"
                 + "apellidoMatP = ? ,"
                 + "domicilioP = ? ,"
-                + "cargo = ? " 
+                + "cargo = ? "
                 + "where idPersonal = ?");
-        
+
         InterfazBD.pst.setString(1, this.nombreP);
         InterfazBD.pst.setString(2, this.apellidoPatP);
         InterfazBD.pst.setString(3, this.domicilioP);
         InterfazBD.pst.setString(4, this.cargo);
         InterfazBD.pst.setInt(3, this.idPersonal);
 
-        InterfazBD.pst.executeQuery(); 
+        InterfazBD.pst.executeQuery();
     }
-     
+
 }

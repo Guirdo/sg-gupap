@@ -7,18 +7,20 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import org.adsoftware.superclases.Pantalla;
 
-public class VMenuPrincipalAdministrador extends Pantalla {
+public class VMenuPrincipalRecepcionista extends Pantalla {
 
     public JPanel pnlPrincipal;
-    public WebButton btnGestion;
-    private WebCollapsiblePane btnUsuario;
+    public WebButton btnRegistroES;
+    private WebCollapsiblePane btnPersonal;
 
-    public VMenuPrincipalAdministrador() {
+    public VMenuPrincipalRecepcionista() {
         super(StyleId.frameDecorated, "SG-GUPAP Menú principal");
+
         this.setLayout(new MigLayout("wrap 1", "", "[]20[]"));
 
         pnlPrincipal = new JPanel(new MigLayout("", "0[]0", "0[]0"));
-        btnGestion = new WebButton(StyleId.button,"Gestión");
+        
+        btnRegistroES = new WebButton(StyleId.button, "Registro E/S personal");
 
         this.add(panelBotones(), "west");
         this.add(pnlPrincipal, "h :550:, w :550:");
@@ -30,11 +32,11 @@ public class VMenuPrincipalAdministrador extends Pantalla {
     private JPanel panelBotones() {
         JPanel pnl = new JPanel(new MigLayout("wrap 1", "15[]15", ""));
 
-        btnUsuario = new WebCollapsiblePane(StyleId.collapsiblepane, "Usuarios",btnGestion);
+        btnPersonal = new WebCollapsiblePane(StyleId.collapsiblepane, "Personal",btnRegistroES);
         
-        pnl.add(btnUsuario);
+        pnl.add(btnPersonal);
 
         return pnl;
     }
-    
+
 }

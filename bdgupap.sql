@@ -33,7 +33,8 @@ create table personal(
 
 create table asistenciaPersonal(
 	idAsistenciaP int auto_increment primary key,
-	fechHora timestamp,
+	fecha date,
+	hora time,
 	tipo enum ('ENTRADA','SALIDA'),
 	idPersonalA int(6),
 	foreign key (idPersonalA) references personal(idPersonal)

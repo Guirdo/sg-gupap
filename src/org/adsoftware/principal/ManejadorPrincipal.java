@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import org.adsoftware.entidades.Usuario;
 import org.adsoftware.interfaces.VMenuPrincipal;
 import org.adsoftware.interfaces.VMenuPrincipalAdministrador;
+import org.adsoftware.interfaces.VMenuPrincipalRecepcionista;
+import org.adsoftware.modulopersonal.manejadores.ManejadorRegistroES;
 import org.adsoftware.modulousuario.manejadores.ManejadorModificarContrasena;
 import org.adsoftware.modulousuario.manejadores.ManejadorValidarUsuario;
 
@@ -15,6 +17,7 @@ public class ManejadorPrincipal implements ActionListener {
 
     private VMenuPrincipal venMenu = null;
     private VMenuPrincipalAdministrador venAdmin = null;
+    private VMenuPrincipalRecepcionista venRecep = null;
 
     public ManejadorPrincipal() throws ClassNotFoundException, SQLException {
         new ManejadorValidarUsuario();
@@ -24,7 +27,6 @@ public class ManejadorPrincipal implements ActionListener {
         switch (idUsuario) {
             case Usuario.DIRECTOR:
             case Usuario.COORDINADOR:
-            case Usuario.RECEPCIONISTA:
                 venMenu = new VMenuPrincipal();
                 venMenu.setVisible(true);
                 break;
@@ -34,6 +36,14 @@ public class ManejadorPrincipal implements ActionListener {
                 venAdmin.btnGestion.addActionListener(this);
 
                 venAdmin.setVisible(true);
+                break;
+
+            case Usuario.RECEPCIONISTA:
+                venRecep = new VMenuPrincipalRecepcionista();
+
+                venRecep.btnRegistroES.addActionListener(this);
+
+                venRecep.setVisible(true);
                 break;
         }
     }
@@ -45,6 +55,10 @@ public class ManejadorPrincipal implements ActionListener {
                 if (e.getSource() == venAdmin.btnGestion) {
                     manejaEventoGestionUsuario();
                 }
+            }else if(venRecep != null){
+                if(e.getSource() == venRecep.btnRegistroES){
+                    manejarEventoRegistroES();
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(ManejadorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,6 +67,10 @@ public class ManejadorPrincipal implements ActionListener {
 
     private void manejaEventoGestionUsuario() throws SQLException {
         new ManejadorModificarContrasena(venAdmin.pnlPrincipal);
+    }
+
+    private void manejarEventoRegistroES() throws SQLException {
+        new ManejadorRegistroES(venRecep.pnlPrincipal);
     }
 
 }
