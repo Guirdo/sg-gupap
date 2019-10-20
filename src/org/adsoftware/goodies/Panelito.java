@@ -29,7 +29,7 @@ public class Panelito extends JPanel{
         lblCadena.setFont(new Font("Arial",1,18));
         
         this.add(lblIcono,"");
-        this.add(lblCadena,"w 150");
+        this.add(lblCadena,"w :150:,growx");
         this.add(btn);
     }
 
