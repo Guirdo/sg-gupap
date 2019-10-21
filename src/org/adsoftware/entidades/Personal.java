@@ -12,8 +12,8 @@ public class Personal {
     public final static int cADMINISTRADOR = 4;
     public final static int cCOORDINADOR = 5;
     
-    int idPersonal;
-    String nombreP, apellidoPatP, apellidoMatP, domicilioP, cargo;
+    public int idPersonal;
+    public String nombreP, apellidoPatP, apellidoMatP, domicilioP, cargo;
 //    Agregar esto a variables
 //	fechaNacimiento date,
 
@@ -37,7 +37,7 @@ public class Personal {
     //BuscarPrimero
      public static Personal buscarPrimero(String campo, String valor) throws SQLException {
         //A partir del objeto Connection creamos un nuevo Statement
-        InterfazBD.pst = InterfazBD.con.prepareStatement("select * from usuario where " + campo + " = ?");
+        InterfazBD.pst = InterfazBD.con.prepareStatement("select * from personal where " + campo + " = ?");
 
         InterfazBD.pst.setString(1, valor);
         //Inicializamos el ResultSer ejecutando un query con el Statement
@@ -63,15 +63,16 @@ public class Personal {
         ArrayList<Personal> lista = new ArrayList<>();
 
         InterfazBD.st = InterfazBD.con.createStatement();
-        InterfazBD.rs = InterfazBD.st.executeQuery("select * from usuario");
+        InterfazBD.rs = InterfazBD.st.executeQuery("select * from personal");
 
         while (InterfazBD.rs.next()) {
             lista.add(new Personal(
-                    InterfazBD.rs.getString(1),
+                    InterfazBD.rs.getInt(1),
                     InterfazBD.rs.getString(2),
                     InterfazBD.rs.getString(3),
                     InterfazBD.rs.getString(4),
-                    InterfazBD.rs.getString(5)
+                    InterfazBD.rs.getString(5),
+                    InterfazBD.rs.getString(6)
             ));
         }
 

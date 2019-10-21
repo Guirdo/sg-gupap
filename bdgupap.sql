@@ -28,7 +28,7 @@ create table personal(
 	apellidoMatP varchar(20),
 	fechaNacimiento date,
 	domicilioP varchar(200),
-	cargo varchar(50)
+	cargo varchar(50),
 );
 
 create table asistenciaPersonal(
