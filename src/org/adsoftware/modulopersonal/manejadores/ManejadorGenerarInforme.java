@@ -22,6 +22,7 @@ import org.adsoftware.entidades.Personal;
 import org.adsoftware.goodies.Panelito;
 import org.adsoftware.modulopersonal.interfaces.VGenerarInforme;
 import org.adsoftware.modulopersonal.interfaces.VInformeSemanal;
+import org.adsoftware.modulopersonal.interfaces.VLecturaInforme;
 import org.adsoftware.superclases.Manejador;
 import org.adsoftware.utilidades.Fecha;
 import org.adsoftware.utilidades.Galeria;
@@ -30,6 +31,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
 
     private VInformeSemanal vistaInforme;
     private VGenerarInforme vistaGenerar;
+    private VLecturaInforme vistaLectura;
     private Informe informe;
 
     private Personal personal;
@@ -62,7 +64,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
     }
 
     private void consultarInformes() throws SQLException {
-        if ((listaBorradores = Informe.todos("enviado", false)) != null) {
+        if ((listaBorradores = Informe.todos("enviado", false, personal.idPersonal)) != null) {
             listaBtnBorrador = new ArrayList<>();
 
             for (Informe i : listaBorradores) {
@@ -74,7 +76,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
             }
         }
 
-        if ((listaEnviados = Informe.todos("enviado", true)) != null) {
+        if ((listaEnviados = Informe.todos("enviado", true, personal.idPersonal)) != null) {
             listaBtnEnviado = new ArrayList<>();
 
             for (Informe i : listaEnviados) {
@@ -94,7 +96,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
                 manejaEventoGenerarInforme();
                 return;
             }
-            
+
             if (vistaGenerar != null) {
                 if (e.getSource() == vistaGenerar.btnCancelar) {
                     manejaEventoCancelar();
@@ -107,20 +109,25 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
                     return;
                 }
             }
+            
+            if(vistaLectura != null){
+                if(e.getSource() == vistaLectura.btnAceptar){
+                    manejaEventoAceptar();
+                    return;
+                }
+            }
 
             for (int i = 0; i < listaBtnBorrador.size(); i++) {
                 if (e.getSource() == listaBtnBorrador.get(i)) {
                     informe = listaBorradores.get(i);
-                    archivo = new File(informe.rutaTexto);
                     manejaEventoEditarInforme();
                     return;
                 }
             }
-            
+
             for (int i = 0; i < listaBtnEnviado.size(); i++) {
                 if (e.getSource() == listaBtnEnviado.get(i)) {
                     informe = listaEnviados.get(i);
-                    archivo = new File(informe.rutaTexto);
                     manejaEventoVerInforme();
                     return;
                 }
@@ -152,18 +159,17 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
     private void manejaEventoEnviar() throws SQLException {
         if (informe == null) {
             String nombreArchivo = personal.apellidoPatP + personal.apellidoMatP + "_" + Fecha.actual();
+            archivo = new File("informes/" + nombreArchivo + ".txt");
             guardarTexto();
             Informe infor = new Informe(archivo.getAbsolutePath(), true, false, personal.idPersonal);
             infor.insertar();
-            repintarPanelPrincipal(vistaInforme);
         } else {
             archivo = new File(informe.rutaTexto);
             guardarTexto();
             informe.enviado = true;
             informe.guardar();
-            repintarPanelPrincipal(vistaInforme);
         }
-        informe = null;
+        actualizarVista();
     }
 
     private void manejaEventoGuardar() throws SQLException {
@@ -173,13 +179,18 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
             guardarTexto();
             Informe infor = new Informe(archivo.getAbsolutePath(), false, false, personal.idPersonal);
             infor.insertar();
-            repintarPanelPrincipal(vistaInforme);
         } else {
             archivo = new File(informe.rutaTexto);
             guardarTexto();
-            repintarPanelPrincipal(vistaInforme);
         }
+        actualizarVista();
+    }
+
+    private void actualizarVista() throws SQLException {
         informe = null;
+        vistaInforme = new VInformeSemanal();
+        consultarInformes();
+        repintarPanelPrincipal(vistaInforme);
     }
 
     private void guardarTexto() {
@@ -196,8 +207,6 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
             e.printStackTrace();
         } finally {
             try {
-                // Nuevamente aprovechamos el finally para 
-                // asegurarnos que se cierra el fichero.
                 if (null != fichero) {
                     fichero.close();
                 }
@@ -206,25 +215,26 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
             }
         }
     }
-    
-    private void leerArchivo() throws FileNotFoundException{
+
+    private void leerArchivo() throws FileNotFoundException {
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
-        String texto="";
+        String texto = "";
         String linea;
-        
+
         try {
-            while((linea = br.readLine())!=null){
-                texto += linea+"\n";
+            while ((linea = br.readLine()) != null) {
+                texto += linea + "\n";
             }
         } catch (IOException ex) {
             Logger.getLogger(ManejadorGenerarInforme.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        vistaGenerar.tpInforme.setText(texto);
+
+        vistaLectura.tpInforme.setText(texto);
     }
 
     private void manejaEventoEditarInforme() throws FileNotFoundException {
+        archivo = new File(informe.rutaTexto);
         vistaGenerar = new VGenerarInforme();
 
         vistaGenerar.btnCancelar.addActionListener(this);
@@ -232,24 +242,29 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         vistaGenerar.btnEnviar.addActionListener(this);
 
         vistaGenerar.lblNombre.setText(personal.nombreP + " " + personal.apellidoPatP);
-        
+
         leerArchivo();
 
         repintarPanelPrincipal(vistaGenerar);
     }
 
     private void manejaEventoVerInforme() throws FileNotFoundException {
-        vistaGenerar = new VGenerarInforme();
+        archivo = new File(informe.rutaTexto);
+        vistaLectura = new VLecturaInforme();
 
-        vistaGenerar.btnCancelar.addActionListener(this);
-        vistaGenerar.btnGuardar.setVisible(false);
-        vistaGenerar.btnEnviar.setVisible(false);
+        vistaLectura.btnAceptar.addActionListener(this);
 
-        vistaGenerar.lblNombre.setText(personal.nombreP + " " + personal.apellidoPatP);
-        
+        vistaLectura.lblNombre.setText(personal.nombreP + " " + personal.apellidoPatP);
+        vistaLectura.lblFecha.setText(Fecha.formatoHumano(informe.fecha));
+
         leerArchivo();
 
-        repintarPanelPrincipal(vistaGenerar);
+        repintarPanelPrincipal(vistaLectura);
+    }
+
+    private void manejaEventoAceptar() {
+        repintarPanelPrincipal(vistaInforme);
+        informe = null;
     }
 
 }

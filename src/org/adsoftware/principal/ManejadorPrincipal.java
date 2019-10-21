@@ -5,11 +5,15 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 import org.adsoftware.entidades.Usuario;
 import org.adsoftware.interfaces.VMenuPrincipal;
 import org.adsoftware.interfaces.VMenuPrincipalAdministrador;
+import org.adsoftware.interfaces.VMenuPrincipalCoordinador;
+import org.adsoftware.interfaces.VMenuPrincipalDirector;
 import org.adsoftware.interfaces.VMenuPrincipalRecepcionista;
 import org.adsoftware.modulopersonal.manejadores.ManejadorGenerarInforme;
+import org.adsoftware.modulopersonal.manejadores.ManejadorLecturaInformes;
 import org.adsoftware.modulopersonal.manejadores.ManejadorRegistroES;
 import org.adsoftware.modulousuario.manejadores.ManejadorModificarContrasena;
 import org.adsoftware.modulousuario.manejadores.ManejadorValidarUsuario;
@@ -19,6 +23,8 @@ public class ManejadorPrincipal implements ActionListener {
     private VMenuPrincipal venMenu = null;
     private VMenuPrincipalAdministrador venAdmin = null;
     private VMenuPrincipalRecepcionista venRecep = null;
+    private VMenuPrincipalCoordinador venCoor = null;
+    private VMenuPrincipalDirector venDir = null;
     
     private int idUsuario;
 
@@ -30,9 +36,18 @@ public class ManejadorPrincipal implements ActionListener {
         this.idUsuario=idUsuario;
         switch (idUsuario) {
             case Usuario.DIRECTOR:
+                venDir = new VMenuPrincipalDirector();
+                
+                venDir.btnLeerInformes.addActionListener(this);
+                
+                venDir.setVisible(true);
+                break;
             case Usuario.COORDINADOR:
-                venMenu = new VMenuPrincipal();
-                venMenu.setVisible(true);
+                venCoor = new VMenuPrincipalCoordinador();
+                
+                venCoor.btnGenerarInforme.addActionListener(this);
+                
+                venCoor.setVisible(true);
                 break;
             case Usuario.ADMINISTRADOR:
                 venAdmin = new VMenuPrincipalAdministrador();
@@ -60,11 +75,19 @@ public class ManejadorPrincipal implements ActionListener {
                 if (e.getSource() == venAdmin.btnGestion) {
                     manejaEventoGestionUsuario();
                 }else if(e.getSource() == venAdmin.btnGenerarInforme){
-                    manejaEventoGenerarInforme();
+                    manejaEventoGenerarInforme(venAdmin.pnlPrincipal);
                 }
             }else if(venRecep != null){
                 if(e.getSource() == venRecep.btnRegistroES){
                     manejarEventoRegistroES();
+                }
+            }else if(venCoor != null){
+                if(e.getSource() == venCoor.btnGenerarInforme){
+                    manejaEventoGenerarInforme(venCoor.pnlPrincipal);
+                }
+            }else if(venDir != null){
+                if(e.getSource() == venDir.btnLeerInformes){
+                    manejaEventoLecturaInformes();
                 }
             }
         } catch (SQLException ex) {
@@ -80,8 +103,12 @@ public class ManejadorPrincipal implements ActionListener {
         new ManejadorRegistroES(venRecep.pnlPrincipal);
     }
 
-    private void manejaEventoGenerarInforme() throws SQLException {
-        new ManejadorGenerarInforme(idUsuario,venAdmin.pnlPrincipal);
+    private void manejaEventoGenerarInforme(JPanel pnl) throws SQLException {
+        new ManejadorGenerarInforme(idUsuario,pnl);
+    }
+
+    private void manejaEventoLecturaInformes() {
+        new ManejadorLecturaInformes(venDir.pnlPrincipal);
     }
 
 }

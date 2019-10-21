@@ -15,4 +15,9 @@ public class Fecha {
         SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd");    
         return f.format(fecha);
     }
+    
+    public static String formatoHumano(Date fecha){
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");    
+        return f.format(fecha);
+    }
 }
