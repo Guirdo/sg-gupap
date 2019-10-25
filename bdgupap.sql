@@ -33,7 +33,8 @@ create table personal(
 
 create table asistenciaPersonal(
 	idAsistenciaP int auto_increment primary key,
-	fechHora timestamp,
+	fecha date,
+	hora time,
 	tipo enum ('ENTRADA','SALIDA'),
 	idPersonalA int(6),
 	foreign key (idPersonalA) references personal(idPersonal)
@@ -55,6 +56,17 @@ create table usuarioPersonal(
 	primary key(idUsuarioUP,idPersonalUP)
 );
 
+/**
+*  Procedimientos almacenados
+*/
+-- Procedimiento almacenado para insertar asistencia en la BD
+delimiter $$	
+CREATE PROCEDURE insertarAsistenciaP(IN tip VARCHAR(7), IN idP int)
+BEGIN
+    insert into asistenciaPersonal (fecha,hora,tipo,idPersonalA) values
+	(now(),now(),tip,idP);
+    END$$
+delimiter ;
 
 /**
 *	Usuario			Contraseña

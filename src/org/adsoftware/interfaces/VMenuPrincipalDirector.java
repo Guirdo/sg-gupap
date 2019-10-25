@@ -17,36 +17,46 @@ import org.adsoftware.superclases.Pantalla;
  * @author diann
  */
 public class VMenuPrincipalDirector extends Pantalla {
-    public JPanel pnlPrincipal;
-    public WebButton btnPersonalA, btnPersonalV;
 
+    public WebButton btnPersonalA, btnPersonalV;
+    public JPanel pnlPrincipal;
+    public WebButton btnLeerInformes;
+    private WebCollapsiblePane btnPersonal;
+    
     public VMenuPrincipalDirector() {
         super(StyleId.frameDecorated, "SG-GUPAP Menú principal");
         this.setLayout(new MigLayout("wrap 1", "", "[]20[]"));
-        
-        pnlPrincipal = new JPanel(new MigLayout("", "0[]0", "0[]0"));
 
+        pnlPrincipal = new JPanel(new MigLayout("", "0[]0", "0[]0"));
+        btnLeerInformes = new WebButton(StyleId.button, "Informes");
         this.add(panelBotones(), "west");
         this.add(pnlPrincipal, "h :550:, w :550:");
 
         this.pack();
         this.setLocationRelativeTo(null);
     }
-    
+
     private JPanel panelBotones() {
         JPanel pnl = new JPanel(new MigLayout("wrap 1", "15[]15", ""));
         
-        btnPersonalA = new WebButton(StyleId.button,"Dar de alta");
-        btnPersonalV = new WebButton(StyleId.button,"Visualizar personal");
-
-        WebCollapsiblePane btnP = new WebCollapsiblePane(StyleId.collapsiblepane, "Personal", btnPersonalV);
-        WebCollapsiblePane btnPA = new WebCollapsiblePane(StyleId.collapsiblepane, "Personal", btnPersonalA);
+        WebCollapsiblePane btnP = new WebCollapsiblePane(StyleId.collapsiblepane, "Personal", panelBotonesPersonal());
+        
         pnl.add(btnP,"");
-        pnl.add(btnPA,"");
         
 
         return pnl;
     }
-    
-    
+    private JPanel panelBotonesPersonal() {
+        JPanel pnl = new JPanel(new MigLayout("wrap 1", "1[]1", ""));
+
+        btnPersonalA = new WebButton(StyleId.button,"Dar de alta");
+        btnPersonalV = new WebButton(StyleId.button,"Visualizar personal");
+       
+
+        pnl.add(btnPersonalA);
+        pnl.add(btnPersonalV);
+        pnl.add(btnLeerInformes);
+        
+        return pnl;
+    }
 }

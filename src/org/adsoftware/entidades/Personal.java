@@ -1,41 +1,47 @@
-
 package org.adsoftware.entidades;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Personal {
-    
-    public final static int cDOCENTE = 1;
-    public final static int cCONTADOR = 2;
-    public final static int cRECEPCIONISTA = 3;
-    public final static int cADMINISTRADOR = 4;
-    public final static int cCOORDINADOR = 5;
-    
-    public int idPersonal;
-    public String nombreP, apellidoPatP, apellidoMatP, domicilioP, cargo;
-//    Agregar esto a variables
-//	fechaNacimiento date,
 
-    public Personal(int idPersonal, String nombreP, String apellidoPatP, String apellidoMatP, String domicilioP, String cargo) {
+    public final static String DOCENTE = "Docente";
+    public final static String CONTADOR = "Contador";
+    public final static String RECEPCIONISTA = "Recepcionista";
+    public final static String ADMINISTRADOR = "Administrador";
+    public final static String COORDINADOR = "Coordinador";
+    public final static String FEMENINO = "Femenino";
+    public final static String MASCULINO = "Masculino";
+    public int idPersonal;
+    public String nombreP, apellidoPatP, apellidoMatP, domicilioP, cargo, correo, genero;
+    public Date fechaNacimiento;
+
+    public Personal(int idPersonal, String nombreP, String apellidoPatP, String apellidoMatP, Date fechaNacimiento, String domicilioP, String cargo, String correo, String genero) {
         this.idPersonal = idPersonal;
         this.nombreP = nombreP;
         this.apellidoPatP = apellidoPatP;
         this.apellidoMatP = apellidoMatP;
         this.domicilioP = domicilioP;
         this.cargo = cargo;
+        this.fechaNacimiento = fechaNacimiento;
+        this.correo = correo;
+        this.genero = genero;
     }
-
-    public Personal(String nombreP, String apellidoPatP, String apellidoMatP, String domicilioP, String cargo) {
+    
+    public Personal(String nombreP, String apellidoPatP, String apellidoMatP, Date fechaNacimiento, String domicilioP, String cargo, String correo, String genero) {
         this.nombreP = nombreP;
         this.apellidoPatP = apellidoPatP;
         this.apellidoMatP = apellidoMatP;
+        this.fechaNacimiento = fechaNacimiento;
         this.domicilioP = domicilioP;
         this.cargo = cargo;
+        this.correo = correo;
+        this.genero = genero;
     }
-    
+
     //BuscarPrimero
-     public static Personal buscarPrimero(String campo, String valor) throws SQLException {
+    public static Personal buscarPrimero(String campo, String valor) throws SQLException {
         //A partir del objeto Connection creamos un nuevo Statement
         InterfazBD.pst = InterfazBD.con.prepareStatement("select * from personal where " + campo + " = ?");
 
@@ -49,17 +55,19 @@ public class Personal {
                     InterfazBD.rs.getString(2),
                     InterfazBD.rs.getString(3),
                     InterfazBD.rs.getString(4),
-                    InterfazBD.rs.getString(5),
-                    InterfazBD.rs.getString(6)
+                    InterfazBD.rs.getDate(5),
+                    InterfazBD.rs.getString(6),
+                    InterfazBD.rs.getString(7),
+                    InterfazBD.rs.getString(8),
+                    InterfazBD.rs.getString(9)
             );
         } else {
-            return new Personal(1, "2", "3", "4", "5", "6");
+            return null;
         }
     }
-    
-     
-     //Buscar todos
-     public static ArrayList<Personal> todos() throws SQLException {
+
+    //Buscar todos
+    public static ArrayList<Personal> todos() throws SQLException {
         ArrayList<Personal> lista = new ArrayList<>();
 
         InterfazBD.st = InterfazBD.con.createStatement();
@@ -71,31 +79,41 @@ public class Personal {
                     InterfazBD.rs.getString(2),
                     InterfazBD.rs.getString(3),
                     InterfazBD.rs.getString(4),
-                    InterfazBD.rs.getString(5),
-                    InterfazBD.rs.getString(6)
+                    InterfazBD.rs.getDate(5),
+                    InterfazBD.rs.getString(6),
+                    InterfazBD.rs.getString(7),
+                    InterfazBD.rs.getString(8),
+                    InterfazBD.rs.getString(9)
             ));
         }
 
         return lista;
     }
-     
+
     public void guardar() throws SQLException {
         InterfazBD.pst = InterfazBD.con.prepareStatement("insert into personal "
-                + "set nombreP = ? ,"
-                + "apellidoPatP = ? ,"
-                + "apellidoMatP = ? ,"
-                + "domicilioP = ? ,"
-                + "cargo = ? " 
-                + "where idPersonal = ?");
+                + " (nombreP, apellidoPatP, apellidoMatP, fechaNacimiento, domicilioP, cargo, correo, genero)"
+                + "values (?,?,?,?,?,?,?,?)");
         
         InterfazBD.pst.setString(1, this.nombreP);
         InterfazBD.pst.setString(2, this.apellidoPatP);
         InterfazBD.pst.setString(3, this.apellidoMatP);
-        InterfazBD.pst.setString(4, this.domicilioP);
-        InterfazBD.pst.setString(5, this.cargo);
-        InterfazBD.pst.setInt(6, this.idPersonal);
+        InterfazBD.pst.setDate(4, this.fechaNacimiento);
+        InterfazBD.pst.setString(5, this.domicilioP);
+        InterfazBD.pst.setString(6, this.cargo);
+        InterfazBD.pst.setString(7, this.correo);
+        InterfazBD.pst.setString(8, this.genero);
 
-        InterfazBD.pst.executeQuery(); 
+        InterfazBD.pst.executeUpdate();
     }
-     
+    
+    public void baja() throws SQLException{
+        InterfazBD.pst= InterfazBD.con.prepareStatement("delete from personal"
+                + " where idPersonal=?");
+        
+        InterfazBD.pst.setInt(1, this.idPersonal);
+        InterfazBD.pst.executeUpdate();
+        
+    }
+
 }

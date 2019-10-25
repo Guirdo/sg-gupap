@@ -16,6 +16,7 @@ import org.adsoftware.goodies.Panelito;
 import org.adsoftware.modulousuario.interfaces.VGestionUsuario;
 import org.adsoftware.modulousuario.interfaces.VModificarContrasena;
 import org.adsoftware.utilidades.Encriptacion;
+import org.adsoftware.utilidades.Galeria;
 
 public class ManejadorModificarContrasena implements ActionListener {
 
@@ -44,7 +45,7 @@ public class ManejadorModificarContrasena implements ActionListener {
         for (int i = 0; i < listaUsuarios.size(); i++) {
             listaBotones.add(new WebButton(StyleId.buttonHover, "Modificar contraseña"));
             listaBotones.get(i).addActionListener(this);
-            pnlGestion.add(new Panelito("/org/adsoftware/iconos/usuario32.png",
+            pnlGestion.add(new Panelito(Galeria.USUARIO32_ICON,
                     listaUsuarios.get(i).nombreUsuario, listaBotones.get(i)), "growx");
         }
     }

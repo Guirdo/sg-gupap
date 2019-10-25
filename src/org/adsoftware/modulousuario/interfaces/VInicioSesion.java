@@ -8,9 +8,9 @@ import com.alee.managers.style.StyleId;
 import com.alee.managers.tooltip.TooltipWay;
 import java.awt.Font;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 import org.adsoftware.superclases.Pantalla;
+import org.adsoftware.utilidades.Galeria;
 
 public class VInicioSesion extends Pantalla{
     
@@ -23,10 +23,10 @@ public class VInicioSesion extends Pantalla{
         this.setLayout(new MigLayout("wrap 1","120[center]120","40[]70[]30[]15[]15[]20[]55"));
         
         WebLabel lblMarca = new WebLabel(
-                new ImageIcon(getClass().getResource("/org/adsoftware/iconos/marcaInstitucional.png")));
+                new ImageIcon(getClass().getResource(Galeria.MARCA_INSTITUCIONAL)));
         WebLabel lblUsuario = new WebLabel(
-                new ImageIcon(getClass().getResource("/org/adsoftware/iconos/usuario128.png")));
-        WebLabel lblOlvide = new WebLabel(StyleId.label,"Olvide la contraseña",WebLabel.CENTER);
+                new ImageIcon(getClass().getResource(Galeria.USUARIO128_ICON)));
+        WebLabel lblOlvide = new WebLabel(StyleId.label,"Olvidé la contraseña",WebLabel.CENTER);
         
         tfNombreUsuario = new WebTextField(StyleId.textfield,15);
         tfContrasena = new WebPasswordField(StyleId.passwordfield,15);

@@ -8,12 +8,17 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import com.alee.managers.style.StyleId;
 import com.alee.laf.button.WebButton;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import org.adsoftware.entidades.Personal;
 import org.adsoftware.goodies.Panelito;
+import org.adsoftware.modulopersonal.interfaces.DMConfirmarBaja;
 import org.adsoftware.modulopersonal.interfaces.VVisualizarPersonal;
+import org.adsoftware.superclases.Manejador;
+import org.adsoftware.utilidades.Galeria;
 
-public class ManejadorVisualizarPersonal implements ActionListener {
-private JPanel panelPrincipal;
+public class ManejadorVisualizarPersonal extends Manejador implements ActionListener {
 private VVisualizarPersonal pnlV; 
 private Personal p;
 
@@ -21,18 +26,15 @@ private ArrayList<Personal> listaP;
 
 private ArrayList<WebButton> listaBotones;
  public ManejadorVisualizarPersonal(JPanel pnlPrin) throws SQLException {
-        this.panelPrincipal = pnlPrin;
+        super(pnlPrin);
 
         pnlV = new VVisualizarPersonal();
-        
+        pnlV.pnlDatos.setVisible(false);
+        pnlV.baja.addActionListener(this);
         consultarPersonal();
+        
 
         repintarPanelPrincipal(pnlV);
-    }
-     private void repintarPanelPrincipal(JPanel panel) {
-        panelPrincipal.removeAll();
-        panelPrincipal.add(panel, "growx,growy,pushx,pushy");
-        panelPrincipal.repaint();
     }
      
      
@@ -43,23 +45,44 @@ private ArrayList<WebButton> listaBotones;
         for (int i = 0; i < listaP.size(); i++) {
             listaBotones.add(new WebButton(StyleId.buttonHover, "Datos completos"));
             listaBotones.get(i).addActionListener(this);
-            pnlV.add(new Panelito("/org/adsoftware/iconos/usuario32.png",
-                    listaP.get(i).nombreP, listaBotones.get(i)), "growx");
+            pnlV.este.add(new Panelito("/org/adsoftware/iconos/usuario32.png",
+                    listaP.get(i).nombreP, listaBotones.get(i)), "growx, pushx");
         }
         
         
-    } 
-    @Override
+    }     @Override
     public void actionPerformed(ActionEvent e) {
-        for (int i = 0; i < listaP.size(); i++) {
+        
+        for (int i = 0; i < listaBotones.size(); i++) {
             if (e.getSource() == listaBotones.get(i)) {
                 p = listaP.get(i);
+                manejaEventoDatosCompletos();
             }
+            
         }
+        if(e.getSource()== pnlV.baja){
+                try {
+                    manejaEventoBaja();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ManejadorVisualizarPersonal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }   
     }
     
-    public void mostrar(){
+    private void manejaEventoDatosCompletos(){
+        String rutaIcono = p.genero.equals(Personal.FEMENINO)?Galeria.FEMALE_ICON:Galeria.MALE_ICON;
+        
+        pnlV.icono.setIcon(new ImageIcon(getClass().getResource(rutaIcono)));
+        pnlV.pnlDatos.setVisible(true);
+        pnlV.nombre.setText(p.nombreP +" "+ p.apellidoPatP +" "+p.apellidoMatP);
+        pnlV.correo.setText(p.correo);
+        pnlV.cargo.setText(p.cargo);
+        pnlV.domicilio.setText(p.domicilioP);
+    }
+    
+    private void manejaEventoBaja() throws SQLException{
+        new ManejadorBajaPersonal(p);
+        
         
     }
-    
 }

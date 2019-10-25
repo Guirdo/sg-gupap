@@ -6,10 +6,12 @@ import com.alee.laf.label.WebLabel;
 import com.alee.managers.style.StyleId;
 import java.awt.Font;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import net.miginfocom.swing.MigLayout;
+import com.alee.extended.date.WebDateField;
 import org.adsoftware.entidades.Personal;
 
 public class VAltaPersonal extends JPanel {
@@ -19,9 +21,11 @@ public class VAltaPersonal extends JPanel {
      public JRadioButton generoM, generoF;
      public JLabel genero, cargo;
      public Personal cargos;
+     public JButton registrar;
+     public WebDateField fechaN;
      
     public VAltaPersonal() {
-        this.setLayout(new MigLayout("wrap 1", "10[]10", "10[]15[15]15[]15[]15[]15[]15[]15[]10"));
+        this.setLayout(new MigLayout("wrap 3", "30[]10[]10[]30", "30[]15[]15[]15[]15[]15[]15[]15[]50[]10"));
         WebLabel lblTitulo = new WebLabel(StyleId.label,"Dar de alta personal");
         lblTitulo.setFont(new Font("Arial", 0, 20));
         
@@ -47,28 +51,39 @@ public class VAltaPersonal extends JPanel {
         generoM.setSelected(true);
         cargo = new JLabel("Cargo: ");
         cargo.setFont(new Font("Arial", 0,16));
+        fechaN = new WebDateField();
         
         cmbCargo = new WebComboBox();
-        
+        cargos();
+        registrar = new JButton("Registrar");
         
         ButtonGroup group = new ButtonGroup();
         group.add(generoM);
         group.add(generoF);
-         
+                 
         this.add(lblTitulo,"north,gapleft 30");
-        this.add(tfNombreP,"");
-        this.add(tfApellidoPatP, "");
-        this.add(tfApellidoMatP, "");
-        this.add(tfDomicilioP, "");
-        this.add(tfCorreoP, "");
+        this.add(tfNombreP,"span 2, wrap");
+        this.add(tfApellidoPatP, "span 2, wrap");
+        this.add(tfApellidoMatP, "span 2, wrap");
+        this.add(new WebLabel(StyleId.label,"Fecha de nacimiento:"));
+        this.add(fechaN, "wrap");
+        this.add(tfDomicilioP, "span 3");
+        this.add(tfCorreoP, "span 2, wrap");
         this.add(genero,"");
-        this.add(generoM, "cell 0 5");
-        this.add(generoF,"cell 0 5");
+        this.add(generoM, "split 2");
+        this.add(generoF,"wrap");
         this.add(cargo, "");
-        this.add(cmbCargo, "cell 0 6");
+        this.add(cmbCargo, "wrap");
+        this.add(registrar,"span 2, growx");
     }
      
-     
+    private void cargos(){
+        cmbCargo.addItem(Personal.DOCENTE);
+        cmbCargo.addItem(Personal.CONTADOR);
+        cmbCargo.addItem(Personal.COORDINADOR);
+        cmbCargo.addItem(Personal.ADMINISTRADOR);
+        
+    } 
     
 }
 
