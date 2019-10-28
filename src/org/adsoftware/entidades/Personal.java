@@ -60,6 +60,30 @@ public class Personal {
             return null;
         }
     }
+    
+    public static ArrayList<Personal> buscar(String campo, String valor) throws SQLException {
+        ArrayList<Personal> lista = new ArrayList<>();
+        //A partir del objeto Connection creamos un nuevo Statement
+        InterfazBD.pst = InterfazBD.con.prepareStatement("select * from personal where " + campo + " = ?");
+
+        InterfazBD.pst.setString(1, valor);
+        //Inicializamos el ResultSer ejecutando un query con el Statement
+        InterfazBD.rs = InterfazBD.pst.executeQuery();
+
+        while(InterfazBD.rs.next()){
+            lista.add( new Personal(
+                    InterfazBD.rs.getInt(1),
+                    InterfazBD.rs.getString(2),
+                    InterfazBD.rs.getString(3),
+                    InterfazBD.rs.getString(4),
+                    InterfazBD.rs.getDate(5),
+                    InterfazBD.rs.getString(6),
+                    InterfazBD.rs.getString(7)
+            ));
+        }
+        
+        return lista;
+    }
 
     //Buscar todos
     public static ArrayList<Personal> todos() throws SQLException {

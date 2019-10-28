@@ -107,7 +107,7 @@ public class ManejadorPrincipal implements ActionListener {
         new ManejadorGenerarInforme(idUsuario,pnl);
     }
 
-    private void manejaEventoLecturaInformes() {
+    private void manejaEventoLecturaInformes() throws SQLException {
         new ManejadorLecturaInformes(venDir.pnlPrincipal);
     }
 

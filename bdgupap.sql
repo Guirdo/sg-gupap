@@ -31,6 +31,17 @@ create table personal(
 	cargo varchar(50)
 );
 
+create table grupo(
+	idGrupo int auto_increment primary key,
+	diasSemana varchar(7),
+	horario varchar(13),
+	curso enum('InglesA1','InglesA2','InglesB1','InglesB2','InglesC1'),
+	fechaInicio date,
+	numEstudiantes int(2) default 0,
+	idPersonalG int(6),
+	foreign key (idPersonalG) references personal(idPersonal),
+);
+
 create table asistenciaPersonal(
 	idAsistenciaP int auto_increment primary key,
 	fecha date,
