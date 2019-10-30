@@ -26,7 +26,7 @@ public class VInicioSesion extends Pantalla{
                 new ImageIcon(getClass().getResource(Galeria.MARCA_INSTITUCIONAL)));
         WebLabel lblUsuario = new WebLabel(
                 new ImageIcon(getClass().getResource(Galeria.USUARIO128_ICON)));
-        WebLabel lblOlvide = new WebLabel(StyleId.label,"Olvide la contraseña",WebLabel.CENTER);
+        WebLabel lblOlvide = new WebLabel(StyleId.label,"Olvidé la contraseña",WebLabel.CENTER);
         
         tfNombreUsuario = new WebTextField(StyleId.textfield,15);
         tfContrasena = new WebPasswordField(StyleId.passwordfield,15);

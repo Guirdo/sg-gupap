@@ -9,6 +9,7 @@ public class Galeria {
     public static final String USUARIO32_ICON = "/org/adsoftware/iconos/usuario32.png";
     public static final String ENVIADO24_ICON = "/org/adsoftware/iconos/enviado24.png";
     public static final String BORRADOR24_ICON = "/org/adsoftware/iconos/borrador24.png";
+    public static final String GRUPO128_ICON = "/org/adsoftware/iconos/grupo.png";
     
 
 }

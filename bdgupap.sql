@@ -28,7 +28,9 @@ create table personal(
 	apellidoMatP varchar(20),
 	fechaNacimiento date,
 	domicilioP varchar(200),
-	cargo varchar(50)
+	cargo varchar(50),
+	correo varchar(150),
+	genero enum('Masculino','Femenino')
 );
 
 create table grupo(
@@ -39,7 +41,7 @@ create table grupo(
 	fechaInicio date,
 	numEstudiantes int(2) default 0,
 	idPersonalG int(6),
-	foreign key (idPersonalG) references personal(idPersonal),
+	foreign key (idPersonalG) references personal(idPersonal)
 );
 
 create table asistenciaPersonal(
@@ -94,9 +96,9 @@ insert into usuario (nombreUsuario,contrasena) values
 ('coordinador','2be9bd7a3434f7038ca27d1918de58bd'),
 ('recepcionista','dbc4d84bfcfe2284ba11beffb853a8c4');
 
-insert into personal (nombreP,apellidoPatP,apellidoMatP,fechaNacimiento,domicilioP,cargo) values
-('Guadalupe','Tolentino','Ríos','1990-08-23','Calle Proton, Col. Elementales, Chilpancingo','ADMINISTRADOR'),
-('Aldro','Hernández','Sánchez','1990-04-20','Calle 4, Col. Pericos, Chilpancingo','COORDINADOR');
+insert into personal (nombreP,apellidoPatP,apellidoMatP,fechaNacimiento,domicilioP,cargo,correo,genero) values
+('Guadalupe','Tolentino','Ríos','1990-08-23','Calle Proton, Col. Elementales, Chilpancingo','ADMINISTRADOR','correo1@gmail.com','Femenino'),
+('Aldro','Hernández','Sánchez','1990-04-20','Calle 4, Col. Pericos, Chilpancingo','COORDINADOR','correo2@gmail.com','Masculino');
 
 insert into usuarioPersonal values
 (2,1),(3,2);

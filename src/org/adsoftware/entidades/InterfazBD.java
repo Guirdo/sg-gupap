@@ -27,7 +27,7 @@ public class InterfazBD {
     public static void crearConexion() throws ClassNotFoundException, SQLException{
         InterfazBD.usuario = "adsoft";
         InterfazBD.contrasena = "12345678";
-
+        
         InterfazBD.con = null;
 
         Class.forName("com.mysql.cj.jdbc.Driver");

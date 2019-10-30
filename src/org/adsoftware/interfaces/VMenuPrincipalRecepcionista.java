@@ -10,8 +10,9 @@ import org.adsoftware.superclases.Pantalla;
 public class VMenuPrincipalRecepcionista extends Pantalla {
 
     public JPanel pnlPrincipal;
-    public WebButton btnRegistroES;
+    public WebButton btnRegistroES,btnVisualizarGrupo;
     private WebCollapsiblePane btnPersonal;
+    private WebCollapsiblePane btnGrupo;
 
     public VMenuPrincipalRecepcionista() {
         super(StyleId.frameDecorated, "SG-GUPAP Menú principal");
@@ -21,6 +22,7 @@ public class VMenuPrincipalRecepcionista extends Pantalla {
         pnlPrincipal = new JPanel(new MigLayout("", "0[]0", "0[]0"));
         
         btnRegistroES = new WebButton(StyleId.button, "Registro E/S personal");
+        btnVisualizarGrupo = new WebButton(StyleId.button, "Visualizar grupos");
 
         this.add(panelBotones(), "west");
         this.add(pnlPrincipal, "h :550:, w :550:");
@@ -33,6 +35,7 @@ public class VMenuPrincipalRecepcionista extends Pantalla {
         JPanel pnl = new JPanel(new MigLayout("wrap 1", "15[]15", ""));
 
         btnPersonal = new WebCollapsiblePane(StyleId.collapsiblepane, "Personal",btnRegistroES);
+        btnGrupo = new WebCollapsiblePane(StyleId.collapsiblepane, "Grupo", btnVisualizarGrupo);
         
         pnl.add(btnPersonal);
 

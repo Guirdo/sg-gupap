@@ -12,9 +12,13 @@ import org.adsoftware.interfaces.VMenuPrincipalAdministrador;
 import org.adsoftware.interfaces.VMenuPrincipalCoordinador;
 import org.adsoftware.interfaces.VMenuPrincipalDirector;
 import org.adsoftware.interfaces.VMenuPrincipalRecepcionista;
+import org.adsoftware.modulogrupo.manejadores.ManejadorRegistrarGrupo;
+import org.adsoftware.modulogrupo.manejadores.ManejadorVisualizarGrupos;
+import org.adsoftware.modulopersonal.manejadores.ManejadorAltaPersonal;
 import org.adsoftware.modulopersonal.manejadores.ManejadorGenerarInforme;
 import org.adsoftware.modulopersonal.manejadores.ManejadorLecturaInformes;
 import org.adsoftware.modulopersonal.manejadores.ManejadorRegistroES;
+import org.adsoftware.modulopersonal.manejadores.ManejadorVisualizarPersonal;
 import org.adsoftware.modulousuario.manejadores.ManejadorModificarContrasena;
 import org.adsoftware.modulousuario.manejadores.ManejadorValidarUsuario;
 
@@ -27,7 +31,6 @@ public class ManejadorPrincipal implements ActionListener {
     private VMenuPrincipalDirector venDir = null;
     
     private int idUsuario;
-
     public ManejadorPrincipal() throws ClassNotFoundException, SQLException {
         new ManejadorValidarUsuario();
     }
@@ -37,15 +40,16 @@ public class ManejadorPrincipal implements ActionListener {
         switch (idUsuario) {
             case Usuario.DIRECTOR:
                 venDir = new VMenuPrincipalDirector();
-                
+                venDir.btnPersonalA.addActionListener(this);
+                venDir.btnPersonalV.addActionListener(this);
                 venDir.btnLeerInformes.addActionListener(this);
-                
                 venDir.setVisible(true);
                 break;
             case Usuario.COORDINADOR:
                 venCoor = new VMenuPrincipalCoordinador();
                 
                 venCoor.btnGenerarInforme.addActionListener(this);
+                venCoor.btnVisualizarGrupo.addActionListener(this);
                 
                 venCoor.setVisible(true);
                 break;
@@ -54,6 +58,8 @@ public class ManejadorPrincipal implements ActionListener {
 
                 venAdmin.btnGestion.addActionListener(this);
                 venAdmin.btnGenerarInforme.addActionListener(this);
+                venAdmin.btnRegistroGrupo.addActionListener(this);
+                venAdmin.btnVisualizarGrupo.addActionListener(this);
 
                 venAdmin.setVisible(true);
                 break;
@@ -62,6 +68,7 @@ public class ManejadorPrincipal implements ActionListener {
                 venRecep = new VMenuPrincipalRecepcionista();
 
                 venRecep.btnRegistroES.addActionListener(this);
+                venRecep.btnVisualizarGrupo.addActionListener(this);
 
                 venRecep.setVisible(true);
                 break;
@@ -71,24 +78,36 @@ public class ManejadorPrincipal implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            if (venAdmin != null) {
+            if (venAdmin != null) {//Ventana del administrador
                 if (e.getSource() == venAdmin.btnGestion) {
                     manejaEventoGestionUsuario();
                 }else if(e.getSource() == venAdmin.btnGenerarInforme){
                     manejaEventoGenerarInforme(venAdmin.pnlPrincipal);
+                }else if(e.getSource() == venAdmin.btnRegistroGrupo){
+                    manejaEventoRegistroGrupo();
+                }else if(e.getSource() == venAdmin.btnVisualizarGrupo){
+                    manejaEventoVisualizarGrupos(false,venAdmin.pnlPrincipal);
                 }
-            }else if(venRecep != null){
+            }else if(venRecep != null){//Ventana del recepcionista
                 if(e.getSource() == venRecep.btnRegistroES){
                     manejarEventoRegistroES();
+                }else if(e.getSource() == venRecep.btnRegistroES){
+                    manejaEventoVisualizarGrupos(false,venRecep.pnlPrincipal);
                 }
-            }else if(venCoor != null){
+            }else if(venCoor != null){//Ventana del coordinador
                 if(e.getSource() == venCoor.btnGenerarInforme){
                     manejaEventoGenerarInforme(venCoor.pnlPrincipal);
+                }else if(e.getSource() == venCoor.btnVisualizarGrupo){
+                    manejaEventoVisualizarGrupos(true,venCoor.pnlPrincipal);
                 }
-            }else if(venDir != null){
+            }else if(venDir != null){//Ventana del director
                 if(e.getSource() == venDir.btnLeerInformes){
                     manejaEventoLecturaInformes();
-                }
+                }else if(e.getSource()== venDir.btnPersonalA){
+                    manejaEventoAltaPersonal();
+                }else if(e.getSource()==venDir.btnPersonalV){
+                    manejaEventoVisualizarPersonal();
+                }    
             }
         } catch (SQLException ex) {
             Logger.getLogger(ManejadorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,6 +116,14 @@ public class ManejadorPrincipal implements ActionListener {
 
     private void manejaEventoGestionUsuario() throws SQLException {
         new ManejadorModificarContrasena(venAdmin.pnlPrincipal);
+    }
+  
+    private void manejaEventoAltaPersonal() throws SQLException{
+        new ManejadorAltaPersonal(venDir.pnlPrincipal);
+    }
+    
+    private void manejaEventoVisualizarPersonal() throws SQLException{
+        new ManejadorVisualizarPersonal(venDir.pnlPrincipal);
     }
 
     private void manejarEventoRegistroES() throws SQLException {
@@ -111,4 +138,11 @@ public class ManejadorPrincipal implements ActionListener {
         new ManejadorLecturaInformes(venDir.pnlPrincipal);
     }
 
+    private void manejaEventoRegistroGrupo() throws SQLException {
+        new ManejadorRegistrarGrupo(venAdmin.pnlPrincipal);
+    }
+
+    private void manejaEventoVisualizarGrupos(boolean esCoordinador,JPanel pnl) throws SQLException {
+        new ManejadorVisualizarGrupos(esCoordinador,pnl);
+    }
 }

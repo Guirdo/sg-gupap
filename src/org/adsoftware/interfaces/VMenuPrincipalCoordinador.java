@@ -37,6 +37,7 @@ public class VMenuPrincipalCoordinador extends Pantalla{
         btnGrupo = new WebCollapsiblePane(StyleId.collapsiblepane, "Grupo", btnVisualizarGrupo);
 
         pnl.add(btnPersonal);
+        pnl.add(btnGrupo);
 
         return pnl;
     }
