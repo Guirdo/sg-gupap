@@ -9,7 +9,6 @@ import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 import com.alee.extended.collapsible.WebCollapsiblePane;
 import javax.swing.JButton;
-import org.adsoftware.goodies.Panelito;
 
 public class VVisualizarPersonal extends JPanel {
     public JScrollPane tabla;

@@ -75,18 +75,18 @@ public class ManejadorAltaPersonal implements ActionListener {
          }
          return coincidor.matches();
      }
-//     
-//     private boolean verificarCorreo(){
-//         String correo = pnlAlta.tfCorreoP.getText();
-//         Pattern patron = Pattern.compile("^[_A-Za-z0-9-]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\\\.[A-Za-z0-9]+)*(\\\\.[A-Za-z]{1,4})$");
-//         Matcher coincidor = patron.matcher(correo);
-//         
-//         if(!coincidor.matches()){
-//             pnlAlta.tfCorreoP.setBorder(BorderFactory.createLineBorder(Color.red));
-//             return false;
-//         }
-//         return coincidor.matches();
-//     }
+     
+     private boolean verificarCorreo(){
+         String correo = pnlAlta.tfCorreoP.getText();
+         Pattern patron = Pattern.compile("[a-zA-Z_.0-9\\-]+[^.]@[a-zA-Z]+.[a-z]{2,4}");
+         Matcher coincidor = patron.matcher(correo);
+         
+         if(!coincidor.matches()){
+             pnlAlta.tfCorreoP.setBorder(BorderFactory.createLineBorder(Color.red));
+             return false;
+         }
+         return coincidor.matches();
+     }
      
      
      
@@ -104,7 +104,7 @@ public class ManejadorAltaPersonal implements ActionListener {
     
     private void manejaEventoRegistrar() throws SQLException{
         
-        if(verificarNombre() && verificarApellidoMat() && verificarApellidoPat() && !pnlAlta.tfDomicilioP.isEmpty() && !pnlAlta.tfCorreoP.isEmpty() && pnlAlta.fechaN.getDate()!=null){
+        if(verificarNombre() && verificarApellidoMat() && verificarApellidoPat() && !pnlAlta.tfDomicilioP.isEmpty() && verificarCorreo() && pnlAlta.fechaN.getDate()!=null){
             String genero ="", cargo="";
         //Género
         if(pnlAlta.generoF.isSelected())
