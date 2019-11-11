@@ -9,6 +9,10 @@ public class Manejador {
     public Manejador(JPanel panelPrincipal) {
         this.panelPrincipal = panelPrincipal;
     }
+    
+    public Manejador(){
+        
+    }
 
     protected void repintarPanelPrincipal(JPanel pnl) {
         panelPrincipal.removeAll();

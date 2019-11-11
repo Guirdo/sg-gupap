@@ -30,7 +30,7 @@ public class VMenuPrincipalDirector extends Pantalla {
         pnlPrincipal = new JPanel(new MigLayout("", "0[]0", "0[]0"));
         btnLeerInformes = new WebButton(StyleId.button, "Informes");
         this.add(panelBotones(), "west");
-        this.add(pnlPrincipal, "h :550:, w :550:");
+        this.add(pnlPrincipal, "h :550:, w :600:");
 
         this.pack();
         this.setLocationRelativeTo(null);

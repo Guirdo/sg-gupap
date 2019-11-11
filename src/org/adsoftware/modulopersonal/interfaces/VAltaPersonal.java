@@ -82,7 +82,6 @@ public class VAltaPersonal extends JPanel {
         cmbCargo.addItem(Personal.CONTADOR);
         cmbCargo.addItem(Personal.COORDINADOR);
         cmbCargo.addItem(Personal.ADMINISTRADOR);
-        
     } 
     
 }

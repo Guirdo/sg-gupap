@@ -133,6 +133,24 @@ public class Personal {
         InterfazBD.pst.executeUpdate();
     }
     
+    public void actualizar() throws SQLException {
+        InterfazBD.pst = InterfazBD.con.prepareStatement("update personal "
+                + " set nombreP = ?, apellidoPatP=?, apellidoMatP=?, fechaNacimiento=? , domicilioP=?, cargo=?, correo=?, genero=? "
+                + "where idPersonal = ?");
+        
+        InterfazBD.pst.setString(1, this.nombreP);
+        InterfazBD.pst.setString(2, this.apellidoPatP);
+        InterfazBD.pst.setString(3, this.apellidoMatP);
+        InterfazBD.pst.setDate(4, this.fechaNacimiento);
+        InterfazBD.pst.setString(5, this.domicilioP);
+        InterfazBD.pst.setString(6, this.cargo);
+        InterfazBD.pst.setString(7, this.correo);
+        InterfazBD.pst.setString(8, this.genero);
+        InterfazBD.pst.setInt(9, this.idPersonal);
+
+        InterfazBD.pst.executeUpdate();
+    }
+    
     public void baja() throws SQLException{
         InterfazBD.pst= InterfazBD.con.prepareStatement("delete from personal"
                 + " where idPersonal=?");

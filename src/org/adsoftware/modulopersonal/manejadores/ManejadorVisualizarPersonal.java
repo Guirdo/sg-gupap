@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.adsoftware.entidades.Personal;
 import org.adsoftware.goodies.Panelito;
-import org.adsoftware.modulopersonal.interfaces.DMConfirmarBaja;
+import org.adsoftware.modulopersonal.interfaces.DMModificarPersonal;
 import org.adsoftware.modulopersonal.interfaces.VVisualizarPersonal;
 import org.adsoftware.superclases.Manejador;
 import org.adsoftware.utilidades.Galeria;
@@ -31,6 +31,7 @@ public class ManejadorVisualizarPersonal extends Manejador implements ActionList
 
         pnlV = new VVisualizarPersonal();
         pnlV.pnlDatos.setVisible(false);
+        pnlV.btnModificar.addActionListener(this);
         pnlV.baja.addActionListener(this);
         consultarPersonal();
 
@@ -60,12 +61,14 @@ public class ManejadorVisualizarPersonal extends Manejador implements ActionList
             }
 
         }
-        if (e.getSource() == pnlV.baja) {
-            try {
+        try {
+            if (e.getSource() == pnlV.baja) {
                 manejaEventoBaja();
-            } catch (SQLException ex) {
-                Logger.getLogger(ManejadorVisualizarPersonal.class.getName()).log(Level.SEVERE, null, ex);
+            } else if (e.getSource() == pnlV.btnModificar) {
+                manejaEventoModificar();
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManejadorVisualizarPersonal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -82,5 +85,9 @@ public class ManejadorVisualizarPersonal extends Manejador implements ActionList
 
     private void manejaEventoBaja() throws SQLException {
         new ManejadorBajaPersonal(p);
+    }
+
+    private void manejaEventoModificar() {
+        new ManejadorModificarPersonal(p);
     }
 }

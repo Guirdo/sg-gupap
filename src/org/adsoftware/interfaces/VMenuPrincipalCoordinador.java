@@ -24,7 +24,7 @@ public class VMenuPrincipalCoordinador extends Pantalla{
         btnVisualizarGrupo = new WebButton(StyleId.button, "Visualizar grupos");
 
         this.add(panelBotones(), "west");
-        this.add(pnlPrincipal, "h :550:, w :550:");
+        this.add(pnlPrincipal, "h :550:, w :600:");
 
         this.pack();
         this.setLocationRelativeTo(null);
