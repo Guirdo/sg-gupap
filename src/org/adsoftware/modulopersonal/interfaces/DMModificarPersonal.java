@@ -25,8 +25,9 @@ public class DMModificarPersonal extends JDialog {
     public WebDateField fechaN;
 
     public DMModificarPersonal() {
+        this.setModalityType(DEFAULT_MODALITY_TYPE);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.setLayout(new MigLayout("wrap 3,debug", "25[]10[]10[]25", "30[]15[]15[]15[]15[]15[]15[]15[]50[]10"));
+        this.setLayout(new MigLayout("wrap 3", "25[]10[]10[]25", "25[]15[]15[]15[]15[]15[]15[]15[]50[]25"));
         WebLabel lblTitulo = new WebLabel(StyleId.label, "Modificar personal");
         lblTitulo.setFont(new Font("Arial", 0, 20));
 

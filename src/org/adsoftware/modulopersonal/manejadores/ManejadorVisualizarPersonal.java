@@ -48,7 +48,6 @@ public class ManejadorVisualizarPersonal extends Manejador implements ActionList
             pnlV.este.add(new Panelito("/org/adsoftware/iconos/usuario32.png",
                     listaP.get(i).nombreP, listaBotones.get(i)), "growx, pushx");
         }
-
     }
 
     @Override
@@ -87,7 +86,11 @@ public class ManejadorVisualizarPersonal extends Manejador implements ActionList
         new ManejadorBajaPersonal(p);
     }
 
-    private void manejaEventoModificar() {
+    private void manejaEventoModificar() throws SQLException {
         new ManejadorModificarPersonal(p);
+        pnlV.este.removeAll();
+        consultarPersonal();
+        repintarPanelPrincipal(pnlV);
+        manejaEventoDatosCompletos();
     }
 }
