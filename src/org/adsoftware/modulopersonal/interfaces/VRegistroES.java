@@ -44,7 +44,7 @@ public class VRegistroES extends JPanel{
         btnSalida.setBackground(Color.decode("#cb3234"));
         
         this.add(lblTitulo,"north, gapleft 30");
-        this.add(new JScrollPane(tabla),"h 300, w 300:300:,growx,span 1 6");
+        this.add(new JScrollPane(tabla),"h 300, w :350:,growx,span 1 6");
         this.add(lblIcono,"w 64, h 64,center");
         this.add(lblNombre);
         this.add(lblCargo);

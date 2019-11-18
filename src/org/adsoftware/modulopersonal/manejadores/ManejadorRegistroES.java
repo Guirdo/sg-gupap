@@ -27,6 +27,7 @@ public class ManejadorRegistroES extends Manejador implements ActionListener, Ke
 
     private DefaultTableModel modelo;
     private Personal personalSelec = null;
+    private String fechaActual;
 
     public ManejadorRegistroES(JPanel pnl) throws SQLException {
         super(pnl);
@@ -37,30 +38,35 @@ public class ManejadorRegistroES extends Manejador implements ActionListener, Ke
         vistaRegistro.btnSalida.addActionListener(this);
         vistaRegistro.tfClave.addKeyListener(this);
 
+        consultarFechaActual();
         consultarAsistencia();
 
         repintarPanelPrincipal(vistaRegistro);
     }
 
-    private void consultarAsistencia() throws SQLException {
-        SimpleDateFormat ff = new SimpleDateFormat("hh:mm");
+    private void consultarFechaActual() {
         Date d = new Date();
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(d);
-        modelo = new DefaultTableModel(new Object[]{"Clave empleado", "Nombre", "Hora"}, 0);
+        fechaActual = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH);
+    }
+
+    private void consultarAsistencia() throws SQLException {
+        SimpleDateFormat ff = new SimpleDateFormat("hh:mm");
+        modelo = new DefaultTableModel(new Object[]{"Clave empleado", "Nombre", "Hora", "Tipo"}, 0);
         vistaRegistro.tabla.setModel(modelo);
 
-        ArrayList<AsistenciaPersonal> listaAsistencia = AsistenciaPersonal.todos("fecha",
-                c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH) + 1) + "-" + c.get(Calendar.DAY_OF_MONTH));
+        ArrayList<AsistenciaPersonal> listaAsistencia = AsistenciaPersonal.todos("fecha", fechaActual);
 
         for (AsistenciaPersonal a : listaAsistencia) {
             Personal p = Personal.buscarPrimero("idPersonal", "" + a.idPersonlaA);
-            modelo.addRow(new Object[]{a.idPersonlaA, p.nombreP, ff.format(a.hora)});
+            modelo.addRow(new Object[]{a.idPersonlaA, p.nombreP, ff.format(a.hora), a.tipo});
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        NotificationManager.hideAllNotifications();
         try {
             if (e.getSource() == vistaRegistro.btnEntrada) {
                 manejaEventoEntrada();
@@ -93,17 +99,29 @@ public class ManejadorRegistroES extends Manejador implements ActionListener, Ke
 
     private void manejaEventoEntrada() throws SQLException {
         if (personalSelec != null) {
-            AsistenciaPersonal ap = new AsistenciaPersonal(AsistenciaPersonal.ENTRADA, personalSelec.idPersonal);
-            ap.insertar();
-            actualizarVista();
+            AsistenciaPersonal p = AsistenciaPersonal.buscarPrimero("fecha", fechaActual, "idPersonalA", personalSelec.idPersonal, "tipo", AsistenciaPersonal.ENTRADA);
+            if (p == null) {
+                AsistenciaPersonal ap = new AsistenciaPersonal(AsistenciaPersonal.ENTRADA, personalSelec.idPersonal);
+                ap.insertar();
+                actualizarVista();
+            } else {
+                NotificationManager.showNotification(vistaRegistro.btnEntrada,
+                        "Asistencia ya tomada.", NotificationIcon.warning.getIcon());
+            }
         }
     }
 
     private void manejaEventoSalida() throws SQLException {
         if (personalSelec != null) {
-            AsistenciaPersonal ap = new AsistenciaPersonal(AsistenciaPersonal.SALIDA, personalSelec.idPersonal);
-            ap.insertar();
-            actualizarVista();
+            AsistenciaPersonal p = AsistenciaPersonal.buscarPrimero("fecha", fechaActual, "idPersonalA", personalSelec.idPersonal, "tipo", AsistenciaPersonal.SALIDA);
+            if (p == null) {
+                AsistenciaPersonal ap = new AsistenciaPersonal(AsistenciaPersonal.SALIDA, personalSelec.idPersonal);
+                ap.insertar();
+                actualizarVista();
+            } else {
+                NotificationManager.showNotification(vistaRegistro.btnSalida,
+                        "Asistencia ya tomada.", NotificationIcon.warning.getIcon());
+            }
         }
     }
 
@@ -111,7 +129,6 @@ public class ManejadorRegistroES extends Manejador implements ActionListener, Ke
         for (int i = 0; i < modelo.getRowCount(); i++) {
             modelo.removeRow(i);
         }
-
         consultarAsistencia();
     }
 
