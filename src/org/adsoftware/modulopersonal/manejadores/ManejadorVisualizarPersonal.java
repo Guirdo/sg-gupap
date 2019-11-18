@@ -83,13 +83,19 @@ public class ManejadorVisualizarPersonal extends Manejador implements ActionList
 
     private void manejaEventoBaja() throws SQLException {
         new ManejadorBajaPersonal(p);
+        actualizarVista();
     }
 
     private void manejaEventoModificar() throws SQLException {
         new ManejadorModificarPersonal(p);
+        actualizarVista();
+        manejaEventoDatosCompletos();
+    }
+    
+    private void actualizarVista() throws SQLException{
         pnlV.este.removeAll();
         consultarPersonal();
         repintarPanelPrincipal(pnlV);
-        manejaEventoDatosCompletos();
+        pnlV.pnlDatos.setVisible(false);
     }
 }

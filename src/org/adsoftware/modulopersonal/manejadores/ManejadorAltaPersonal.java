@@ -98,8 +98,7 @@ public class ManejadorAltaPersonal extends Manejador implements ActionListener {
             int anoActual = fechaActual.get(Calendar.YEAR);
 
             if (anoActual - anoNacimiento >= 18) {
-                if (fechaNacimiento.get(Calendar.MONTH) <= fechaActual.get(Calendar.MONTH)
-                        && fechaNacimiento.get(Calendar.DAY_OF_MONTH) <= fechaActual.get(Calendar.DAY_OF_MONTH)) {
+                if (fechaNacimiento.get(Calendar.MONTH) <= fechaActual.get(Calendar.MONTH)) {
                     return true;
                 } else {
                     mensajeError += "\n- Fecha incorrecta: el empleado \ndebe ser mayor de edad.";
