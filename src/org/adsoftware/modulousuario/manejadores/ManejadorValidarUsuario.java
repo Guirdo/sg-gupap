@@ -4,6 +4,8 @@ import com.alee.managers.notification.NotificationIcon;
 import com.alee.managers.notification.NotificationManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +14,7 @@ import org.adsoftware.modulousuario.interfaces.VInicioSesion;
 import org.adsoftware.principal.ManejadorPrincipal;
 import org.adsoftware.utilidades.Encriptacion;
 
-public class ManejadorValidarUsuario implements ActionListener {
+public class ManejadorValidarUsuario implements ActionListener,KeyListener {
 
     private VInicioSesion ventana;
 
@@ -20,6 +22,8 @@ public class ManejadorValidarUsuario implements ActionListener {
         ventana = new VInicioSesion();
 
         ventana.btnIngresar.addActionListener(this);
+        ventana.tfNombreUsuario.addKeyListener(this);
+        ventana.tfContrasena.addKeyListener(this);
 
         ventana.setVisible(true);
     }
@@ -57,6 +61,31 @@ public class ManejadorValidarUsuario implements ActionListener {
             ventana.tfNombreUsuario.setText("");
             ventana.tfContrasena.setText("");
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getSource() == ventana.tfNombreUsuario){
+            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                ventana.tfContrasena.requestFocus();
+            }
+        }else if(e.getSource() == ventana.tfContrasena){
+            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                try {
+                    manejaEventoIngresar();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ManejadorValidarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 
 }

@@ -2,25 +2,29 @@ package org.adsoftware.modulopersonal.manejadores;
 
 import com.alee.managers.notification.NotificationIcon;
 import com.alee.managers.notification.NotificationManager;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.BorderFactory;
 import org.adsoftware.entidades.Personal;
 import javax.swing.JPanel;
 import org.adsoftware.modulopersonal.interfaces.VAltaPersonal;
+import org.adsoftware.superclases.Manejador;
 
-public class ManejadorAltaPersonal implements ActionListener {
+public class ManejadorAltaPersonal extends Manejador implements ActionListener {
 
     public JPanel panelPrincipal;
     public VAltaPersonal pnlAlta;
 
+    private String mensajeError = "";
+
     public ManejadorAltaPersonal(JPanel panelPrin) throws SQLException {
+        super(panelPrin);
         this.panelPrincipal = panelPrin;
 
         pnlAlta = new VAltaPersonal();
@@ -29,19 +33,14 @@ public class ManejadorAltaPersonal implements ActionListener {
         repintarPanelPrincipal(pnlAlta);
     }
 
-    private void repintarPanelPrincipal(JPanel panel) {
-        panelPrincipal.removeAll();
-        panelPrincipal.add(panel, "growx,growy,pushx,pushy");
-        panelPrincipal.repaint();
-    }
-
     private boolean verificarNombre() {
         String nombre = pnlAlta.tfNombreP.getText();
         Pattern patron = Pattern.compile("([A-Za-z]+\\s?){1,3}");
         Matcher coincidor = patron.matcher(nombre);
 
         if (!coincidor.matches()) {
-            pnlAlta.tfNombreP.setBorder(BorderFactory.createLineBorder(Color.red));
+            //pnlAlta.tfNombreP.setBorder(BorderFactory.createLineBorder(Color.red));
+            mensajeError += "\n- Nombre(s) incorrecto.";
             return false;
         }
         return coincidor.matches();
@@ -53,7 +52,8 @@ public class ManejadorAltaPersonal implements ActionListener {
         Matcher coincidor = patron.matcher(apellidoP);
 
         if (!coincidor.matches()) {
-            pnlAlta.tfApellidoPatP.setBorder(BorderFactory.createLineBorder(Color.red));
+            //pnlAlta.tfApellidoPatP.setBorder(BorderFactory.createLineBorder(Color.red));
+            mensajeError += "\n- Apellido Paterno incorrecto.";
             return false;
         }
         return coincidor.matches();
@@ -65,7 +65,8 @@ public class ManejadorAltaPersonal implements ActionListener {
         Matcher coincidor = patron.matcher(apellidoM);
 
         if (!coincidor.matches()) {
-            pnlAlta.tfApellidoMatP.setBorder(BorderFactory.createLineBorder(Color.red));
+            //pnlAlta.tfApellidoMatP.setBorder(BorderFactory.createLineBorder(Color.red));
+            mensajeError += "\n- Apellido Materno incorrecto.";
             return false;
         }
         return coincidor.matches();
@@ -77,10 +78,54 @@ public class ManejadorAltaPersonal implements ActionListener {
         Matcher coincidor = patron.matcher(correo);
 
         if (!coincidor.matches()) {
-            pnlAlta.tfCorreoP.setBorder(BorderFactory.createLineBorder(Color.red));
+            //pnlAlta.tfCorreoP.setBorder(BorderFactory.createLineBorder(Color.red));
+            mensajeError += "\n- Correo electrónico incorrecto.";
             return false;
         }
         return coincidor.matches();
+    }
+
+    private boolean verificarFecha() {
+        if (pnlAlta.fechaN.getDate() == null) {
+            mensajeError += "\n- Fecha nula.";
+            return false;
+        } else {
+            Calendar fechaActual = new GregorianCalendar();
+            Calendar fechaNacimiento = new GregorianCalendar();
+            fechaNacimiento.setTime(pnlAlta.fechaN.getDate());
+
+            int anoNacimiento = fechaNacimiento.get(Calendar.YEAR);
+            int anoActual = fechaActual.get(Calendar.YEAR);
+
+            if (anoActual - anoNacimiento >= 18) {
+                if (fechaNacimiento.get(Calendar.MONTH) <= fechaActual.get(Calendar.MONTH)
+                        && fechaNacimiento.get(Calendar.DAY_OF_MONTH) <= fechaActual.get(Calendar.DAY_OF_MONTH)) {
+                    return true;
+                } else {
+                    mensajeError += "\n- Fecha incorrecta: el empleado \ndebe ser mayor de edad.";
+                    return false;
+                }
+            } else {
+                mensajeError += "\n- Fecha incorrecta: el empleado \ndebe ser mayor de edad.";
+                return false;
+            }
+        }
+    }
+
+    private boolean verificarDomicilio() {
+        mensajeError += pnlAlta.tfDomicilioP.isEmpty() ? "\n- Domicilio nulo." : "";
+        return !pnlAlta.tfDomicilioP.isEmpty();
+    }
+
+    private boolean verificarCampos() {
+        boolean nombreCorrecto = verificarNombre();
+        boolean apellidoPatCorrecto = verificarApellidoPat();
+        boolean apellidoMatCorrecto = verificarApellidoMat();
+        boolean fechCorrecta = verificarFecha();
+        boolean domicilioCorrecto = verificarDomicilio();
+        boolean correoCorrecto = verificarCorreo();
+
+        return nombreCorrecto && apellidoPatCorrecto && apellidoMatCorrecto && domicilioCorrecto && correoCorrecto && fechCorrecta;
     }
 
     @Override
@@ -95,8 +140,9 @@ public class ManejadorAltaPersonal implements ActionListener {
     }
 
     private void manejaEventoRegistrar() throws SQLException {
-
-        if (verificarNombre() && verificarApellidoMat() && verificarApellidoPat() && !pnlAlta.tfDomicilioP.isEmpty() && verificarCorreo() && pnlAlta.fechaN.getDate() != null) {
+        mensajeError = "";
+        NotificationManager.hideAllNotifications();
+        if (verificarCampos()) {
             String genero = "", cargo = "";
             //Género
             if (pnlAlta.generoF.isSelected()) {
@@ -112,10 +158,11 @@ public class ManejadorAltaPersonal implements ActionListener {
                     pnlAlta.cmbCargo.getSelectedItem().toString(), pnlAlta.tfCorreoP.getText(), genero);
             nuevoP.guardar();
             NotificationManager.showNotification(pnlAlta.registrar,
-                    "Personal registrado con éxito", NotificationIcon.warning.getIcon());
+                    "Personal registrado con éxito", NotificationIcon.plus.getIcon());
+            new ManejadorVisualizarPersonal(panelPrincipal);
         } else {
             NotificationManager.showNotification(pnlAlta.registrar,
-                    "Error al ingresar un dato", NotificationIcon.warning.getIcon());
+                    "Error al ingresar un dato: " + mensajeError, NotificationIcon.warning.getIcon());
         }
 
     }

@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import org.adsoftware.entidades.Personal;
 import org.adsoftware.goodies.Panelito;
-import org.adsoftware.modulopersonal.interfaces.DMModificarPersonal;
 import org.adsoftware.modulopersonal.interfaces.VVisualizarPersonal;
 import org.adsoftware.superclases.Manejador;
 import org.adsoftware.utilidades.Galeria;
@@ -76,7 +75,7 @@ public class ManejadorVisualizarPersonal extends Manejador implements ActionList
 
         pnlV.icono.setIcon(new ImageIcon(getClass().getResource(rutaIcono)));
         pnlV.nombre.setText(p.nombreP + " " + p.apellidoPatP + " " + p.apellidoMatP);
-        pnlV.correo.setText(p.correo);
+        pnlV.correo.setText(p.correo);  
         pnlV.cargo.setText(p.cargo);
         pnlV.domicilio.setText(p.domicilioP);
         pnlV.pnlDatos.setVisible(true);

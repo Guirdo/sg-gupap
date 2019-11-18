@@ -1,6 +1,9 @@
 package org.adsoftware.modulopersonal.manejadores;
 
 import com.alee.laf.button.WebButton;
+import com.alee.laf.text.WebTextPane;
+import com.alee.managers.notification.NotificationIcon;
+import com.alee.managers.notification.NotificationManager;
 import com.alee.managers.style.StyleId;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -109,9 +112,9 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
                     return;
                 }
             }
-            
-            if(vistaLectura != null){
-                if(e.getSource() == vistaLectura.btnAceptar){
+
+            if (vistaLectura != null) {
+                if (e.getSource() == vistaLectura.btnAceptar) {
                     manejaEventoAceptar();
                     return;
                 }
@@ -157,33 +160,43 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
     }
 
     private void manejaEventoEnviar() throws SQLException {
-        if (informe == null) {
-            String nombreArchivo = personal.apellidoPatP + personal.apellidoMatP + "_" + Fecha.actual();
-            archivo = new File("informes/" + nombreArchivo + ".txt");
-            guardarTexto();
-            Informe infor = new Informe(archivo.getAbsolutePath(), true, false, personal.idPersonal);
-            infor.insertar();
+        if (!vistaGenerar.tpInforme.isEmpty()) {
+            if (informe == null) {
+                crearInforme(true);
+            } else {
+                archivo = new File(informe.rutaTexto);
+                guardarTexto();
+                informe.enviado = true;
+                informe.guardar();
+            }
+            actualizarVista();
         } else {
-            archivo = new File(informe.rutaTexto);
-            guardarTexto();
-            informe.enviado = true;
-            informe.guardar();
+            NotificationManager.showNotification(vistaGenerar.btnEnviar,
+                    "Informe vacio.", NotificationIcon.warning.getIcon());
         }
-        actualizarVista();
     }
 
     private void manejaEventoGuardar() throws SQLException {
-        if (informe == null) {
-            String nombreArchivo = personal.apellidoPatP + personal.apellidoMatP + "_" + Fecha.actual();
-            archivo = new File("informes/" + nombreArchivo + ".txt");
-            guardarTexto();
-            Informe infor = new Informe(archivo.getAbsolutePath(), false, false, personal.idPersonal);
-            infor.insertar();
+        if (!vistaGenerar.tpInforme.isEmpty()) {
+            if (informe == null) {
+                crearInforme(false);
+            } else {
+                archivo = new File(informe.rutaTexto);
+                guardarTexto();
+            }
+            actualizarVista();
         } else {
-            archivo = new File(informe.rutaTexto);
-            guardarTexto();
+            NotificationManager.showNotification(vistaGenerar.btnGuardar,
+                    "Informe vacio.", NotificationIcon.warning.getIcon());
         }
-        actualizarVista();
+    }
+
+    private void crearInforme(boolean enviado) throws SQLException {
+        String nombreArchivo = personal.apellidoPatP + personal.apellidoMatP + "_" + Fecha.actual();
+        archivo = new File("informes/" + nombreArchivo + ".txt");
+        guardarTexto();
+        Informe infor = new Informe(archivo.getAbsolutePath(), enviado, false, personal.idPersonal);
+        infor.insertar();
     }
 
     private void actualizarVista() throws SQLException {
@@ -216,7 +229,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         }
     }
 
-    private void leerArchivo() throws FileNotFoundException {
+    private void leerArchivo(WebTextPane text) throws FileNotFoundException {
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
         String texto = "";
@@ -230,7 +243,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
             Logger.getLogger(ManejadorGenerarInforme.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        vistaLectura.tpInforme.setText(texto);
+        text.setText(texto);
     }
 
     private void manejaEventoEditarInforme() throws FileNotFoundException {
@@ -243,7 +256,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
 
         vistaGenerar.lblNombre.setText(personal.nombreP + " " + personal.apellidoPatP);
 
-        leerArchivo();
+        leerArchivo(vistaGenerar.tpInforme);
 
         repintarPanelPrincipal(vistaGenerar);
     }
@@ -257,7 +270,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         vistaLectura.lblNombre.setText(personal.nombreP + " " + personal.apellidoPatP);
         vistaLectura.lblFecha.setText(Fecha.formatoHumano(informe.fecha));
 
-        leerArchivo();
+        leerArchivo(vistaLectura.tpInforme);
 
         repintarPanelPrincipal(vistaLectura);
     }
