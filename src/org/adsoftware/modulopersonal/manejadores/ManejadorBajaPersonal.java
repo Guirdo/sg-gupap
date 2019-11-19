@@ -22,49 +22,55 @@ import org.adsoftware.utilidades.Encriptacion;
  *
  * @author diann
  */
-public class ManejadorBajaPersonal implements ActionListener{
+public class ManejadorBajaPersonal implements ActionListener {
 
     DMConfirmarBaja dmBaja;
     Usuario direc;
     Personal p;
-    
+
     public ManejadorBajaPersonal(Personal p) throws SQLException {
-        
         dmBaja = new DMConfirmarBaja();
-        dmBaja.setVisible(true);
+
         dmBaja.confirmar.addActionListener(this);
         dmBaja.cancelar.addActionListener(this);
-        this.p=p;
-        
-        direc= Usuario.buscarPrimero("idUsuario", ""+1);
-        
-        
+        this.p = p;
+
+        direc = Usuario.buscarPrimero("idUsuario", "" + 1);
+
+        dmBaja.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==dmBaja.confirmar){
+        if (e.getSource() == dmBaja.confirmar) {
             try {
                 manejaEventoConfirmar();
             } catch (SQLException ex) {
                 Logger.getLogger(ManejadorBajaPersonal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if(e.getSource()==dmBaja.cancelar){
+        if (e.getSource() == dmBaja.cancelar) {
             dmBaja.dispose();
         }
     }
+
     private void manejaEventoConfirmar() throws SQLException {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        String aux=Encriptacion.getMD5(dmBaja.contra.getPassword());
-        if(aux.equals(direc.contrasena)){
+        String aux = Encriptacion.getMD5(dmBaja.contra.getPassword());
+        if (aux.equals(direc.contrasena)) {
             p.baja();
             dmBaja.dispose();
+<<<<<<< HEAD
         }else{
              NotificationManager.showNotification(dmBaja.confirmar,
                         "Contraseña incorrecta", NotificationIcon.warning.getIcon());
+=======
+
+        } else {
+            NotificationManager.showNotification(dmBaja.confirmar,
+                    "Contraseña incorrecta", NotificationIcon.warning.getIcon());
+>>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
         }
     }
-    
-    
-    }
+
+}

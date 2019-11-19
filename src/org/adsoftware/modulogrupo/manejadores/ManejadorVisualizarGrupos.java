@@ -139,7 +139,6 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        System.out.println("Estoy aqui");
         int idG = (int) modelo.getValueAt(vistaGrupos.tabla.getSelectedRow(), 0);
         try {
             manejaEventoDatosCompletos(idG);

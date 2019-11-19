@@ -2,6 +2,11 @@ package org.adsoftware.modulopersonal.manejadores;
 
 import com.alee.laf.button.WebButton;
 import com.alee.laf.text.WebTextPane;
+<<<<<<< HEAD
+=======
+import com.alee.managers.notification.NotificationIcon;
+import com.alee.managers.notification.NotificationManager;
+>>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
 import com.alee.managers.style.StyleId;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -110,9 +115,9 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
                     return;
                 }
             }
-            
-            if(vistaLectura != null){
-                if(e.getSource() == vistaLectura.btnAceptar){
+
+            if (vistaLectura != null) {
+                if (e.getSource() == vistaLectura.btnAceptar) {
                     manejaEventoAceptar();
                     return;
                 }
@@ -158,33 +163,43 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
     }
 
     private void manejaEventoEnviar() throws SQLException {
-        if (informe == null) {
-            String nombreArchivo = personal.apellidoPatP + personal.apellidoMatP + "_" + Fecha.actual();
-            archivo = new File("informes/" + nombreArchivo + ".txt");
-            guardarTexto();
-            Informe infor = new Informe(archivo.getAbsolutePath(), true, false, personal.idPersonal);
-            infor.insertar();
+        if (!vistaGenerar.tpInforme.isEmpty()) {
+            if (informe == null) {
+                crearInforme(true);
+            } else {
+                archivo = new File(informe.rutaTexto);
+                guardarTexto();
+                informe.enviado = true;
+                informe.guardar();
+            }
+            actualizarVista();
         } else {
-            archivo = new File(informe.rutaTexto);
-            guardarTexto();
-            informe.enviado = true;
-            informe.guardar();
+            NotificationManager.showNotification(vistaGenerar.btnEnviar,
+                    "Informe vacio.", NotificationIcon.warning.getIcon());
         }
-        actualizarVista();
     }
 
     private void manejaEventoGuardar() throws SQLException {
-        if (informe == null) {
-            String nombreArchivo = personal.apellidoPatP + personal.apellidoMatP + "_" + Fecha.actual();
-            archivo = new File("informes/" + nombreArchivo + ".txt");
-            guardarTexto();
-            Informe infor = new Informe(archivo.getAbsolutePath(), false, false, personal.idPersonal);
-            infor.insertar();
+        if (!vistaGenerar.tpInforme.isEmpty()) {
+            if (informe == null) {
+                crearInforme(false);
+            } else {
+                archivo = new File(informe.rutaTexto);
+                guardarTexto();
+            }
+            actualizarVista();
         } else {
-            archivo = new File(informe.rutaTexto);
-            guardarTexto();
+            NotificationManager.showNotification(vistaGenerar.btnGuardar,
+                    "Informe vacio.", NotificationIcon.warning.getIcon());
         }
-        actualizarVista();
+    }
+
+    private void crearInforme(boolean enviado) throws SQLException {
+        String nombreArchivo = personal.apellidoPatP + personal.apellidoMatP + "_" + Fecha.actual();
+        archivo = new File("informes/" + nombreArchivo + ".txt");
+        guardarTexto();
+        Informe infor = new Informe(archivo.getAbsolutePath(), enviado, false, personal.idPersonal);
+        infor.insertar();
     }
 
     private void actualizarVista() throws SQLException {
@@ -217,7 +232,11 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         }
     }
 
+<<<<<<< HEAD
     private void leerArchivo(WebTextPane pnl) throws FileNotFoundException {
+=======
+    private void leerArchivo(WebTextPane text) throws FileNotFoundException {
+>>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
         String texto = "";
@@ -230,8 +249,13 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         } catch (IOException ex) {
             Logger.getLogger(ManejadorGenerarInforme.class.getName()).log(Level.SEVERE, null, ex);
         }
+<<<<<<< HEAD
         System.out.println(texto);
         pnl.setText(texto);
+=======
+
+        text.setText(texto);
+>>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
     }
 
     private void manejaEventoEditarInforme() throws FileNotFoundException {

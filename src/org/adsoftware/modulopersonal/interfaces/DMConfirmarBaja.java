@@ -17,6 +17,7 @@ public class DMConfirmarBaja extends JDialog {
     public WebPasswordField contra;
     
     public DMConfirmarBaja() {
+        this.setModal(true);
         this.setLayout(new MigLayout("wrap 1", "30[]30", "30[]10[]10[]10[]10[]30"));
         WebLabel lblTitulo = new WebLabel(StyleId.label,"Confirmar baja");
         lblTitulo.setFont(new Font("Arial", 0, 20));   

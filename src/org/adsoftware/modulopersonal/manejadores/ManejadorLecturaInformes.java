@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import org.adsoftware.entidades.Informe;
-import org.adsoftware.entidades.InterfazBD;
 import org.adsoftware.entidades.Personal;
 import org.adsoftware.goodies.Panelito;
 import org.adsoftware.modulopersonal.interfaces.VInformes;

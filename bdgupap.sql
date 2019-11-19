@@ -97,8 +97,10 @@ insert into usuario (nombreUsuario,contrasena) values
 ('recepcionista','dbc4d84bfcfe2284ba11beffb853a8c4');
 
 insert into personal (nombreP,apellidoPatP,apellidoMatP,fechaNacimiento,domicilioP,cargo,correo,genero) values
+('Anadely','Ávila','Moreno','1985-06-17','Calle Femion, Col. Elementales, Chilpancingo','DIRECTOR','anadely.a.m@gmail.com','Femenino'),
 ('Guadalupe','Tolentino','Ríos','1990-08-23','Calle Proton, Col. Elementales, Chilpancingo','ADMINISTRADOR','correo1@gmail.com','Femenino'),
-('Aldro','Hernández','Sánchez','1990-04-20','Calle 4, Col. Pericos, Chilpancingo','COORDINADOR','correo2@gmail.com','Masculino');
+('Aldro','Hernández','Sánchez','1990-04-20','Calle 4, Col. Pericos, Chilpancingo','COORDINADOR','correo2@gmail.com','Masculino'),
+('Pedro','Sanchez','Gutierrez','1995-02-20','Calle 13, Col. Pericos, Chilpancingo','RECEPCIONISTA','correo2@gmail.com','Masculino');
 
 insert into usuarioPersonal values
-(2,1),(3,2);
+(1,1),(2,2),(3,3),(4,4);

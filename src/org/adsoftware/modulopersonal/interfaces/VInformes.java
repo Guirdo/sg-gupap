@@ -22,9 +22,9 @@ public class VInformes extends JPanel{
         lblTitulo.setFont(new Font("Arial", 1, 20));
 
         this.add(lblTitulo, "north, gapleft 30");
-        this.add(new WebLabel(StyleId.label, "Borradores"), "wrap");
+        this.add(new WebLabel(StyleId.label, "Recibidos"), "wrap");
         this.add(new JScrollPane(pnlRecibidos), "span 2,growx,h 200,center");
-        this.add(new WebLabel(StyleId.label, "Enviados"), "wrap");
+        this.add(new WebLabel(StyleId.label, "Leidos"), "wrap");
         this.add(new JScrollPane(pnlLeidos), "span 2,h :200:,growx,growy,pushy");
     }
 

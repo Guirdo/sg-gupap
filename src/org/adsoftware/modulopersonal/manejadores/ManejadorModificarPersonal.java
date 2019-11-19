@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -19,6 +21,8 @@ public class ManejadorModificarPersonal extends Manejador implements ActionListe
 
     private DMModificarPersonal vista;
     private Personal personal;
+    
+    private String mensajeError = "";
 
     public ManejadorModificarPersonal(Personal p) {
         vista = new DMModificarPersonal();
@@ -37,7 +41,8 @@ public class ManejadorModificarPersonal extends Manejador implements ActionListe
         Matcher coincidor = patron.matcher(nombre);
 
         if (!coincidor.matches()) {
-            vista.tfNombreP.setBorder(BorderFactory.createLineBorder(Color.red));
+            //vista.tfNombreP.setBorder(BorderFactory.createLineBorder(Color.red));
+            mensajeError += "\n- Nombre(s) incorrectos.";
             return false;
         }
         return coincidor.matches();
@@ -49,7 +54,8 @@ public class ManejadorModificarPersonal extends Manejador implements ActionListe
         Matcher coincidor = patron.matcher(apellidoP);
 
         if (!coincidor.matches()) {
-            vista.tfApellidoPatP.setBorder(BorderFactory.createLineBorder(Color.red));
+            //vista.tfApellidoPatP.setBorder(BorderFactory.createLineBorder(Color.red));
+            mensajeError += "\n- Apellido paterno incorrecto.";
             return false;
         }
         return coincidor.matches();
@@ -61,7 +67,8 @@ public class ManejadorModificarPersonal extends Manejador implements ActionListe
         Matcher coincidor = patron.matcher(apellidoM);
 
         if (!coincidor.matches()) {
-            vista.tfApellidoMatP.setBorder(BorderFactory.createLineBorder(Color.red));
+            //vista.tfApellidoMatP.setBorder(BorderFactory.createLineBorder(Color.red));
+            mensajeError += "\n- Apellido materno incorrecto.";
             return false;
         }
         return coincidor.matches();
@@ -73,10 +80,52 @@ public class ManejadorModificarPersonal extends Manejador implements ActionListe
         Matcher coincidor = patron.matcher(correo);
 
         if (!coincidor.matches()) {
-            vista.tfCorreoP.setBorder(BorderFactory.createLineBorder(Color.red));
+            mensajeError += "\n- Correo electrónico invalido.";
             return false;
         }
         return coincidor.matches();
+    }
+    
+    private boolean verificarFecha() {
+        if (vista.fechaN.getDate() == null) {
+            mensajeError += "\n- Fecha nula.";
+            return false;
+        } else {
+            Calendar fechaActual = new GregorianCalendar();
+            Calendar fechaNacimiento = new GregorianCalendar();
+            fechaNacimiento.setTime(vista.fechaN.getDate());
+
+            int anoNacimiento = fechaNacimiento.get(Calendar.YEAR);
+            int anoActual = fechaActual.get(Calendar.YEAR);
+
+            if (anoActual - anoNacimiento >= 18) {
+                if (fechaNacimiento.get(Calendar.MONTH) <= fechaActual.get(Calendar.MONTH)) {
+                    return true;
+                } else {
+                    mensajeError += "\n- Fecha incorrecta: el empleado \ndebe ser mayor de edad.";
+                    return false;
+                }
+            } else {
+                mensajeError += "\n- Fecha incorrecta: el empleado \ndebe ser mayor de edad.";
+                return false;
+            }
+        }
+    }
+
+    private boolean verificarDomicilio() {
+        mensajeError += vista.tfDomicilioP.isEmpty() ? "\n- Domicilio nulo." : "";
+        return !vista.tfDomicilioP.isEmpty();
+    }
+
+    private boolean verificarCampos() {
+        boolean nombreCorrecto = verificarNombre();
+        boolean apellidoPatCorrecto = verificarApellidoPat();
+        boolean apellidoMatCorrecto = verificarApellidoMat();
+        boolean fechCorrecta = verificarFecha();
+        boolean domicilioCorrecto = verificarDomicilio();
+        boolean correoCorrecto = verificarCorreo();
+
+        return nombreCorrecto && apellidoPatCorrecto && apellidoMatCorrecto && domicilioCorrecto && correoCorrecto && fechCorrecta;
     }
 
     @Override
@@ -106,7 +155,9 @@ public class ManejadorModificarPersonal extends Manejador implements ActionListe
     }
 
     private void manejaEventoModificar() throws SQLException {
-        if (verificarNombre() && verificarApellidoMat() && verificarApellidoPat() && !vista.tfDomicilioP.isEmpty() && verificarCorreo() && vista.fechaN.getDate() != null) {
+        mensajeError="";
+        NotificationManager.hideAllNotifications();
+        if (verificarCampos()) {
             personal.nombreP = vista.tfNombreP.getText();
             personal.apellidoPatP = vista.tfApellidoPatP.getText();
             personal.apellidoMatP = vista.tfApellidoMatP.getText();
@@ -119,7 +170,7 @@ public class ManejadorModificarPersonal extends Manejador implements ActionListe
             vista.dispose();
         }else{
             NotificationManager.showNotification(vista.btnModificar,
-                    "Error al ingresar un dato", NotificationIcon.warning.getIcon());
+                    "Error al ingresar un dato: "+mensajeError, NotificationIcon.warning.getIcon());
         }
     }
 }
