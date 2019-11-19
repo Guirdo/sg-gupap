@@ -1,6 +1,7 @@
 package org.adsoftware.modulopersonal.manejadores;
 
 import com.alee.laf.button.WebButton;
+import com.alee.laf.text.WebTextPane;
 import com.alee.managers.style.StyleId;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -216,7 +217,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         }
     }
 
-    private void leerArchivo() throws FileNotFoundException {
+    private void leerArchivo(WebTextPane pnl) throws FileNotFoundException {
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
         String texto = "";
@@ -229,8 +230,8 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         } catch (IOException ex) {
             Logger.getLogger(ManejadorGenerarInforme.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        vistaLectura.tpInforme.setText(texto);
+        System.out.println(texto);
+        pnl.setText(texto);
     }
 
     private void manejaEventoEditarInforme() throws FileNotFoundException {
@@ -243,7 +244,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
 
         vistaGenerar.lblNombre.setText(personal.nombreP + " " + personal.apellidoPatP);
 
-        leerArchivo();
+        leerArchivo(vistaGenerar.tpInforme);
 
         repintarPanelPrincipal(vistaGenerar);
     }
@@ -257,7 +258,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         vistaLectura.lblNombre.setText(personal.nombreP + " " + personal.apellidoPatP);
         vistaLectura.lblFecha.setText(Fecha.formatoHumano(informe.fecha));
 
-        leerArchivo();
+        leerArchivo(vistaLectura.tpInforme);
 
         repintarPanelPrincipal(vistaLectura);
     }

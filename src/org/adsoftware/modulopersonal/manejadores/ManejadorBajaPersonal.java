@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 import org.adsoftware.entidades.Personal;
 import org.adsoftware.entidades.Usuario;
 import org.adsoftware.modulopersonal.interfaces.DMConfirmarBaja;
@@ -59,7 +60,6 @@ public class ManejadorBajaPersonal implements ActionListener{
         if(aux.equals(direc.contrasena)){
             p.baja();
             dmBaja.dispose();
-            
         }else{
              NotificationManager.showNotification(dmBaja.confirmar,
                         "Contraseña incorrecta", NotificationIcon.warning.getIcon());
