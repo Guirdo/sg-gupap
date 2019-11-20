@@ -33,15 +33,28 @@ create table personal(
 	genero enum('Masculino','Femenino')
 );
 
+create table horario(
+	idHorario int(11) auto_increment primary key,
+	idPersonalH int(6),
+	horaInicial time,
+	horaFinal time,
+	lunes boolean,
+	martes boolean,
+	miercoles boolean,
+	jueves boolean,
+	viernes boolean,
+	sabado boolean,
+	domingo boolean,
+	foreign key (idPersonalH) references personal(idPersonal)
+);
+
 create table grupo(
 	idGrupo int auto_increment primary key,
-	diasSemana varchar(7),
-	horario varchar(13),
 	curso enum('InglesA1','InglesA2','InglesB1','InglesB2','InglesC1'),
 	fechaInicio date,
 	numEstudiantes int(2) default 0,
-	idPersonalG int(6),
-	foreign key (idPersonalG) references personal(idPersonal)
+	idHorarioG int(11),
+	foreign key (idHorarioG) references horario(idPersonal)
 );
 
 create table asistenciaPersonal(
