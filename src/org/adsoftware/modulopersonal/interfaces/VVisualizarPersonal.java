@@ -21,7 +21,7 @@ public class VVisualizarPersonal extends JPanel {
 
     public VVisualizarPersonal() {
         this.setLayout(new MigLayout("wrap 1", "30[]30", "30[]15[]30"));
-        WebLabel lblTitulo = new WebLabel(StyleId.label, "Dar de alta personal");
+        WebLabel lblTitulo = new WebLabel(StyleId.label, "Visualizar personal");
         lblTitulo.setFont(new Font("Arial", 0, 20));
         este = new JPanel(new MigLayout("wrap 1", "2[]2", ""));
         tabla = new JScrollPane(este);

@@ -2,11 +2,8 @@ package org.adsoftware.modulopersonal.manejadores;
 
 import com.alee.laf.button.WebButton;
 import com.alee.laf.text.WebTextPane;
-<<<<<<< HEAD
-=======
 import com.alee.managers.notification.NotificationIcon;
 import com.alee.managers.notification.NotificationManager;
->>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
 import com.alee.managers.style.StyleId;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -232,11 +229,8 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         }
     }
 
-<<<<<<< HEAD
-    private void leerArchivo(WebTextPane pnl) throws FileNotFoundException {
-=======
+
     private void leerArchivo(WebTextPane text) throws FileNotFoundException {
->>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
         String texto = "";
@@ -249,13 +243,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         } catch (IOException ex) {
             Logger.getLogger(ManejadorGenerarInforme.class.getName()).log(Level.SEVERE, null, ex);
         }
-<<<<<<< HEAD
-        System.out.println(texto);
-        pnl.setText(texto);
-=======
-
         text.setText(texto);
->>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
     }
 
     private void manejaEventoEditarInforme() throws FileNotFoundException {

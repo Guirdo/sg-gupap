@@ -157,11 +157,8 @@ public class ManejadorAltaPersonal extends Manejador implements ActionListener {
                     pnlAlta.cmbCargo.getSelectedItem().toString(), pnlAlta.tfCorreoP.getText(), genero);
             nuevoP.guardar();
             NotificationManager.showNotification(pnlAlta.registrar,
-<<<<<<< HEAD
-                    "Personal registrado con éxito", NotificationIcon.warning.getIcon());
-=======
                     "Personal registrado con éxito", NotificationIcon.plus.getIcon());
->>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
+
             new ManejadorVisualizarPersonal(panelPrincipal);
         } else {
             NotificationManager.showNotification(pnlAlta.registrar,

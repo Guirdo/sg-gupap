@@ -60,16 +60,10 @@ public class ManejadorBajaPersonal implements ActionListener {
         if (aux.equals(direc.contrasena)) {
             p.baja();
             dmBaja.dispose();
-<<<<<<< HEAD
-        }else{
-             NotificationManager.showNotification(dmBaja.confirmar,
-                        "Contraseña incorrecta", NotificationIcon.warning.getIcon());
-=======
 
         } else {
             NotificationManager.showNotification(dmBaja.confirmar,
                     "Contraseña incorrecta", NotificationIcon.warning.getIcon());
->>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
         }
     }
 
