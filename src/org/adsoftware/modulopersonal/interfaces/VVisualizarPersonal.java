@@ -52,6 +52,8 @@ public class VVisualizarPersonal extends JPanel {
         pnlDatos.add(btnModificar,"growx");
         pnlDatos.add(domicilio, "");
         pnlDatos.add(baja, "growx");
+        
+        grupos.setVisible(false);
 
         this.add(lblTitulo, "north,gapleft 30");
         this.add(new JScrollPane(este), "h 200,w 450, growx");
