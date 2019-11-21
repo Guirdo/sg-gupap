@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import org.adsoftware.entidades.Grupo;
+import org.adsoftware.entidades.Horario;
 import org.adsoftware.entidades.Personal;
 import org.adsoftware.modulogrupo.interfaces.VVisualizarGrupos;
 import org.adsoftware.superclases.Manejador;
@@ -35,14 +37,17 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
     private DefaultTableModel modelo;
     private Grupo grupo;
     private Personal maestro;
+    private Horario horario;
     private ArrayList<Grupo> listaGrupos;
+    private int grupoSeleccionado=0;
 
     public ManejadorVisualizarGrupos(boolean esCoordinador, JPanel panelPrincipal) throws SQLException {
         super(panelPrincipal);
         this.vistaGrupos = new VVisualizarGrupos(esCoordinador);
-        modelo = new DefaultTableModel(new Object[]{"Clave","Dias", "Curso", "Horario", "NumEstudiantes"}, 0);
+        modelo = new DefaultTableModel(new Object[]{"Clave", "Curso", "Horario", "NumEstudiantes"}, 0);
 
         vistaGrupos.btnRegistrarEva.addActionListener(this);
+        vistaGrupos.btnModificar.addActionListener(this);
         vistaGrupos.btnImprimir.addActionListener(this);
         vistaGrupos.tabla.getSelectionModel().addListSelectionListener(this);
         vistaGrupos.datos.setVisible(false);
@@ -55,16 +60,18 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
     private void consultarGrupos() throws SQLException {
         listaGrupos = Grupo.todos();
 
-        for(Grupo g : listaGrupos)
-            modelo.addRow(new Object[]{g.idGrupo,g.curso, g.horario, g.diasSemana, g.numEstudiantes});
-        
+        for (Grupo g : listaGrupos) {
+            Horario h = Horario.buscarPrimero("idHorario", g.idHorarioG);
+            modelo.addRow(new Object[]{g.idGrupo, g.curso, darHorario(h), g.numEstudiantes});
+        }
+
         vistaGrupos.tabla.setModel(modelo);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vistaGrupos.btnRegistrarEva) {
-            manejaEventoRegistrarGrupo();
+            manejaEventoRegistrarEvaluacion();
         } else if (e.getSource() == vistaGrupos.btnImprimir) {
             try {
                 manejaEventoImprimir();
@@ -72,6 +79,12 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
                 //Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 //Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if(e.getSource() == vistaGrupos.btnModificar){
+            try {
+                manejaEventoModificar();
+            } catch (SQLException ex) {
+                Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -101,7 +114,7 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
 //            }
 //        }
         for (int i = 0; i < 20; i++) {
-            pdfTable.addCell(""+(i+1));
+            pdfTable.addCell("" + (i + 1));
             pdfTable.addCell("\n");
             for (int j = 0; j < 7; j++) {
                 pdfTable.addCell("\n");
@@ -109,10 +122,10 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
         }
 
         document.add(new Paragraph("Grupo: " + grupo.idGrupo));
-        document.add(new Paragraph("Horario: " + grupo.horario));
+        document.add(new Paragraph("Horario: " + darHorario(horario)));
         document.add(new Paragraph("Curso: " + grupo.curso));
         document.add(new Paragraph("\n"));
-        document.add(new Paragraph("Maestro asignado: " + maestro.nombreP+" "+maestro.apellidoPatP+" "+maestro.apellidoMatP));
+        document.add(new Paragraph("Maestro asignado: " + maestro.nombreP + " " + maestro.apellidoPatP + " " + maestro.apellidoMatP));
         document.add(new Paragraph("\n"));
         document.add(pdfTable);
 
@@ -121,30 +134,62 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
         Desktop.getDesktop().open(new File("archivos/listaAsistencia.pdf"));
     }
 
-    private void manejaEventoRegistrarGrupo() {
+    private void manejaEventoRegistrarEvaluacion() {
         //TODO 
+    }
+    
+    private void manejaEventoModificar() throws SQLException {
+        new ManejadorModificarGrupo(grupo, horario);
+        actualizarVista();
     }
 
     private void manejaEventoDatosCompletos(int id) throws SQLException {
         grupo = Grupo.buscarPrimero("idGrupo", "" + id);
-        maestro = Personal.buscarPrimero("idPersonal", grupo.idPersonalG + "");
+        horario = Horario.buscarPrimero("idHorario", grupo.idHorarioG);
+        maestro = Personal.buscarPrimero("idPersonal", horario.idPersonalH + "");
 
         vistaGrupos.lblIcono.setIcon(new ImageIcon(getClass().getResource(Galeria.GRUPO128_ICON)));
         vistaGrupos.lblCurso.setText(grupo.curso);
-        vistaGrupos.lblHorario.setText(grupo.horario);
+        vistaGrupos.lblHorario.setText(darHorario(horario));
         vistaGrupos.lblMaestro.setText(maestro.nombreP + " " + maestro.apellidoPatP + " " + maestro.apellidoMatP);
-        
+
         vistaGrupos.datos.setVisible(true);
+    }
+
+    private String darHorario(Horario horario) {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        String horarioString = "";
+
+        horarioString += horario.lunes ? "L " : "";
+        horarioString += horario.martes ? "M " : "";
+        horarioString += horario.miercoles ? "Mi " : "";
+        horarioString += horario.jueves ? "J " : "";
+        horarioString += horario.viernes ? "V " : "";
+        horarioString += horario.sabado ? "S " : "";
+        horarioString += horario.domingo ? "D " : "";
+
+        horarioString += df.format(horario.horaInicial) + " - " + df.format(horario.horaFinal);
+
+        return horarioString;
     }
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        int idG = (int) modelo.getValueAt(vistaGrupos.tabla.getSelectedRow(), 0);
+        grupoSeleccionado = (int) modelo.getValueAt(vistaGrupos.tabla.getSelectedRow(), 0);
         try {
-            manejaEventoDatosCompletos(idG);
+            manejaEventoDatosCompletos(grupoSeleccionado);
         } catch (SQLException ex) {
             Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void actualizarVista() throws SQLException {
+        vistaGrupos.tabla.getSelectionModel().removeListSelectionListener(this);
+        while(modelo.getRowCount()>0) modelo.removeRow(0);
+        consultarGrupos();
+        vistaGrupos.datos.setVisible(false);
+        manejaEventoDatosCompletos(grupoSeleccionado);
+        vistaGrupos.tabla.getSelectionModel().addListSelectionListener(this);
     }
 
 }

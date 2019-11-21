@@ -12,11 +12,12 @@ public class VMenuPrincipalAdministrador extends Pantalla {
     public JPanel pnlPrincipal;
     public WebButton btnGestion;
     public WebButton btnRegistroGrupo,btnVisualizarGrupo;
-    
+    public WebButton btnInscribirAlumno, btnVisualizarAlumnos;
     private WebCollapsiblePane btnUsuario;
     public WebButton btnGenerarInforme;
     private WebCollapsiblePane btnPersonal;
     private WebCollapsiblePane btnGrupo;
+    private WebCollapsiblePane btnAlumno;
 
     public VMenuPrincipalAdministrador() {
         super(StyleId.frameDecorated, "SG-GUPAP Menú principal");
@@ -27,6 +28,8 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         btnGenerarInforme = new WebButton(StyleId.button,"Generar informe");
         btnRegistroGrupo = new WebButton(StyleId.button,"Registrar grupo");
         btnVisualizarGrupo = new WebButton(StyleId.button,"Visualizar grupos");
+        btnInscribirAlumno = new WebButton(StyleId.button,"Inscribir alumno");
+        btnVisualizarAlumnos = new WebButton(StyleId.button,"Visualizar alumnos");
 
         this.add(panelBotones(), "west");
         this.add(pnlPrincipal, "h :550:, w :600:");
@@ -41,10 +44,12 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         btnUsuario = new WebCollapsiblePane(StyleId.collapsiblepane, "Usuarios",btnGestion);
         btnPersonal = new WebCollapsiblePane(StyleId.collapsiblepane,"Personal",btnGenerarInforme);
         btnGrupo = new WebCollapsiblePane(StyleId.collapsiblepane,"Grupo",panelGrupo());
+        btnAlumno = new WebCollapsiblePane(StyleId.collapsiblepane, "Alumno", panelAlumno());
         
         pnl.add(btnUsuario);
         pnl.add(btnPersonal);
         pnl.add(btnGrupo);
+        pnl.add(btnAlumno);
 
         return pnl;
     }
@@ -54,6 +59,15 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         
         pnl.add(btnRegistroGrupo);
         pnl.add(btnVisualizarGrupo);
+        
+        return pnl;
+    }
+    
+    private JPanel panelAlumno(){
+        JPanel pnl = new JPanel(new MigLayout("wrap","2[]2"));
+        
+        pnl.add(btnInscribirAlumno);
+        pnl.add(btnVisualizarAlumnos);
         
         return pnl;
     }

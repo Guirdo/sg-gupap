@@ -8,27 +8,26 @@ import com.alee.laf.label.WebLabel;
 import com.alee.laf.table.WebTable;
 import com.alee.managers.style.StyleId;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 
-public class VRegistroGrupo extends JPanel{
-
+public class DMModificarGrupo extends JDialog{
+    
     public WebCheckBox[] chDiasSemana;
     public WebComboBox cbHoraInicio, cbHoraFinal;
     public WebComboBox cbCurso;
     public WebDateField dfInicioCurso;
     public WebTable tablaMaestros;
-    public WebButton btnRegistrar;
+    public WebButton btnModificar;
 
     private JPanel pnlDias;
     private JPanel pnlHorario;
     private int conDias = 0;
 
-    public VRegistroGrupo() {
+    public DMModificarGrupo() {
+        this.setModal(true);
         this.setLayout(new MigLayout("wrap 3", "30[]20[]20[]30", "30[]15[]15[]15[]15[]25[]30"));
 
         WebLabel lblTitulo = new WebLabel(StyleId.label, "Registrar grupo");
@@ -38,7 +37,7 @@ public class VRegistroGrupo extends JPanel{
         cbCurso = new WebComboBox(StyleId.combobox);
         dfInicioCurso = new WebDateField(StyleId.datefield);
         tablaMaestros = new WebTable(new Object[][]{{}, {}, {}, {}}, new String[]{"Clave empleado", "Maestro"});
-        btnRegistrar = new WebButton(StyleId.button, "Registrar grupo");
+        btnModificar = new WebButton(StyleId.button, "Modificar");
         pnlDias = new JPanel(new MigLayout("", "0[]20[]20[]20[]20[]20[]20[]0", "0[]0"));
         pnlHorario = new JPanel(new MigLayout("", "0[]20[]20[]0", "0[]0"));
 
@@ -58,7 +57,10 @@ public class VRegistroGrupo extends JPanel{
         this.add(dfInicioCurso, "wrap");
         this.add(new WebLabel("Maestro asignado: "));
         this.add(new JScrollPane(tablaMaestros), "span 2,growx");
-        this.add(btnRegistrar, "span 3, right");
+        this.add(btnModificar, "span 3, right");
+        
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     private void generarDiasSemanas() {
