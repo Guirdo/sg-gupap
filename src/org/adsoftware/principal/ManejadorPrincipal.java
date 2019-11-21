@@ -91,7 +91,7 @@ public class ManejadorPrincipal implements ActionListener {
             }else if(venRecep != null){//Ventana del recepcionista
                 if(e.getSource() == venRecep.btnRegistroES){
                     manejarEventoRegistroES();
-                }else if(e.getSource() == venRecep.btnRegistroES){
+                }else if(e.getSource() == venRecep.btnVisualizarGrupo){
                     manejaEventoVisualizarGrupos(false,venRecep.pnlPrincipal);
                 }
             }else if(venCoor != null){//Ventana del coordinador
