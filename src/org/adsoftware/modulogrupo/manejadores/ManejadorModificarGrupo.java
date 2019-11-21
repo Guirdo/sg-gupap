@@ -55,9 +55,9 @@ public class ManejadorModificarGrupo extends Manejador implements ActionListener
         listaMaestros = Personal.buscar("cargo", Personal.DOCENTE);
         for (Personal p : listaMaestros) {
             modelo.addRow(new Object[]{p.idPersonal, p.apellidoPatP + " " + p.apellidoMatP + " " + p.nombreP});
-            contador = horario.idPersonalH == p.idPersonal ? modelo.getRowCount()-1 : 0;
+            contador = horario.idPersonalH == p.idPersonal ? modelo.getRowCount()-1 : contador;
         }
-
+        
         vista.tablaMaestros.setModel(modelo);
     }
 
