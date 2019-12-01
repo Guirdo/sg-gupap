@@ -54,7 +54,7 @@ create table grupo(
 	fechaInicio date,
 	numEstudiantes int(2) default 0,
 	idHorarioG int(11),
-	foreign key (idHorarioG) references horario(idPersonal)
+	foreign key (idHorarioG) references horario(idHorario)
 );
 
 create table asistenciaPersonal(

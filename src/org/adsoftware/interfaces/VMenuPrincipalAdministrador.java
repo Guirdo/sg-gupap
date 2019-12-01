@@ -12,7 +12,7 @@ public class VMenuPrincipalAdministrador extends Pantalla {
     public JPanel pnlPrincipal;
     public WebButton btnGestion;
     public WebButton btnRegistroGrupo,btnVisualizarGrupo;
-    public WebButton btnInscribirAlumno, btnVisualizarAlumnos;
+    public WebButton btnInscribirAlumno, btnVisualizarAlumnos, btnReinscribir;
     private WebCollapsiblePane btnUsuario;
     public WebButton btnGenerarInforme;
     private WebCollapsiblePane btnPersonal;
@@ -30,6 +30,7 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         btnVisualizarGrupo = new WebButton(StyleId.button,"Visualizar grupos");
         btnInscribirAlumno = new WebButton(StyleId.button,"Inscribir alumno");
         btnVisualizarAlumnos = new WebButton(StyleId.button,"Visualizar alumnos");
+        btnReinscribir = new WebButton(StyleId.button, "Reinscribir");
 
         this.add(panelBotones(), "west");
         this.add(pnlPrincipal, "h :550:, w :600:");
@@ -68,6 +69,7 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         
         pnl.add(btnInscribirAlumno);
         pnl.add(btnVisualizarAlumnos);
+        pnl.add(btnReinscribir);
         
         return pnl;
     }

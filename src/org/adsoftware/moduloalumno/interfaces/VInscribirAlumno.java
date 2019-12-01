@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.adsoftware.moduloalumno.interfaces;
 
 import com.alee.laf.text.WebTextField;
@@ -19,10 +14,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 
-/**
- *
- * @author diann
- */
 public class VInscribirAlumno extends JPanel {
     
      public WebTextField tfNombreA, tfApellidoPatA, tfApellidoMatA, tfDomicilioA, tfTelefono;
@@ -57,9 +48,9 @@ public class VInscribirAlumno extends JPanel {
         tfDomicilioA.setInputPrompt("Domicilio");
         tfDomicilioA.setFont(new Font("Arial",0,16));
         tfTelefono = new WebTextField(StyleId.textfield,25);
-        tfTelefono.setInputPrompt("Correo electrónico");
+        tfTelefono.setInputPrompt("Número de teléfono");
         tfTelefono.setFont(new Font("Arial",0,16));
-        h = new JLabel("Horario de curso: ");
+        h = new JLabel("Grupo: ");
         tabla = new WebTable();
         
         registrar = new JButton("Registrar");
@@ -81,7 +72,7 @@ public class VInscribirAlumno extends JPanel {
         this.add(tfTelefono, "span 2, wrap");
         this.add(h,"");
         this.add(new JScrollPane(tabla),"h 250,w 450");
-        this.add(registrar,"span 2, growx");
+        this.add(registrar);
         
         
         
