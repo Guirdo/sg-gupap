@@ -16,7 +16,7 @@ public class VVisualizarAlumnos extends JPanel{
     
     public WebTable tabla;
     public WebLabel lblNombre, lblTelefono, lblCurso, lblHorario;
-    public WebButton btnReinscribir, btnExpulsar, btnModificar, btnCredencial;
+    public WebButton btnExpulsar, btnModificar, btnCredencial;
     public JTextField tfBuscar;
     public JPanel datos;
 
@@ -35,7 +35,6 @@ public class VVisualizarAlumnos extends JPanel{
         lblHorario.setFont(new Font("Arial", 0, 16));
         tfBuscar = new JTextField(13);
         TextPrompt ph = new TextPrompt("Apellido o matrícula", tfBuscar);
-        btnReinscribir = new WebButton("Reinscribir");
         btnModificar = new WebButton("Modificar");
         btnExpulsar = new WebButton("Expulsar");
         btnCredencial = new WebButton("Credecial");
@@ -50,15 +49,14 @@ public class VVisualizarAlumnos extends JPanel{
     }
     
     void panelDatos(){
-        datos = new JPanel(new MigLayout("wrap 3", "20[]20[]20[]20", "0[]15[]15[]15[]0"));
+        datos = new JPanel(new MigLayout("wrap 3", "20[]20[]20", "0[]15[]15[]15[]0"));
         datos.add(lblNombre,"cell 0 0");
         datos.add(lblTelefono, "cell 0 1");
         datos.add(lblCurso,"cell 0 2");
         datos.add(lblHorario, "cell 0 3");
         datos.add(btnModificar, "cell 1 0");
-        datos.add(btnReinscribir, "cell 1 1");
-        datos.add(btnCredencial, "cell 1 2, wrap");
-        datos.add(btnExpulsar, "cell 1 3");
+        datos.add(btnCredencial, "cell 1 1, wrap");
+        datos.add(btnExpulsar, "cell 1 2");
         
         
         

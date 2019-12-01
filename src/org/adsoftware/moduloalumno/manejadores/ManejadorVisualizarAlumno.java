@@ -39,7 +39,9 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         pnlVisualizar.tabla.getSelectionModel().addListSelectionListener(this);
 
         pnlVisualizar.datos.setVisible(false);
-//        pnlVisualizar.registrar.addActionListener(this);
+        pnlVisualizar.btnModificar.addActionListener(this);
+        pnlVisualizar.btnExpulsar.addActionListener(this);
+        pnlVisualizar.btnCredencial.addActionListener(this);
         
         consultarAlumnos();
         
@@ -56,8 +58,11 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
     
 
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()== pnlVisualizar.btnModificar){
+            manejaEventoModificar();
+        }
+        
     }
 
     @Override
@@ -112,5 +117,10 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         horarioString += df.format(horario.horaInicial) + " - " + df.format(horario.horaFinal);
 
         return horarioString;
+    }
+
+    private void manejaEventoModificar() {
+        
+        
     }
 }
