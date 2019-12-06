@@ -47,7 +47,6 @@ public class ManejadorBajaPersonal implements ActionListener {
     }
 
     private void manejaEventoConfirmar() throws SQLException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         String aux = Encriptacion.getMD5(dmBaja.contra.getPassword());
         if (aux.equals(direc.contrasena)) {
             p.baja();

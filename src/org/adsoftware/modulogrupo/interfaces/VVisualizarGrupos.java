@@ -13,10 +13,13 @@ public class VVisualizarGrupos extends JPanel {
 
     public WebTable tabla;
     public WebLabel lblCurso, lblHorario, lblMaestro, lblIcono;
-    public WebButton btnRegistrarEva, btnModificar, btnImprimir;
+    public WebButton btnRegistrarEva, btnModificar, btnImprimir,btnEliminar;
     public JPanel datos;
+    
+    private boolean esCoordinador;
 
     public VVisualizarGrupos(boolean esCoordinador) {
+        this.esCoordinador = esCoordinador;
         this.setLayout(new MigLayout("wrap", "30[]30", "30[]25[]30"));
 
         WebLabel lblTitulo = new WebLabel(StyleId.label, "Visualizar grupos");
@@ -27,11 +30,13 @@ public class VVisualizarGrupos extends JPanel {
         lblIcono = new WebLabel(StyleId.label);
         btnRegistrarEva = new WebButton(StyleId.button, "Registrar evaluación");
         btnModificar = new WebButton(StyleId.button, "Modificar");
+        btnEliminar = new WebButton(StyleId.button, "Eliminar");
         btnImprimir = new WebButton(StyleId.button, "Imprimir lista");
 
         lblTitulo.setFont(new Font("Arial", 1, 20));
-        if (esCoordinador) {
+        if (this.esCoordinador) {
             btnModificar.setVisible(false);
+            btnEliminar.setVisible(false);
         } else {
             btnRegistrarEva.setVisible(false);
         }
@@ -49,7 +54,7 @@ public class VVisualizarGrupos extends JPanel {
         datos.add(lblIcono, "span 1 3, w 128,h 128");
         datos.add(new WebLabel("Curso: "), "split 2");
         datos.add(lblCurso);
-        datos.add(btnRegistrarEva);
+        datos.add(esCoordinador ? btnRegistrarEva : btnEliminar);
         datos.add(new WebLabel("Horario: "), "split 2");
         datos.add(lblHorario);
         datos.add(btnModificar);

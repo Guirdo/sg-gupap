@@ -57,6 +57,29 @@ create table grupo(
 	foreign key (idHorarioG) references horario(idHorario)
 );
 
+create table alumno(
+	idAlumno int(11) primary key
+	nombreA varchar(25),
+	apellidoPatA varchar(20),
+	apellidoMatA varchar(20),
+	fechaNacimiento date,
+	genero enum('FEMENINO','MASCULINO'),
+	telefono varchar(10),
+	domicilioA varchar(200),
+	semanasPagadas int(2) default 0,
+	idGrupoA int,
+	foreign key(idGrupoA) references grupo(idGrupo)
+);
+
+create table pago(
+	idPago int(11) primary key,
+	fecha date,
+	concepto enum('SEMANAL','INSCRIPCION','REINSCRIPCION'),
+	monto float(4,2)
+	idAlumnoP int,
+	foreign key(idAlumnoP) references alumno(idAlumno)
+);
+
 create table asistenciaPersonal(
 	idAsistenciaP int auto_increment primary key,
 	fecha date,

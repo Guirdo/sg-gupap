@@ -5,6 +5,7 @@
         <group>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/modulopersonal/manejadores/ManejadorAltaPersonal.java</file>
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/modulogrupo/manejadores/ManejadorVisualizarGrupos.java</file>
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/modulopersonal/interfaces/VGenerarInforme.java</file>
@@ -26,6 +27,12 @@
             <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulogrupo/interfaces/DMModificarGrupo.java</file>
             <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/entidades/Horario.java</file>
 >>>>>>> 328c81ff8a90725f653db6cce0b3c69fa50ae82a
+=======
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/principal/ManejadorPrincipal.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopersonal/interfaces/DMConfirmarBaja.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopersonal/manejadores/ManejadorAltaPersonal.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulogrupo/interfaces/VVisualizarGrupos.java</file>
+>>>>>>> 458a5bd58d5ab4c7426cb7da14ae2e4e718e73a9
         </group>
     </open-files>
 </project-private>
