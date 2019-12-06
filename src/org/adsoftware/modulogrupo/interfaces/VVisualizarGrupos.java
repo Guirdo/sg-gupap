@@ -37,6 +37,7 @@ public class VVisualizarGrupos extends JPanel {
         if (this.esCoordinador) {
             btnModificar.setVisible(false);
             btnEliminar.setVisible(false);
+            btnImprimir.setVisible(false);
         } else {
             btnRegistrarEva.setVisible(false);
         }
@@ -60,7 +61,7 @@ public class VVisualizarGrupos extends JPanel {
         datos.add(btnModificar);
         datos.add(new WebLabel("Maestro: "), "split 2");
         datos.add(lblMaestro);
-        datos.add(btnImprimir);
+        if(!esCoordinador)datos.add(btnImprimir);   
     }
 
 }

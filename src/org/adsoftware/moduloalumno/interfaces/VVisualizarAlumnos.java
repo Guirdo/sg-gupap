@@ -41,7 +41,7 @@ public class VVisualizarAlumnos extends JPanel{
         
         btnModificar = new WebButton("Modificar");
         btnExpulsar = new WebButton("Expulsar");
-        btnCredencial = new WebButton("Credecial");
+        btnCredencial = new WebButton("Credencial");
         
         
         panelDatos();
