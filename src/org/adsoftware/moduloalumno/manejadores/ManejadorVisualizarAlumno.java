@@ -1,8 +1,12 @@
 
 package org.adsoftware.moduloalumno.manejadores;
 
+import com.alee.managers.notification.NotificationIcon;
+import com.alee.managers.notification.NotificationManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,11 +24,11 @@ import org.adsoftware.moduloalumno.interfaces.DMCredencial;
 import org.adsoftware.moduloalumno.interfaces.VVisualizarAlumnos;
 import org.adsoftware.superclases.Manejador;
 
-public class ManejadorVisualizarAlumno extends Manejador implements ActionListener, ListSelectionListener{
+public class ManejadorVisualizarAlumno extends Manejador implements ActionListener, ListSelectionListener, KeyListener{
     public JPanel panelPrincipal;
     public VVisualizarAlumnos pnlVisualizar;
     private DefaultTableModel modelo;
-    private ArrayList<Alumno> listaAlumnos;
+    private ArrayList<Alumno> listaAlumnos, a;
     int alumnoSeleccionado=0;
     public Grupo grupo;
     public Horario horario;
@@ -38,7 +42,7 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         modelo = new DefaultTableModel(new Object[]{"Matrícula", "Apellido paterno", "Apellido materno", "Nombre"}, 0);
         pnlVisualizar = new VVisualizarAlumnos();
         pnlVisualizar.tabla.getSelectionModel().addListSelectionListener(this);
-
+        pnlVisualizar.tfBuscar.addKeyListener(this);
         pnlVisualizar.datos.setVisible(false);
         pnlVisualizar.btnModificar.addActionListener(this);
         pnlVisualizar.btnExpulsar.addActionListener(this);
@@ -61,9 +65,17 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()== pnlVisualizar.btnModificar){
-            manejaEventoModificar();
-        }else if(e.getSource() == pnlVisualizar.btnCredencial){
-            new DMCredencial().setVisible(true);
+            try {
+                manejaEventoModificar();
+            } catch (SQLException ex) {
+                Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if(e.getSource() == pnlVisualizar.btnExpulsar){
+            try {
+                manejaEventoExpulsar();
+            } catch (SQLException ex) {
+                Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
     }
@@ -79,10 +91,9 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
     }
 
     private void manejaEventoDatosCompletos(int alumnoSeleccionado) throws SQLException {
-        Object[][] datos = InterfazBD.consultar("select nombre, apellidoPatA, apellidoMatA, telefono, curso "
+        Object[][] datos = InterfazBD.consultar("select nombreA, apellidoPatA, apellidoMatA, telefono, curso "
                 + "from alumno, grupo where idAlumno = "+alumnoSeleccionado+" and idGrupo = idGrupoA;");
         
-        System.out.println(alumnoSeleccionado);
         alumno= Alumno.buscarPrimero("idAlumno", "" + alumnoSeleccionado);
         grupo = Grupo.buscarPrimero("idGrupo", "" + alumno.idGrupoA);
         horario = Horario.buscarPrimero("idHorario", grupo.idHorarioG);
@@ -96,12 +107,14 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         pnlVisualizar.datos.setVisible(true);
     }
     
-    private void actualizarVista() throws SQLException {
+    private void actualizarVista(boolean expulsado) throws SQLException {
         pnlVisualizar.tabla.getSelectionModel().removeListSelectionListener(this);
         while(modelo.getRowCount()>0) modelo.removeRow(0);
         consultarAlumnos();
         pnlVisualizar.datos.setVisible(false);
-        manejaEventoDatosCompletos(alumnoSeleccionado);
+        if(!expulsado){
+            manejaEventoDatosCompletos(alumnoSeleccionado);
+        }
         pnlVisualizar.tabla.getSelectionModel().addListSelectionListener(this);
     }
     
@@ -122,8 +135,50 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         return horarioString;
     }
 
-    private void manejaEventoModificar() {
-        
-        
+    private void manejaEventoModificar() throws SQLException {
+        new ManejadorModificarAlumno(alumno);
+        actualizarVista(false);
     }
+
+    private void manejaEventoExpulsar() throws SQLException{
+        new ManejadorExpulsarAlumno(alumno);
+        actualizarVista(true);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            //Si el textfield no esta vacio entonces..
+            if (!pnlVisualizar.tfBuscar.getText().isEmpty()) {
+                String busqueda = pnlVisualizar.tfBuscar.getText();
+
+                try {
+                    if (busqueda.matches("[A-Za-z]+")) {
+                        NotificationManager.showNotification(pnlVisualizar.tfBuscar,
+                    "Debe ingresar la matrícula del alumno", NotificationIcon.warning.getIcon());
+                    } else if (busqueda.matches("[0-9]+")) {
+                        this.buscarAlumnoPorMatricula();
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+    }
+    
+    private void buscarAlumnoPorMatricula() throws SQLException {
+        Object[][] datos = InterfazBD.consultar("select idAlumno, apellidoPatA, apellidoMatA, nombre "
+                + "from alumno, grupo where idAlumno = "+pnlVisualizar.tfBuscar.getText()+" and idGrupo = idGrupoA;");
+        
+        pnlVisualizar.tabla.setModel(new DefaultTableModel(datos, new Object[]{"Matricula", "Apellido paterno", "Apellido materno", "Nombre"}));
+    }
+    
 }

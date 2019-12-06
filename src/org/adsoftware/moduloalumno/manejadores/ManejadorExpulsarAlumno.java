@@ -1,5 +1,5 @@
 
-package org.adsoftware.modulopersonal.manejadores;
+package org.adsoftware.moduloalumno.manejadores;
 
 import com.alee.managers.notification.NotificationIcon;
 import com.alee.managers.notification.NotificationManager;
@@ -8,28 +8,27 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JPanel;
-import org.adsoftware.entidades.Personal;
+import org.adsoftware.entidades.Alumno;
 import org.adsoftware.entidades.Usuario;
 import org.adsoftware.modulopersonal.interfaces.DMConfirmarBaja;
 import org.adsoftware.utilidades.Encriptacion;
 
-public class ManejadorBajaPersonal implements ActionListener {
 
+public class ManejadorExpulsarAlumno implements ActionListener{
+    
     DMConfirmarBaja dmBaja;
-    Usuario direc;
-    Personal p;
-
-    public ManejadorBajaPersonal(Personal p) throws SQLException {
+    Usuario admin;
+    Alumno a;   
+    
+    public ManejadorExpulsarAlumno(Alumno a) throws SQLException {
         dmBaja = new DMConfirmarBaja();
-
         dmBaja.confirmar.addActionListener(this);
         dmBaja.cancelar.addActionListener(this);
-        this.p = p;
+        this.a =a;
 
-        direc = Usuario.buscarPrimero("idUsuario", "" + 1);
+        admin= Usuario.buscarPrimero("idUsuario", "" + 2);
 
-        dmBaja.setVisible(true);
+        dmBaja.setVisible(true);    
     }
 
     @Override
@@ -38,18 +37,20 @@ public class ManejadorBajaPersonal implements ActionListener {
             try {
                 manejaEventoConfirmar();
             } catch (SQLException ex) {
-                Logger.getLogger(ManejadorBajaPersonal.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ManejadorExpulsarAlumno.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if (e.getSource() == dmBaja.cancelar) {
             dmBaja.dispose();
         }
+        
     }
 
     private void manejaEventoConfirmar() throws SQLException {
+        
         String aux = Encriptacion.getMD5(dmBaja.contra.getPassword());
-        if (aux.equals(direc.contrasena)) {
-            p.baja();
+        if (aux.equals(admin.contrasena)) {
+            a.baja();
             dmBaja.dispose();
 
         } else {
@@ -57,5 +58,7 @@ public class ManejadorBajaPersonal implements ActionListener {
                     "Contraseña incorrecta", NotificationIcon.warning.getIcon());
         }
     }
-
+    
+    
+    
 }

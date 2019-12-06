@@ -20,8 +20,8 @@ public class VMenuPrincipalDirector extends Pantalla {
 
     public WebButton btnPersonalA, btnPersonalV;
     public JPanel pnlPrincipal;
-    public WebButton btnLeerInformes;
-    private WebCollapsiblePane btnPersonal;
+    public WebButton btnLeerInformes, btnVisualizarAlumnos;
+    private WebCollapsiblePane btnPersonal, btnAlumno;
     
     public VMenuPrincipalDirector() {
         super(StyleId.frameDecorated, "SG-GUPAP Menú principal");
@@ -29,6 +29,7 @@ public class VMenuPrincipalDirector extends Pantalla {
 
         pnlPrincipal = new JPanel(new MigLayout("", "0[]0", "0[]0"));
         btnLeerInformes = new WebButton(StyleId.button, "Informes");
+        btnVisualizarAlumnos = new WebButton(StyleId.button,"Gestión alumnos");
         this.add(panelBotones(), "west");
         this.add(pnlPrincipal, "h :550:, w :600:");
 
@@ -40,9 +41,10 @@ public class VMenuPrincipalDirector extends Pantalla {
         JPanel pnl = new JPanel(new MigLayout("wrap 1", "15[]15", ""));
         
         WebCollapsiblePane btnP = new WebCollapsiblePane(StyleId.collapsiblepane, "Personal", panelBotonesPersonal());
+        WebCollapsiblePane btnA = new WebCollapsiblePane(StyleId.collapsiblepane, "Alumno", btnVisualizarAlumnos);
         
         pnl.add(btnP,"");
-        
+        pnl.add(btnA,"");
 
         return pnl;
     }
@@ -50,7 +52,7 @@ public class VMenuPrincipalDirector extends Pantalla {
         JPanel pnl = new JPanel(new MigLayout("wrap 1", "1[]1", ""));
 
         btnPersonalA = new WebButton(StyleId.button,"Dar de alta");
-        btnPersonalV = new WebButton(StyleId.button,"Visualizar personal");
+        btnPersonalV = new WebButton(StyleId.button,"Gestión personal");
        
 
         pnl.add(btnPersonalA);

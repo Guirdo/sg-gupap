@@ -29,7 +29,7 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         btnRegistroGrupo = new WebButton(StyleId.button,"Registrar grupo");
         btnVisualizarGrupo = new WebButton(StyleId.button,"Visualizar grupos");
         btnInscribirAlumno = new WebButton(StyleId.button,"Inscribir alumno");
-        btnVisualizarAlumnos = new WebButton(StyleId.button,"Visualizar alumnos");
+        btnVisualizarAlumnos = new WebButton(StyleId.button,"Gestión alumnos");
         btnReinscribir = new WebButton(StyleId.button, "Reinscribir");
         btnGenerarDocumentos = new WebButton(StyleId.button, "Generar documentos");
 

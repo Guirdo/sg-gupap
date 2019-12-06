@@ -66,7 +66,6 @@ public class Alumno {
     }
     
     //Buscar primero 
-
     public static ArrayList<Alumno> buscar(String campo, String valor) throws SQLException {
         ArrayList<Alumno> lista = new ArrayList<>();
         
@@ -152,7 +151,7 @@ public class Alumno {
 
     public void actualizar() throws SQLException {
         InterfazBD.pst = InterfazBD.con.prepareStatement("update alumno "
-                + " set nombre=?, apellidoPatA=?, apellidoMatA=?, fechaNacimiento=?, genero=?, domicilioA=?, telefono=?, idGrupo=? "
+                + " set nombre=?, apellidoPatA=?, apellidoMatA=?, fechaNacimiento=?, genero=?, domicilioA=?, telefono=? "
                 + "where idAlumno = ?");
         
                     InterfazBD.pst.setString(1, this.nombre);
@@ -162,7 +161,7 @@ public class Alumno {
                     InterfazBD.pst.setString(5, this.genero);
                     InterfazBD.pst.setString(6, this.domicilioA);
                     InterfazBD.pst.setString(7, this.telefono);
-                    InterfazBD.pst.setInt(8, this.idGrupoA);
+                    InterfazBD.pst.setInt(8, this.idAlumno);
 
         InterfazBD.pst.executeUpdate();
     }
