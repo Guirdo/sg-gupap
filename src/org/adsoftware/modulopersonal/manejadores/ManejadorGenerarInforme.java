@@ -229,6 +229,7 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         }
     }
 
+
     private void leerArchivo(WebTextPane text) throws FileNotFoundException {
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
@@ -242,7 +243,6 @@ public class ManejadorGenerarInforme extends Manejador implements ActionListener
         } catch (IOException ex) {
             Logger.getLogger(ManejadorGenerarInforme.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         text.setText(texto);
     }
 

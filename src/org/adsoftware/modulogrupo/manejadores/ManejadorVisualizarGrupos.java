@@ -48,6 +48,7 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
 
         vistaGrupos.btnRegistrarEva.addActionListener(this);
         vistaGrupos.btnModificar.addActionListener(this);
+        vistaGrupos.btnEliminar.addActionListener(this);
         vistaGrupos.btnImprimir.addActionListener(this);
         vistaGrupos.tabla.getSelectionModel().addListSelectionListener(this);
         vistaGrupos.datos.setVisible(false);
@@ -86,6 +87,8 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
             } catch (SQLException ex) {
                 Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else if(e.getSource() == vistaGrupos.btnEliminar){
+            manejaEventoEliminar();
         }
     }
 
@@ -190,6 +193,10 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
         vistaGrupos.datos.setVisible(false);
         manejaEventoDatosCompletos(grupoSeleccionado);
         vistaGrupos.tabla.getSelectionModel().addListSelectionListener(this);
+    }
+
+    private void manejaEventoEliminar() {
+        
     }
 
 }

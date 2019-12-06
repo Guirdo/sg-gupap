@@ -74,7 +74,7 @@ public class ManejadorAltaPersonal extends Manejador implements ActionListener {
 
     private boolean verificarCorreo() {
         String correo = pnlAlta.tfCorreoP.getText();
-        Pattern patron = Pattern.compile("[a-zA-Z_.0-9\\-]+[^.]@[a-zA-Z]+.[a-z]{2,4}");
+        Pattern patron = Pattern.compile("[a-zA-Z_.0-9\\-]+[^.]@[a-zA-Z]+(.[a-z]{2,4})+");
         Matcher coincidor = patron.matcher(correo);
 
         if (!coincidor.matches()) {
@@ -158,6 +158,7 @@ public class ManejadorAltaPersonal extends Manejador implements ActionListener {
             nuevoP.guardar();
             NotificationManager.showNotification(pnlAlta.registrar,
                     "Personal registrado con éxito", NotificationIcon.plus.getIcon());
+
             new ManejadorVisualizarPersonal(panelPrincipal);
         } else {
             NotificationManager.showNotification(pnlAlta.registrar,

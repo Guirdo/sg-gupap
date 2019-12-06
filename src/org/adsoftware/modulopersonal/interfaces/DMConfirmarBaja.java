@@ -15,13 +15,14 @@ public class DMConfirmarBaja extends JDialog {
     public JButton confirmar, cancelar;
     WebTextArea mensaje1;
     public WebPasswordField contra;
+    private String cosaEliminar = "empleado";
     
     public DMConfirmarBaja() {
         this.setModal(true);
         this.setLayout(new MigLayout("wrap 1", "30[]30", "30[]10[]10[]10[]10[]30"));
         WebLabel lblTitulo = new WebLabel(StyleId.label,"Confirmar baja");
         lblTitulo.setFont(new Font("Arial", 0, 20));   
-        mensaje1 = new WebTextArea(StyleId.textareaTransparent,"¿Está seguro de dar de baja a este empleado?\n\nEsta acción es irreversible.\n\nPara continuar y confirmar esta acción, debe ingresar su contraseña.");
+        mensaje1 = new WebTextArea(StyleId.textareaTransparent,"¿Está seguro de dar de baja a este "+cosaEliminar+"?\n\nEsta acción es irreversible.\n\nPara continuar y confirmar esta acción, debe ingresar su contraseña.");
         mensaje1.setEditable(false);
         mensaje1.setFont(new Font("Arial",0,16));
         
@@ -40,6 +41,13 @@ public class DMConfirmarBaja extends JDialog {
         this.pack();
         this.setLocationRelativeTo(null);
     }
+
+    public void setCosaEliminar(String cosaEliminar) {
+        this.cosaEliminar = cosaEliminar;
+        mensaje1 = new WebTextArea(StyleId.textareaTransparent,"¿Está seguro de dar de baja a este "+cosaEliminar+"?\n\nEsta acción es irreversible.\n\nPara continuar y confirmar esta acción, debe ingresar su contraseña.");
+    }
+    
+    
     
     
 }

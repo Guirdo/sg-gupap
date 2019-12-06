@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 import org.adsoftware.entidades.Personal;
 import org.adsoftware.entidades.Usuario;
 import org.adsoftware.modulopersonal.interfaces.DMConfirmarBaja;
@@ -54,7 +55,6 @@ public class ManejadorBajaPersonal implements ActionListener {
     }
 
     private void manejaEventoConfirmar() throws SQLException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         String aux = Encriptacion.getMD5(dmBaja.contra.getPassword());
         if (aux.equals(direc.contrasena)) {
             p.baja();
