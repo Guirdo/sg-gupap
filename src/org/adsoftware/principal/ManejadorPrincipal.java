@@ -13,6 +13,7 @@ import org.adsoftware.interfaces.VMenuPrincipalCoordinador;
 import org.adsoftware.interfaces.VMenuPrincipalDirector;
 import org.adsoftware.interfaces.VMenuPrincipalRecepcionista;
 import org.adsoftware.moduloalumno.manejadores.ManejadorInscribirAlumno;
+import org.adsoftware.moduloalumno.manejadores.ManejadorReinscribirAlumno_A;
 import org.adsoftware.moduloalumno.manejadores.ManejadorVisualizarAlumno;
 import org.adsoftware.modulogrupo.manejadores.ManejadorRegistrarGrupo;
 import org.adsoftware.modulogrupo.manejadores.ManejadorVisualizarGrupos;
@@ -45,6 +46,7 @@ public class ManejadorPrincipal implements ActionListener {
                 venDir.btnPersonalA.addActionListener(this);
                 venDir.btnPersonalV.addActionListener(this);
                 venDir.btnLeerInformes.addActionListener(this);
+                venDir.btnVisualizarAlumnos.addActionListener(this);
                 venDir.setVisible(true);
                 break;
             case Usuario.COORDINADOR:
@@ -52,7 +54,7 @@ public class ManejadorPrincipal implements ActionListener {
                 
                 venCoor.btnGenerarInforme.addActionListener(this);
                 venCoor.btnVisualizarGrupo.addActionListener(this);
-                
+                venCoor.btnVisualizarAlumnos.addActionListener(this);
                 venCoor.setVisible(true);
                 break;
             case Usuario.ADMINISTRADOR:
@@ -64,6 +66,7 @@ public class ManejadorPrincipal implements ActionListener {
                 venAdmin.btnVisualizarGrupo.addActionListener(this);
                 venAdmin.btnInscribirAlumno.addActionListener(this);
                 venAdmin.btnVisualizarAlumnos.addActionListener(this);
+                venAdmin.btnReinscribir.addActionListener(this);
 
                 venAdmin.setVisible(true);
                 break;
@@ -94,7 +97,9 @@ public class ManejadorPrincipal implements ActionListener {
                 }else if(e.getSource()== venAdmin.btnInscribirAlumno){
                     manejaEventoInscribirAlumno();
                 }else if(e.getSource()==venAdmin.btnVisualizarAlumnos){
-                    manejaEventoVisualizar();
+                    manejaEventoVisualizarAlumnos();
+                }else if(e.getSource()==venAdmin.btnReinscribir){
+                    manejaEventoReinscribir();
                 }
             }else if(venRecep != null){//Ventana del recepcionista
                 if(e.getSource() == venRecep.btnRegistroES){
@@ -107,6 +112,8 @@ public class ManejadorPrincipal implements ActionListener {
                     manejaEventoGenerarInforme(venCoor.pnlPrincipal);
                 }else if(e.getSource() == venCoor.btnVisualizarGrupo){
                     manejaEventoVisualizarGrupos(true,venCoor.pnlPrincipal);
+                }else if(e.getSource() == venCoor.btnVisualizarAlumnos){
+                    manejaEventoVisualizarAlumnos();
                 }
             }else if(venDir != null){//Ventana del director
                 if(e.getSource() == venDir.btnLeerInformes){
@@ -115,6 +122,8 @@ public class ManejadorPrincipal implements ActionListener {
                     manejaEventoAltaPersonal();
                 }else if(e.getSource()==venDir.btnPersonalV){
                     manejaEventoVisualizarPersonal();
+                }else if(e.getSource()==venDir.btnVisualizarAlumnos){
+                    manejaEventoVisualizarAlumnos();
                 }    
             }
         } catch (SQLException ex) {
@@ -158,7 +167,17 @@ public class ManejadorPrincipal implements ActionListener {
         new ManejadorInscribirAlumno(venAdmin.pnlPrincipal);
     }
 
-    private void manejaEventoVisualizar() throws SQLException {
-        new ManejadorVisualizarAlumno(venAdmin.pnlPrincipal);
+    private void manejaEventoVisualizarAlumnos() throws SQLException {
+        if(idUsuario == 1){
+            new ManejadorVisualizarAlumno(venDir.pnlPrincipal);
+        }else if(idUsuario==2){
+            new ManejadorVisualizarAlumno(venAdmin.pnlPrincipal);
+        }else if(idUsuario==3){
+            new ManejadorVisualizarAlumno(venCoor.pnlPrincipal);
+        }        
+    }
+
+    private void manejaEventoReinscribir() throws SQLException {
+        new ManejadorReinscribirAlumno_A(venAdmin.pnlPrincipal);
     }
 }

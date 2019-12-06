@@ -3,6 +3,7 @@ package org.adsoftware.moduloalumno.interfaces;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.label.WebLabel;
 import com.alee.laf.table.WebTable;
+import com.alee.laf.text.WebTextField;
 import com.alee.managers.style.StyleId;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -22,7 +23,7 @@ public class VVisualizarAlumnos extends JPanel{
 
     public VVisualizarAlumnos() {
         this.setLayout(new MigLayout("wrap", "30[]30", "30[]25[]25[]25[]25[]30"));
-        WebLabel lblTitulo = new WebLabel(StyleId.label, "Visualizar alumnos");
+        WebLabel lblTitulo = new WebLabel(StyleId.label, "Gestión de alumnos");
         lblTitulo.setFont(new Font("Arial", 0, 20));
         tabla = new WebTable();        
         lblNombre = new WebLabel(StyleId.label, "nombre");
@@ -33,8 +34,11 @@ public class VVisualizarAlumnos extends JPanel{
         lblCurso.setFont(new Font("Arial", 0, 16));
         lblHorario = new WebLabel(StyleId.label, "horario");
         lblHorario.setFont(new Font("Arial", 0, 16));
-        tfBuscar = new JTextField(13);
-        TextPrompt ph = new TextPrompt("Apellido o matrícula", tfBuscar);
+        tfBuscar = new JTextField(15);
+        tfBuscar = new WebTextField(StyleId.textfield,18);
+        TextPrompt ph = new TextPrompt("Buscar por matrícula", tfBuscar);
+        tfBuscar.setFont(new Font("Arial",0,15));
+        
         btnModificar = new WebButton("Modificar");
         btnExpulsar = new WebButton("Expulsar");
         btnCredencial = new WebButton("Credecial");
@@ -57,9 +61,6 @@ public class VVisualizarAlumnos extends JPanel{
         datos.add(btnModificar, "cell 1 0");
         datos.add(btnCredencial, "cell 1 1, wrap");
         datos.add(btnExpulsar, "cell 1 2");
-        
-        
-        
     }
     
     
