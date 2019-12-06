@@ -29,9 +29,9 @@ public class DMReinscribirAlumno extends JDialog {
         telefono.setFont(new Font("Arial", 0, 16));
         direccion = new WebLabel(StyleId.label, "direccion");
         direccion.setFont(new Font("Arial", 0, 16));
-        curso = new WebLabel(StyleId.label, "curso");
+        curso = new WebLabel(StyleId.label, "InglesB1");
         curso.setFont(new Font("Arial", 0, 16));
-        horario = new WebLabel(StyleId.label, "horario");
+        horario = new WebLabel(StyleId.label, "L M Mi J 08:00 - 09:00");
         horario.setFont(new Font("Arial", 0, 16));
         mensajeSeleccione = new WebLabel(StyleId.label, "Seleccione el nuevo grupo del alumno: ");
         mensajeSeleccione.setFont(new Font("Arial", 0, 16));

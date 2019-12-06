@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/principal/ManejadorPrincipal.java</file>
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/moduloalumno/manejadores/ManejadorReinscribirAlumno_B.java</file>
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/modulopersonal/manejadores/ManejadorVisualizarPersonal.java</file>
@@ -12,6 +13,38 @@
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/moduloalumno/manejadores/ManejadorModificarAlumno.java</file>
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/moduloalumno/manejadores/ManejadorVisualizarAlumno.java</file>
             <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/moduloalumno/interfaces/DMReinscribirAlumno.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/principal/ManejadorPrincipal.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopersonal/interfaces/DMConfirmarBaja.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopersonal/manejadores/ManejadorAltaPersonal.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulogrupo/interfaces/VVisualizarGrupos.java</file>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+            <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/modulopersonal/manejadores/ManejadorAltaPersonal.java</file>
+            <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/modulogrupo/manejadores/ManejadorVisualizarGrupos.java</file>
+            <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/modulopersonal/interfaces/VGenerarInforme.java</file>
+            <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/principal/ManejadorPrincipal.java</file>
+            <file>file:/C:/Users/diann/Documents/7%20sem/Ingeniería%20de%20software/sg-gupap/src/org/adsoftware/modulogrupo/manejadores/ManejadorRegistrarGrupo.java</file>
+=======
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/principal/ManejadorPrincipal.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopersonal/manejadores/ManejadorLecturaInformes.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopersonal/manejadores/ManejadorGenerarInforme.java</file>
+>>>>>>> cf04655bdefb20b96531b4b6490baf09c98119ae
+=======
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulogrupo/manejadores/ManejadorModificarGrupo.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/entidades/Personal.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/principal/ManejadorPrincipal.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/entidades/Grupo.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulogrupo/manejadores/ManejadorRegistrarGrupo.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopersonal/manejadores/ManejadorVisualizarPersonal.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulogrupo/manejadores/ManejadorVisualizarGrupos.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulogrupo/interfaces/DMModificarGrupo.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/entidades/Horario.java</file>
+>>>>>>> 328c81ff8a90725f653db6cce0b3c69fa50ae82a
+>>>>>>> 439a571d0f9f59a4cb2b5a58b6c2e663de81c4af
+>>>>>>> 604ab55c049a4e7ffe4fa9bab360bdf9cff8d62e
         </group>
     </open-files>
 </project-private>

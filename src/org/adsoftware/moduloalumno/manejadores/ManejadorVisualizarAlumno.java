@@ -20,6 +20,7 @@ import org.adsoftware.entidades.Alumno;
 import org.adsoftware.entidades.Grupo;
 import org.adsoftware.entidades.Horario;
 import org.adsoftware.entidades.InterfazBD;
+import org.adsoftware.moduloalumno.interfaces.DMCredencial;
 import org.adsoftware.moduloalumno.interfaces.VVisualizarAlumnos;
 import org.adsoftware.superclases.Manejador;
 
@@ -75,6 +76,14 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
             } catch (SQLException ex) {
                 Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
             }
+            try {
+                manejaEventoModificar();
+            } catch (SQLException ex) {
+                Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if(e.getSource() == pnlVisualizar.btnCredencial){
+            new DMCredencial().setVisible(true);
+
         }
         
     }

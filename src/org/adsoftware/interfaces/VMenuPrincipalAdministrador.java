@@ -12,12 +12,12 @@ public class VMenuPrincipalAdministrador extends Pantalla {
     public JPanel pnlPrincipal;
     public WebButton btnGestion;
     public WebButton btnRegistroGrupo,btnVisualizarGrupo;
-    public WebButton btnInscribirAlumno, btnVisualizarAlumnos, btnReinscribir;
+    public WebButton btnInscribirAlumno, btnVisualizarAlumnos, btnReinscribir,btnGenerarDocumentos;
     private WebCollapsiblePane btnUsuario;
-    public WebButton btnGenerarInforme;
+    public WebButton btnGenerarInforme, btnPagos;
     private WebCollapsiblePane btnPersonal;
     private WebCollapsiblePane btnGrupo;
-    private WebCollapsiblePane btnAlumno;
+    private WebCollapsiblePane btnAlumno, btnPago;
 
     public VMenuPrincipalAdministrador() {
         super(StyleId.frameDecorated, "SG-GUPAP Menú principal");
@@ -27,10 +27,12 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         btnGestion = new WebButton(StyleId.button,"Gestión de usuarios");
         btnGenerarInforme = new WebButton(StyleId.button,"Generar informe");
         btnRegistroGrupo = new WebButton(StyleId.button,"Registrar grupo");
-        btnVisualizarGrupo = new WebButton(StyleId.button,"Visualizar grupos");
+        btnVisualizarGrupo = new WebButton(StyleId.button,"Gestión grupos");
         btnInscribirAlumno = new WebButton(StyleId.button,"Inscribir alumno");
         btnVisualizarAlumnos = new WebButton(StyleId.button,"Gestión alumnos");
         btnReinscribir = new WebButton(StyleId.button, "Reinscribir");
+        btnGenerarDocumentos = new WebButton(StyleId.button, "Generar documentos");
+        btnPagos = new WebButton(StyleId.button, "Registrar pagos");
 
         this.add(panelBotones(), "west");
         this.add(pnlPrincipal, "h :550:, w :600:");
@@ -46,11 +48,13 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         btnPersonal = new WebCollapsiblePane(StyleId.collapsiblepane,"Personal",btnGenerarInforme);
         btnGrupo = new WebCollapsiblePane(StyleId.collapsiblepane,"Grupo",panelGrupo());
         btnAlumno = new WebCollapsiblePane(StyleId.collapsiblepane, "Alumno", panelAlumno());
+        btnPago = new WebCollapsiblePane(StyleId.collapsiblepane, "Pago",btnPagos);
         
         pnl.add(btnUsuario);
         pnl.add(btnPersonal);
         pnl.add(btnGrupo);
         pnl.add(btnAlumno);
+        pnl.add(btnPago);
 
         return pnl;
     }
@@ -70,6 +74,7 @@ public class VMenuPrincipalAdministrador extends Pantalla {
         pnl.add(btnInscribirAlumno);
         pnl.add(btnVisualizarAlumnos);
         pnl.add(btnReinscribir);
+        pnl.add(btnGenerarDocumentos);
         
         return pnl;
     }
