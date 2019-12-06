@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import org.adsoftware.entidades.Grupo;
 import org.adsoftware.entidades.Horario;
 import org.adsoftware.entidades.Personal;
+import org.adsoftware.moduloalumno.interfaces.VRegistrarEvaluacion;
 import org.adsoftware.modulogrupo.interfaces.VVisualizarGrupos;
 import org.adsoftware.superclases.Manejador;
 import org.adsoftware.utilidades.Galeria;
@@ -138,7 +139,7 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
     }
 
     private void manejaEventoRegistrarEvaluacion() {
-        //TODO 
+        repintarPanelPrincipal(new VRegistrarEvaluacion());
     }
     
     private void manejaEventoModificar() throws SQLException {

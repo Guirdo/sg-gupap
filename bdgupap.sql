@@ -54,11 +54,11 @@ create table grupo(
 	fechaInicio date,
 	numEstudiantes int(2) default 0,
 	idHorarioG int(11),
-	foreign key (idHorarioG) references horario(idPersonal)
+	foreign key (idHorarioG) references horario(idHorario)
 );
 
 create table alumno(
-	idAlumno int(11) primary key
+	idAlumno int(11) primary key,
 	nombreA varchar(25),
 	apellidoPatA varchar(20),
 	apellidoMatA varchar(20),

@@ -5,13 +5,6 @@
  */
 package org.adsoftware.moduloalumno.interfaces;
 
-import javax.swing.JPanel;
-
-/**
- *
- * @author diann
- */
-public class VisualizarAlumnosRecepcionista extends JPanel{
-    
+public class VReinscribirAlumno {
     
 }

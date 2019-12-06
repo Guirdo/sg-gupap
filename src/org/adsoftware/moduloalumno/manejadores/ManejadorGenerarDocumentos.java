@@ -2,6 +2,7 @@ package org.adsoftware.moduloalumno.manejadores;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +17,7 @@ public class ManejadorGenerarDocumentos extends Manejador implements ActionListe
     private DefaultTableModel modelo;
     private ArrayList<Alumno> lista;
     
-    public ManejadorGenerarDocumentos(JPanel pnlPrincipal){
+    public ManejadorGenerarDocumentos(JPanel pnlPrincipal) throws SQLException{
         super(pnlPrincipal);
         vista = new VGenerarDocumentos();
         modelo = new DefaultTableModel(new String[]{"No. Control","ApePat","ApeMat","Nombres"}, 0);
@@ -27,8 +28,14 @@ public class ManejadorGenerarDocumentos extends Manejador implements ActionListe
         repintarPanelPrincipal(vista);
     }
     
-    private void consultarAlumnos() {
+    private void consultarAlumnos() throws SQLException {
+//        lista = Alumno.todos();
+//        
+//        for(Alumno a : lista){
+//            modelo.addRow(new Object[]{a.idAlumno,a.apellidoPatA,a.apellidoMatA,a.nombre});
+//        }
         
+        vista.tabla.setModel(modelo);
     }
 
     @Override
