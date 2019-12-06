@@ -61,7 +61,11 @@ public class VVisualizarGrupos extends JPanel {
         datos.add(btnModificar);
         datos.add(new WebLabel("Maestro: "), "split 2");
         datos.add(lblMaestro);
+<<<<<<< HEAD
         if(!esCoordinador)datos.add(btnImprimir);   
+=======
+        if (!esCoordinador) datos.add(btnImprimir);
+>>>>>>> 86245f337d87803e092260b284c9c16b0fbbf8c1
     }
 
 }

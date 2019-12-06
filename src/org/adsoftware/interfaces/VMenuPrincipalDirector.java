@@ -52,7 +52,7 @@ public class VMenuPrincipalDirector extends Pantalla {
         JPanel pnl = new JPanel(new MigLayout("wrap 1", "1[]1", ""));
 
         btnPersonalA = new WebButton(StyleId.button,"Dar de alta");
-        btnPersonalV = new WebButton(StyleId.button,"Visualizar personal");
+        btnPersonalV = new WebButton(StyleId.button,"Gestión personal");
        
 
         pnl.add(btnPersonalA);

@@ -58,7 +58,7 @@ create table grupo(
 );
 
 create table alumno(
-	idAlumno int(11) primary key,
+	idAlumno int(11) auto_increment primary key,
 	nombreA varchar(25),
 	apellidoPatA varchar(20),
 	apellidoMatA varchar(20),

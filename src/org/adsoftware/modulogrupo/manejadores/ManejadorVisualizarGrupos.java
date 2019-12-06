@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import org.adsoftware.entidades.Alumno;
 import org.adsoftware.entidades.Grupo;
 import org.adsoftware.entidades.Horario;
 import org.adsoftware.entidades.Personal;
@@ -81,6 +82,8 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
                 //Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 //Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else if(e.getSource() == vistaGrupos.btnModificar){
             try {
@@ -93,7 +96,8 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
         }
     }
 
-    private void manejaEventoImprimir() throws FileNotFoundException, IOException {
+    private void manejaEventoImprimir() throws FileNotFoundException, IOException, SQLException {
+        ArrayList<Alumno> lista = Alumno.buscar("idGrupoA",""+grupo.idGrupo);
         //Lineas fundamentales para generar un PDF
         PdfDocument pdf = new PdfDocument(new PdfWriter("archivos/listaAsistencia.pdf"));
         Document document = new Document(pdf, PageSize.A4);
@@ -117,9 +121,10 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
 //                pdfTable.addCell("");
 //            }
 //        }
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < lista.size(); i++) {
+            Alumno a = lista.get(i);
             pdfTable.addCell("" + (i + 1));
-            pdfTable.addCell("\n");
+            pdfTable.addCell(a.apellidoPatA+" "+a.apellidoMatA+" "+a.nombre);
             for (int j = 0; j < 7; j++) {
                 pdfTable.addCell("\n");
             }
