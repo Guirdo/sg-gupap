@@ -76,7 +76,6 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
             } catch (SQLException ex) {
                 Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
             }
-<<<<<<< HEAD
             try {
                 manejaEventoModificar();
             } catch (SQLException ex) {
@@ -85,8 +84,6 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         }else if(e.getSource() == pnlVisualizar.btnCredencial){
             new DMCredencial().setVisible(true);
 
-=======
->>>>>>> 86245f337d87803e092260b284c9c16b0fbbf8c1
         }
         
     }
@@ -102,7 +99,7 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
     }
 
     private void manejaEventoDatosCompletos(int alumnoSeleccionado) throws SQLException {
-        Object[][] datos = InterfazBD.consultar("select nombreA, apellidoPatA, apellidoMatA, telefono, curso "
+        Object[][] datos = InterfazBD.consultar("select nombre, apellidoPatA, apellidoMatA, telefono, curso "
                 + "from alumno, grupo where idAlumno = "+alumnoSeleccionado+" and idGrupo = idGrupoA;");
         
         alumno= Alumno.buscarPrimero("idAlumno", "" + alumnoSeleccionado);

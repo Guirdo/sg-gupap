@@ -18,17 +18,16 @@ public class DMConfirmarBaja extends JDialog {
     public DMConfirmarBaja() {
         this.setModal(true);
         this.setLayout(new MigLayout("wrap 1", "30[]30", "30[]10[]10[]10[]10[]30"));
-<<<<<<< HEAD
-        WebLabel lblTitulo = new WebLabel(StyleId.label,"Confirmar baja");
-        lblTitulo.setFont(new Font("Arial", 0, 20));   
-
-        mensaje1 = new WebTextArea(StyleId.textareaTransparent,"¿Está seguro de dar de baja a este "+cosaEliminar+"?\n\nEsta acción es irreversible.\n\nPara continuar y confirmar esta acción, debe ingresar su contraseña.");
-
-=======
+//<<<<<<< HEAD
+//        WebLabel lblTitulo = new WebLabel(StyleId.label,"Confirmar baja");
+//        lblTitulo.setFont(new Font("Arial", 0, 20));   
+//
+//        mensaje1 = new WebTextArea(StyleId.textareaTransparent,"¿Está seguro de dar de baja a este "+cosaEliminar+"?\n\nEsta acción es irreversible.\n\nPara continuar y confirmar esta acción, debe ingresar su contraseña.");
+//
+//=======
         WebLabel lblTitulo = new WebLabel(StyleId.label, "Confirmar baja");
         lblTitulo.setFont(new Font("Arial", 0, 20));
         mensaje1 = new WebTextArea(StyleId.textareaTransparent, "¿Está seguro de la acción a ejecutar?\n\nEste movimiento es irreversible.\n\nPara continuar y confirmar, debe ingresar su contraseña.");
->>>>>>> 86245f337d87803e092260b284c9c16b0fbbf8c1
         mensaje1.setEditable(false);
         mensaje1.setFont(new Font("Arial", 0, 16));
 

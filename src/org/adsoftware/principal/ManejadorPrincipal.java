@@ -55,14 +55,9 @@ public class ManejadorPrincipal implements ActionListener {
                 venCoor = new VMenuPrincipalCoordinador();
                 
                 venCoor.btnGenerarInforme.addActionListener(this);
-<<<<<<< HEAD
                 venCoor.btnVisualizarGrupo.addActionListener(this);
                 venCoor.btnVisualizarAlumnos.addActionListener(this);
                 venCoor.btnRegistrarEva.addActionListener(this);
-=======
-                venCoor.btnRegistrarEva.addActionListener(this);
-
->>>>>>> 86245f337d87803e092260b284c9c16b0fbbf8c1
                 venCoor.setVisible(true);
                 break;
             case Usuario.ADMINISTRADOR:
@@ -74,15 +69,9 @@ public class ManejadorPrincipal implements ActionListener {
                 venAdmin.btnVisualizarGrupo.addActionListener(this);
                 venAdmin.btnInscribirAlumno.addActionListener(this);
                 venAdmin.btnVisualizarAlumnos.addActionListener(this);
-<<<<<<< HEAD
                 venAdmin.btnReinscribir.addActionListener(this);
                 venAdmin.btnGenerarDocumentos.addActionListener(this);
                 venAdmin.btnPagos.addActionListener(this);
-=======
-                venAdmin.btnGenerarDocumentos.addActionListener(this);
-                venAdmin.btnReinscribir.addActionListener(this);
-
->>>>>>> 86245f337d87803e092260b284c9c16b0fbbf8c1
                 venAdmin.setVisible(true);
                 break;
 
@@ -115,17 +104,14 @@ public class ManejadorPrincipal implements ActionListener {
                     manejaEventoInscribirAlumno();
                 }else if(e.getSource()==venAdmin.btnVisualizarAlumnos){
                     manejaEventoVisualizarAlumnos();
-<<<<<<< HEAD
                 }else if(e.getSource()==venAdmin.btnReinscribir){
                     manejaEventoReinscribir();
                 }else if(e.getSource()==venAdmin.btnGenerarDocumentos){
                     manejaEventoGenerarDocumentos();
-=======
                 }else if(e.getSource()==venAdmin.btnGenerarDocumentos){
                     manejaEventoGenerarDocumentos();
-                }else if(e.getSource()==venAdmin.btnReinscribir){
-                    manejaEventoReinscribir();
->>>>>>> 86245f337d87803e092260b284c9c16b0fbbf8c1
+                }else if(e.getSource()== venAdmin.btnPagos){
+                    manejaEventoRegistrarPago();
                 }
             }else if(venRecep != null){//Ventana del recepcionista
                 if(e.getSource() == venRecep.btnRegistroES){
@@ -142,6 +128,8 @@ public class ManejadorPrincipal implements ActionListener {
                     manejaEventoGenerarInforme(venCoor.pnlPrincipal);
                 }else if(e.getSource() == venCoor.btnRegistrarEva){
                     manejaEventoVisualizarGrupos(true,venCoor.pnlPrincipal);
+                }else if(e.getSource()== venCoor.btnVisualizarAlumnos){
+                    manejaEventoVisualizarAlumnos();
                 }
             }else if(venDir != null){//Ventana del director
                 if(e.getSource() == venDir.btnLeerInformes){
@@ -214,6 +202,9 @@ public class ManejadorPrincipal implements ActionListener {
     }
 
     private void manejaEventoRegistrarPago() {
+        if(idUsuario==2){
+            new ManejadorGestionPago((venAdmin.pnlPrincipal));
+        }else
         new ManejadorGestionPago(venRecep.pnlPrincipal);
     }
 }

@@ -167,6 +167,17 @@ public class Alumno {
     }
     
     
+    public void reinscribir() throws SQLException {
+        InterfazBD.pst = InterfazBD.con.prepareStatement("update alumno "
+                + " set idGrupoA = ? where idAlumno=?");
+
+        InterfazBD.pst.setInt(1, this.idGrupoA);
+        InterfazBD.pst.setInt(2, this.idAlumno);
+        
+        InterfazBD.pst.executeUpdate();
+    }
+    
+    
     
     
 }
