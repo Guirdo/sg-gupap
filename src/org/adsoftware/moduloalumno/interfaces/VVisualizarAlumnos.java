@@ -53,7 +53,7 @@ public class VVisualizarAlumnos extends JPanel{
     }
     
     void panelDatos(){
-        datos = new JPanel(new MigLayout("wrap 3", "20[]20[]20", "0[]15[]15[]15[]0"));
+        datos = new JPanel(new MigLayout("wrap 3", "20[]150[]20", "0[]15[]15[]15[]0"));
         datos.add(lblNombre,"cell 0 0");
         datos.add(lblTelefono, "cell 0 1");
         datos.add(lblCurso,"cell 0 2");

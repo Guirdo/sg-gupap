@@ -114,13 +114,6 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
             pdfTable.addHeaderCell(new Cell().add("--"));
         }
 
-//        for (Object[] fila : listaGrupo) {
-//            pdfTable.addCell((int) fila[0] + "");
-//            pdfTable.addCell((String) fila[1] + " " + (String) fila[2] + " " + (String) fila[3]);
-//            for (int i = 0; i < 7; i++) {
-//                pdfTable.addCell("");
-//            }
-//        }
         for (int i = 0; i < lista.size(); i++) {
             Alumno a = lista.get(i);
             pdfTable.addCell("" + (i + 1));

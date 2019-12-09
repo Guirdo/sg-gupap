@@ -76,6 +76,8 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
             } catch (SQLException ex) {
                 Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else if(e.getSource() == pnlVisualizar.btnCredencial){
+            new ManejadorGenerarCredencial(alumno, grupo, horario);
         }
         
     }
