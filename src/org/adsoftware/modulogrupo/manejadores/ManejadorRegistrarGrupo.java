@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import org.adsoftware.entidades.Grupo;
 import org.adsoftware.entidades.Horario;
 import org.adsoftware.entidades.Personal;
+import org.adsoftware.entidades.Usuario;
 import org.adsoftware.modulogrupo.interfaces.VRegistroGrupo;
 import org.adsoftware.superclases.Manejador;
 
@@ -34,10 +35,12 @@ public class ManejadorRegistrarGrupo extends Manejador implements ActionListener
     private int conDias = 0;
     private String mensajeError = "";
     private Horario horario;
+    private Usuario usuario;
 
-    public ManejadorRegistrarGrupo(JPanel panelPrincipal) throws SQLException {
+    public ManejadorRegistrarGrupo(JPanel panelPrincipal,Usuario usuario) throws SQLException {
         super(panelPrincipal);
         this.pnlPrincipal = panelPrincipal;
+        this.usuario = usuario;
         vistaRegistrar = new VRegistroGrupo();
         modelo = new DefaultTableModel(new Object[]{"Clave empleado", "Maestro"}, 0);
 
@@ -122,7 +125,7 @@ public class ManejadorRegistrarGrupo extends Manejador implements ActionListener
 
             NotificationManager.showNotification(vistaRegistrar.btnRegistrar,
                     "Grupo registrado con éxito", NotificationIcon.plus.getIcon());
-            new ManejadorVisualizarGrupos(false, pnlPrincipal);
+            new ManejadorVisualizarGrupos(false, pnlPrincipal,usuario);
         } else {
             NotificationManager.showNotification(vistaRegistrar.btnRegistrar,
                     "Error al ingresar un dato: " + mensajeError, NotificationIcon.warning.getIcon());

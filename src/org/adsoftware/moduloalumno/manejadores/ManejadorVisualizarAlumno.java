@@ -1,4 +1,3 @@
-
 package org.adsoftware.moduloalumno.manejadores;
 
 import com.alee.managers.notification.NotificationIcon;
@@ -24,18 +23,18 @@ import org.adsoftware.moduloalumno.interfaces.DMCredencial;
 import org.adsoftware.moduloalumno.interfaces.VVisualizarAlumnos;
 import org.adsoftware.superclases.Manejador;
 
-public class ManejadorVisualizarAlumno extends Manejador implements ActionListener, ListSelectionListener, KeyListener{
+public class ManejadorVisualizarAlumno extends Manejador implements ActionListener, ListSelectionListener, KeyListener {
+
     public JPanel panelPrincipal;
     public VVisualizarAlumnos pnlVisualizar;
     private DefaultTableModel modelo;
     private ArrayList<Alumno> listaAlumnos, a;
-    int alumnoSeleccionado=0;
+    int alumnoSeleccionado = 0;
     public Grupo grupo;
     public Horario horario;
     public Alumno alumno;
-    
-    
-     public ManejadorVisualizarAlumno(JPanel panelPrin) throws SQLException {
+
+    public ManejadorVisualizarAlumno(JPanel panelPrin) throws SQLException {
         super(panelPrin);
         this.panelPrincipal = panelPrin;
 
@@ -47,12 +46,12 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         pnlVisualizar.btnModificar.addActionListener(this);
         pnlVisualizar.btnExpulsar.addActionListener(this);
         pnlVisualizar.btnCredencial.addActionListener(this);
-        
+
         consultarAlumnos();
-        
+
         repintarPanelPrincipal(pnlVisualizar);
     }
-     
+
     private void consultarAlumnos() throws SQLException {
         listaAlumnos = Alumno.todos();
         for (Alumno a : listaAlumnos) {
@@ -60,26 +59,31 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         }
         pnlVisualizar.tabla.setModel(modelo);
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()== pnlVisualizar.btnModificar){
+        if (e.getSource() == pnlVisualizar.btnModificar) {
             try {
                 manejaEventoModificar();
             } catch (SQLException ex) {
                 Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else if(e.getSource() == pnlVisualizar.btnExpulsar){
+        } else if (e.getSource() == pnlVisualizar.btnExpulsar) {
             try {
                 manejaEventoExpulsar();
             } catch (SQLException ex) {
                 Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else if(e.getSource() == pnlVisualizar.btnCredencial){
+        } else if (e.getSource() == pnlVisualizar.btnModificar) {
+            try {
+                manejaEventoModificar();
+            } catch (SQLException ex) {
+                Logger.getLogger(ManejadorVisualizarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (e.getSource() == pnlVisualizar.btnCredencial) {
             new ManejadorGenerarCredencial(alumno, grupo, horario);
         }
-        
+
     }
 
     @Override
@@ -93,33 +97,35 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
     }
 
     private void manejaEventoDatosCompletos(int alumnoSeleccionado) throws SQLException {
-        Object[][] datos = InterfazBD.consultar("select nombreA, apellidoPatA, apellidoMatA, telefono, curso "
-                + "from alumno, grupo where idAlumno = "+alumnoSeleccionado+" and idGrupo = idGrupoA;");
-        
-        alumno= Alumno.buscarPrimero("idAlumno", "" + alumnoSeleccionado);
+        Object[][] datos = InterfazBD.consultar("select nombre, apellidoPatA, apellidoMatA, telefono, curso "
+                + "from alumno, grupo where idAlumno = " + alumnoSeleccionado + " and idGrupo = idGrupoA;");
+
+        alumno = Alumno.buscarPrimero("idAlumno", "" + alumnoSeleccionado);
         grupo = Grupo.buscarPrimero("idGrupo", "" + alumno.idGrupoA);
         horario = Horario.buscarPrimero("idHorario", grupo.idHorarioG);
-        
+
         String nombre = ((String) datos[0][0]) + " " + ((String) datos[0][1]) + " " + ((String) datos[0][2]);
         pnlVisualizar.lblNombre.setText(nombre);
         pnlVisualizar.lblTelefono.setText((String) datos[0][3]);
         pnlVisualizar.lblCurso.setText((String) datos[0][4]);
         pnlVisualizar.lblHorario.setText(darHorario(horario));
-        
+
         pnlVisualizar.datos.setVisible(true);
     }
-    
+
     private void actualizarVista(boolean expulsado) throws SQLException {
         pnlVisualizar.tabla.getSelectionModel().removeListSelectionListener(this);
-        while(modelo.getRowCount()>0) modelo.removeRow(0);
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         consultarAlumnos();
         pnlVisualizar.datos.setVisible(false);
-        if(!expulsado){
+        if (!expulsado) {
             manejaEventoDatosCompletos(alumnoSeleccionado);
         }
         pnlVisualizar.tabla.getSelectionModel().addListSelectionListener(this);
     }
-    
+
     private String darHorario(Horario horario) {
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         String horarioString = "";
@@ -142,7 +148,7 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
         actualizarVista(false);
     }
 
-    private void manejaEventoExpulsar() throws SQLException{
+    private void manejaEventoExpulsar() throws SQLException {
         new ManejadorExpulsarAlumno(alumno);
         actualizarVista(true);
     }
@@ -161,7 +167,7 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
                 try {
                     if (busqueda.matches("[A-Za-z]+")) {
                         NotificationManager.showNotification(pnlVisualizar.tfBuscar,
-                    "Debe ingresar la matrícula del alumno", NotificationIcon.warning.getIcon());
+                                "Debe ingresar la matrícula del alumno", NotificationIcon.warning.getIcon());
                     } else if (busqueda.matches("[0-9]+")) {
                         this.buscarAlumnoPorMatricula();
                     }
@@ -175,12 +181,12 @@ public class ManejadorVisualizarAlumno extends Manejador implements ActionListen
     @Override
     public void keyReleased(KeyEvent ke) {
     }
-    
+
     private void buscarAlumnoPorMatricula() throws SQLException {
         Object[][] datos = InterfazBD.consultar("select idAlumno, apellidoPatA, apellidoMatA, nombre "
-                + "from alumno, grupo where idAlumno = "+pnlVisualizar.tfBuscar.getText()+" and idGrupo = idGrupoA;");
-        
+                + "from alumno, grupo where idAlumno = " + pnlVisualizar.tfBuscar.getText() + " and idGrupo = idGrupoA;");
+
         pnlVisualizar.tabla.setModel(new DefaultTableModel(datos, new Object[]{"Matricula", "Apellido paterno", "Apellido materno", "Nombre"}));
     }
-    
+
 }

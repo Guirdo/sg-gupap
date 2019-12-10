@@ -4,7 +4,7 @@ import com.alee.laf.button.WebButton;
 import com.alee.laf.label.WebLabel;
 import com.alee.laf.radiobutton.WebRadioButton;
 import com.alee.laf.spinner.WebSpinner;
-import com.alee.laf.text.WebTextField;
+import javax.swing.ButtonGroup;
 import javax.swing.JDialog;
 import javax.swing.SpinnerNumberModel;
 import net.miginfocom.swing.MigLayout;
@@ -14,7 +14,7 @@ public class DMRegistrarPago extends JDialog{
     public WebLabel lblNombre, lblHorario,lblSemCurso,lblSemPagadas;
     public WebRadioButton rbSemanal,rbInscripcion,rbReinscripcion;
     public WebSpinner spnSemanas;
-    public WebTextField tfMonto;
+    public WebLabel tfMonto;
     public WebButton btnRegistrar;
     
     public DMRegistrarPago(){
@@ -30,8 +30,15 @@ public class DMRegistrarPago extends JDialog{
         rbInscripcion = new WebRadioButton("Inscripción");
         rbReinscripcion = new WebRadioButton("Reinscripción");
         spnSemanas = new WebSpinner(new SpinnerNumberModel(1,1,5,1));
-        tfMonto = new WebTextField(10);
+        tfMonto = new WebLabel();
         btnRegistrar = new WebButton("Registrar");
+        
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(rbSemanal);
+        bg.add(rbInscripcion);
+        bg.add(rbReinscripcion);
+        
+        rbSemanal.setSelected(true);
         
         this.add(new WebLabel("Nombre: "));
         this.add(lblNombre);
@@ -49,7 +56,7 @@ public class DMRegistrarPago extends JDialog{
         this.add(rbReinscripcion);
         
         this.add(new WebLabel("Monto ($): "));
-        this.add(tfMonto);
+        this.add(tfMonto,"right");
         
         this.add(btnRegistrar,"span 2,right");
         

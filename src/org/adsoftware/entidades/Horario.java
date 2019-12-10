@@ -156,4 +156,13 @@ public class Horario {
         InterfazBD.pst.executeUpdate();
     }
 
+    public void eliminar() throws SQLException {
+        InterfazBD.pst = InterfazBD.con.prepareStatement("delete from horario "
+                + "where idHorario = ?");
+
+        InterfazBD.pst.setInt(1, this.idHorario);
+        
+        InterfazBD.pst.executeUpdate();
+    }
+
 }

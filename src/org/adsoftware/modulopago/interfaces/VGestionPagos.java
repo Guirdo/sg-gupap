@@ -16,6 +16,7 @@ public class VGestionPagos extends JPanel{
     public JTable tabla, historial;
     public WebLabel lblNombre,lblNumero,lblCurso,lblHorario;
     public WebButton btnRegistrarPago;
+    public JPanel pnlDatos;
     
     public VGestionPagos(){
         this.setLayout(new MigLayout("wrap","30[]30","20[]20[]25[]30"));
@@ -23,15 +24,14 @@ public class VGestionPagos extends JPanel{
         WebLabel titulo = new WebLabel("Gestión de pagos");
         WebLabel subTitulo = new WebLabel("Datos del alumno");
         tfBuscar = new WebTextField(18);
-        tabla = new JTable(new DefaultTableModel(new Object[]{"No. Matricula","ApePat","ApeMat","Nombres"},0));
-        historial = new JTable(new DefaultTableModel(new Object[]{"Folio","Fecha","Tipo","($)"},0));
+        tabla = new JTable();
+        historial = new JTable();
         lblNombre = new WebLabel("Guillermo Melendez Francisco");
         lblNumero = new WebLabel("7471717171");
         lblCurso = new WebLabel("InglesA1");
         lblHorario = new WebLabel("L M Mi J 14:00 - 15:00");
         btnRegistrarPago = new WebButton("Registrar pago");
-        
-        JPanel pnlDatos = new JPanel(new MigLayout("wrap 2","20[]70[]0","20[]15[]15[]15[]20[]0"));
+        pnlDatos = new JPanel(new MigLayout("wrap 2","20[]70[]0","20[]15[]15[]15[]20[]0"));
         
         tfBuscar.setInputPrompt("Buscar por matrícula");
         titulo.setFont(new Font("Arail",1,20));
@@ -45,6 +45,8 @@ public class VGestionPagos extends JPanel{
         pnlDatos.add(lblCurso);
         pnlDatos.add(lblHorario);
         pnlDatos.add(btnRegistrarPago);
+        
+        pnlDatos.setVisible(false);
         
         this.add(titulo,"north, gapleft 30");
         this.add(tfBuscar,"right");

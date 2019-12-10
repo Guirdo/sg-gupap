@@ -51,7 +51,7 @@ public class VGenerarDocumentos extends JPanel{
         pnlDatos.add(lblHorario,"wrap");
         pnlDatos.add(btnGenerar, "span 3, right,w 100");
         
-        //pnlDatos.setVisible(false);
+        pnlDatos.setVisible(false);
         
         this.add(titulo, "north,gapleft 30");
         this.add(new JScrollPane(tabla),"h 200, w 450,span 3");

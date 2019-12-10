@@ -125,7 +125,7 @@ public class Alumno {
     //Guardar
     public void guardar() throws SQLException {
         InterfazBD.pst = InterfazBD.con.prepareStatement("insert into alumno "
-                + " (nombreA, apellidoPatA, apellidoMatA, fechaNacimiento, genero, domicilioA, telefono, idGrupoA)"
+                + " (nombre, apellidoPatA, apellidoMatA, fechaNacimiento, genero, domicilioA, telefono, idGrupoA)"
                 + "values (?,?,?,?,?,?,?,?)");
        
                     InterfazBD.pst.setString(1, this.nombre);
@@ -163,6 +163,17 @@ public class Alumno {
                     InterfazBD.pst.setString(7, this.telefono);
                     InterfazBD.pst.setInt(8, this.idAlumno);
 
+        InterfazBD.pst.executeUpdate();
+    }
+    
+    
+    public void reinscribir() throws SQLException {
+        InterfazBD.pst = InterfazBD.con.prepareStatement("update alumno "
+                + " set idGrupoA = ? where idAlumno=?");
+
+        InterfazBD.pst.setInt(1, this.idGrupoA);
+        InterfazBD.pst.setInt(2, this.idAlumno);
+        
         InterfazBD.pst.executeUpdate();
     }
     

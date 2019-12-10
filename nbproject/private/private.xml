@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/moduloalumno/interfaces/DMCredencial.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopago/manejadores/ManejadorGestionPago.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopago/interfaces/DMRegistrarPago.java</file>
             <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/principal/ManejadorPrincipal.java</file>
-            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/moduloalumno/manejadores/ManejadorGenerarCredencial.java</file>
-            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/interfaces/VMenuPrincipalRecepcionista.java</file>
-            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/goodies/Foto.java</file>
-            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulogrupo/manejadores/ManejadorVisualizarGrupos.java</file>
-            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/moduloalumno/manejadores/ManejadorVisualizarAlumno.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/entidades/Pago.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopago/interfaces/VGestionPagos.java</file>
+            <file>file:/C:/Users/aldom/Documents/Codigo/SGGUPAP/src/org/adsoftware/modulopago/manejadores/ManejadorRegistrarPago.java</file>
         </group>
     </open-files>
 </project-private>

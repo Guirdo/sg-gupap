@@ -59,7 +59,7 @@ create table grupo(
 
 create table alumno(
 	idAlumno int(11) auto_increment primary key,
-	nombreA varchar(25),
+	nombre varchar(25),
 	apellidoPatA varchar(20),
 	apellidoMatA varchar(20),
 	fechaNacimiento date,
@@ -99,6 +99,23 @@ create table informe(
 	foreign key (idPersonalI) references personal(idPersonal)
 );
 
+create table evaluacion(
+	idEvaluacion int auto_increment primary key,
+	parcial int,
+	calificacion float,
+	idAlumnoE int,
+	foreign key(idAlumnoE) references alumno(idAlumno)
+);
+
+create table pago(
+	idPago int auto_increment primary key,
+	fecha date,
+	concepto enum('SEMANAL','INSCRIPCION','REINSCRIPCION'),
+	monto float,
+	idAlumnoP int,
+	foreign key (idAlumnoP) references alumno(idAlumno)
+);
+
 create table usuarioPersonal(
 	idUsuarioUP int,
 	idPersonalUP int,
@@ -116,6 +133,28 @@ BEGIN
 	(now(),now(),tip,idP);
     END$$
 delimiter ;
+
+create trigger filaE after insert  on alumno for each row 
+insert into evaluacion(parcial, calificacion, idAlumnoE) values(1,0,new.idAlumno);
+
+create trigger aumentarNumGrupo after insert on alumno
+for each row
+	update grupo set numEstudiantes = numEstudiantes + 1 where idGrupo = new.idGrupoA;
+	
+create trigger disminuirNumGrupo before delete on alumno
+for each row
+	update grupo set numEstudiantes = numEstudiantes - 1 where idGrupo = old.idGrupoA;
+	
+	
+delimiter $	
+create trigger disminuirNumGrupo1 after update on alumno
+for each row
+begin
+	if old.idGrupoA != new.idGrupoA then
+		update grupo set numEstudiantes = numEstudiantes - 1 where idGrupo = old.idGrupoA;
+	end if;
+end
+delimiter;
 
 /**
 *	Usuario			Contraseña
@@ -137,6 +176,7 @@ insert into personal (nombreP,apellidoPatP,apellidoMatP,fechaNacimiento,domicili
 ('Guadalupe','Tolentino','Ríos','1990-08-23','Calle Proton, Col. Elementales, Chilpancingo','ADMINISTRADOR','correo1@gmail.com','Femenino'),
 ('Aldro','Hernández','Sánchez','1990-04-20','Calle 4, Col. Pericos, Chilpancingo','COORDINADOR','correo2@gmail.com','Masculino'),
 ('Pedro','Sanchez','Gutierrez','1995-02-20','Calle 13, Col. Pericos, Chilpancingo','RECEPCIONISTA','correo2@gmail.com','Masculino');
+('Sin','Asignar','Maestro','1900-01-01','xx xxx','DOCENTE','C@gmail.com','Masculino');
 
 insert into usuarioPersonal values
 (1,1),(2,2),(3,3),(4,4);

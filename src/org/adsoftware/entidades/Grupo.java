@@ -96,4 +96,13 @@ public class Grupo {
         InterfazBD.pst.executeUpdate();
     }
 
+    public void eliminar() throws SQLException {
+        InterfazBD.pst = InterfazBD.con.prepareStatement("delete from grupo "
+                + "where idGrupo = ?");
+
+        InterfazBD.pst.setInt(1, this.idGrupo);
+        
+        InterfazBD.pst.executeUpdate();
+    }
+
 }

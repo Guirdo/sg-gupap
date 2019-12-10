@@ -1,5 +1,7 @@
 package org.adsoftware.modulogrupo.manejadores;
 
+import com.alee.managers.notification.NotificationIcon;
+import com.alee.managers.notification.NotificationManager;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -27,7 +29,9 @@ import org.adsoftware.entidades.Alumno;
 import org.adsoftware.entidades.Grupo;
 import org.adsoftware.entidades.Horario;
 import org.adsoftware.entidades.Personal;
+import org.adsoftware.entidades.Usuario;
 import org.adsoftware.moduloalumno.interfaces.VRegistrarEvaluacion;
+import org.adsoftware.moduloalumno.manejadores.ManejadorRegistrarEvaluacion;
 import org.adsoftware.modulogrupo.interfaces.VVisualizarGrupos;
 import org.adsoftware.superclases.Manejador;
 import org.adsoftware.utilidades.Galeria;
@@ -40,12 +44,16 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
     private Grupo grupo;
     private Personal maestro;
     private Horario horario;
+    private Usuario usuario;
     private ArrayList<Grupo> listaGrupos;
-    private int grupoSeleccionado=0;
+    private JPanel pnlPrincipal;
+    private int grupoSeleccionado = 0;
 
-    public ManejadorVisualizarGrupos(boolean esCoordinador, JPanel panelPrincipal) throws SQLException {
+    public ManejadorVisualizarGrupos(boolean esCoordinador, JPanel panelPrincipal, Usuario usuario) throws SQLException {
         super(panelPrincipal);
+        this.pnlPrincipal = panelPrincipal;
         this.vistaGrupos = new VVisualizarGrupos(esCoordinador);
+        this.usuario = usuario;
         modelo = new DefaultTableModel(new Object[]{"Clave", "Curso", "Horario", "NumEstudiantes"}, 0);
 
         vistaGrupos.btnRegistrarEva.addActionListener(this);
@@ -73,31 +81,25 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == vistaGrupos.btnRegistrarEva) {
-            manejaEventoRegistrarEvaluacion();
-        } else if (e.getSource() == vistaGrupos.btnImprimir) {
-            try {
+        try {
+            if (e.getSource() == vistaGrupos.btnRegistrarEva) {
+                manejaEventoRegistrarEvaluacion();
+            } else if (e.getSource() == vistaGrupos.btnImprimir) {
                 manejaEventoImprimir();
-            } catch (FileNotFoundException ex) {
-                //Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                //Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else if(e.getSource() == vistaGrupos.btnModificar){
-            try {
+            } else if (e.getSource() == vistaGrupos.btnModificar) {
                 manejaEventoModificar();
-            } catch (SQLException ex) {
-                Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
+            } else if (e.getSource() == vistaGrupos.btnEliminar) {
+                manejaEventoEliminar();
             }
-        }else if(e.getSource() == vistaGrupos.btnEliminar){
-            manejaEventoEliminar();
+        } catch (IOException ex) {
+            Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManejadorVisualizarGrupos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void manejaEventoImprimir() throws FileNotFoundException, IOException, SQLException {
-        ArrayList<Alumno> lista = Alumno.buscar("idGrupoA",""+grupo.idGrupo);
+        ArrayList<Alumno> lista = Alumno.buscar("idGrupoA", "" + grupo.idGrupo);
         //Lineas fundamentales para generar un PDF
         PdfDocument pdf = new PdfDocument(new PdfWriter("archivos/listaAsistencia.pdf"));
         Document document = new Document(pdf, PageSize.A4);
@@ -117,7 +119,7 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
         for (int i = 0; i < lista.size(); i++) {
             Alumno a = lista.get(i);
             pdfTable.addCell("" + (i + 1));
-            pdfTable.addCell(a.apellidoPatA+" "+a.apellidoMatA+" "+a.nombre);
+            pdfTable.addCell(a.apellidoPatA + " " + a.apellidoMatA + " " + a.nombre);
             for (int j = 0; j < 7; j++) {
                 pdfTable.addCell("\n");
             }
@@ -136,13 +138,13 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
         Desktop.getDesktop().open(new File("archivos/listaAsistencia.pdf"));
     }
 
-    private void manejaEventoRegistrarEvaluacion() {
-        repintarPanelPrincipal(new VRegistrarEvaluacion());
+    private void manejaEventoRegistrarEvaluacion() throws SQLException {
+        new ManejadorRegistrarEvaluacion(pnlPrincipal, grupo);
     }
-    
+
     private void manejaEventoModificar() throws SQLException {
         new ManejadorModificarGrupo(grupo, horario);
-        actualizarVista();
+        actualizarVista(false);
     }
 
     private void manejaEventoDatosCompletos(int id) throws SQLException {
@@ -185,17 +187,28 @@ public class ManejadorVisualizarGrupos extends Manejador implements ActionListen
         }
     }
 
-    private void actualizarVista() throws SQLException {
+    private void actualizarVista(boolean eliminado) throws SQLException {
         vistaGrupos.tabla.getSelectionModel().removeListSelectionListener(this);
-        while(modelo.getRowCount()>0) modelo.removeRow(0);
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
         consultarGrupos();
         vistaGrupos.datos.setVisible(false);
-        manejaEventoDatosCompletos(grupoSeleccionado);
+        if (!eliminado) {
+            manejaEventoDatosCompletos(grupoSeleccionado);
+        }
         vistaGrupos.tabla.getSelectionModel().addListSelectionListener(this);
     }
 
-    private void manejaEventoEliminar() {
-        
+    private void manejaEventoEliminar() throws SQLException {
+        if (grupo.numEstudiantes == 0) {
+            new ManejadorBajaGrupo(usuario, grupo, horario);
+            actualizarVista(true);
+        } else {
+            NotificationManager.showNotification(vistaGrupos.btnEliminar,
+                    "No sé puede realizar la siguiente opción \n"
+                    + "pues el grupo tiene alumnos registrados.", NotificationIcon.warning.getIcon());
+        }
     }
 
 }

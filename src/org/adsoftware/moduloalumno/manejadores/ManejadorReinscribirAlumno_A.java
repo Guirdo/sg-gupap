@@ -94,8 +94,7 @@ public class ManejadorReinscribirAlumno_A extends Manejador implements ActionLis
     private void manejaEventoDatosCompletos(int alumnoSeleccionado) throws SQLException {
         Object[][] datos = InterfazBD.consultar("select nombre, apellidoPatA, apellidoMatA, telefono, curso "
                 + "from alumno, grupo where idAlumno = "+alumnoSeleccionado+" and idGrupo = idGrupoA;");
-        
-        System.out.println(alumnoSeleccionado);
+
         alumno= Alumno.buscarPrimero("idAlumno", "" + alumnoSeleccionado);
         grupo = Grupo.buscarPrimero("idGrupo", "" + alumno.idGrupoA);
         horario = Horario.buscarPrimero("idHorario", grupo.idHorarioG);
