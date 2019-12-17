@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import com.alee.managers.style.StyleId;
 import com.alee.laf.button.WebButton;
+import com.alee.managers.notification.NotificationIcon;
+import com.alee.managers.notification.NotificationManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -75,24 +77,31 @@ public class ManejadorVisualizarPersonal extends Manejador implements ActionList
 
         pnlV.icono.setIcon(new ImageIcon(getClass().getResource(rutaIcono)));
         pnlV.nombre.setText(p.nombreP + " " + p.apellidoPatP + " " + p.apellidoMatP);
-        pnlV.correo.setText(p.correo);  
+        pnlV.correo.setText(p.correo);
         pnlV.cargo.setText(p.cargo);
         pnlV.domicilio.setText(p.domicilioP);
         pnlV.pnlDatos.setVisible(true);
     }
 
     private void manejaEventoBaja() throws SQLException {
-        new ManejadorBajaPersonal(p);
-        actualizarVista();
+        if (p.idPersonal > 3) {
+            new ManejadorBajaPersonal(p);
+            actualizarVista();
+        } else {
+            NotificationManager.showNotification(pnlV.btnModificar,
+                    "Este empleado no puede ser dado de baja.", NotificationIcon.cross.getIcon());
+        }
     }
 
     private void manejaEventoModificar() throws SQLException {
+
         new ManejadorModificarPersonal(p);
         actualizarVista();
         manejaEventoDatosCompletos();
+
     }
-    
-    private void actualizarVista() throws SQLException{
+
+    private void actualizarVista() throws SQLException {
         pnlV.este.removeAll();
         consultarPersonal();
         repintarPanelPrincipal(pnlV);

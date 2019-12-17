@@ -52,7 +52,6 @@ public class ManejadorExpulsarAlumno implements ActionListener{
         if (aux.equals(admin.contrasena)) {
             a.baja();
             dmBaja.dispose();
-
         } else {
             NotificationManager.showNotification(dmBaja.confirmar,
                     "Contraseña incorrecta", NotificationIcon.warning.getIcon());

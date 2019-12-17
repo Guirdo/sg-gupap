@@ -49,7 +49,7 @@ public class ManejadorReinscribirAlumno_A extends Manejador implements ActionLis
     
     private void consultarAlumnos() throws SQLException {
         Object[][] datos = InterfazBD.consultar("select idAlumno, apellidoPatA, apellidoMatA, nombre "
-                + "from alumno, grupo where numSemanas = 23 and idGrupo = idGrupoA;");
+                + "from alumno, grupo where alumno.semanasPagadas >= 23 and idGrupo = idGrupoA;");
         
         pnlVisualizarReinscribir.tabla.setModel(new DefaultTableModel(datos, new Object[]{"Matricula", "Apellido paterno", "Apellido materno", "Nombre"}));
     }

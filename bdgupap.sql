@@ -156,6 +156,14 @@ begin
 end
 delimiter;
 
+create trigger eliminarHistorial before delete on alumno
+	for each row
+	delete from pago where idAlumnoP = old.idAlumno;
+
+create trigger eliminarEvaluaciones before delete on alumno
+for each row
+delete from evaluacion where idAlumnoE = old.idAlumno;
+
 /**
 *	Usuario			Contraseña
 *	****************************

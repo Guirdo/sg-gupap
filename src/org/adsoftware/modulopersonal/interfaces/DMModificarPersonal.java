@@ -84,8 +84,7 @@ public class DMModificarPersonal extends JDialog {
     private void cargos() {
         cmbCargo.addItem(Personal.DOCENTE);
         cmbCargo.addItem(Personal.CONTADOR);
-        cmbCargo.addItem(Personal.COORDINADOR);
-        cmbCargo.addItem(Personal.ADMINISTRADOR);
+        cmbCargo.addItem(Personal.RECEPCIONISTA);
     }
 
 }

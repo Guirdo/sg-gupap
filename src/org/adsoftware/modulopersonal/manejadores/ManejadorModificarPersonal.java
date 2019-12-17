@@ -2,7 +2,6 @@ package org.adsoftware.modulopersonal.manejadores;
 
 import com.alee.managers.notification.NotificationIcon;
 import com.alee.managers.notification.NotificationManager;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.BorderFactory;
 import org.adsoftware.entidades.Personal;
 import org.adsoftware.modulopersonal.interfaces.DMModificarPersonal;
 import org.adsoftware.superclases.Manejador;
@@ -29,6 +27,10 @@ public class ManejadorModificarPersonal extends Manejador implements ActionListe
         personal = p;
 
         vista.btnModificar.addActionListener(this);
+        
+        if(p.idPersonal<4){
+            vista.cmbCargo.setEnabled(false);
+        }
 
         llenarCampos();
 
